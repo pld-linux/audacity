@@ -24,7 +24,7 @@ BuildRequires:	libsndfile-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	mad-devel
-BuildRequires:	wxGTK-devel >= 2.4.0
+BuildRequires:	wxGTK2-devel >= 2.4.0
 Requires:	lame-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
