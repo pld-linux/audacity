@@ -7,13 +7,13 @@ Summary(pl):	Audacity - narzкdzie do obrуbki plikуw dјwiкkowych
 Summary(ru):	Кроссплатформенный звуковой редактор
 Name:		audacity
 Version:	1.2.0
-%define		_pre pre2
+%define		_pre pre3
 Release:	0.%{_pre}.1
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
 Source0:	http://dl.sourceforge.net/sourceforge/%{name}/%{name}-src-%{version}-%{_pre}.tar.bz2
-# Source0-md5:	4cb15dbb0b8d295c4bd205d089a91a48
+# Source0-md5:	a7efddd64e2ce3e380614796d689e11f
 Source1:	%{name}.desktop
 Source2:	%{name}-icon.png
 Patch0:		%{name}-system-expat.patch
@@ -34,7 +34,7 @@ BuildRequires:	libsndfile-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvorbis-devel >= 1:1.0
 %{?with_gtk1:BuildRequires:	wxGTK-devel >= 2.4.0}
-%{?without_gtk1:BuildRequires:	wxGTK2-devel >= 2.4.0}
+%{?!with_gtk1:BuildRequires:	wxGTK2-devel >= 2.4.0}
 BuildRequires:	zip
 Requires:	lame-libs
 Requires:	libid3tag >= 0.15.0b-2
@@ -78,7 +78,7 @@ export WX_CONFIG="`which wxgtk%{!?_with_gtk1:2}-2.4-config`"
 	--with-libsamplerate=system \
 	--with-libsndfile=system \
 	--with-libflac=system \
-	--with-vorbis=system
+	--with-vorbis=system \
 
 %{__make} \
 	CCC="%{__cxx} -fno-rtti" \
