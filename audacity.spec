@@ -47,7 +47,7 @@ Obs³uguje .wav, .mp3 oraz ogg/vorbis.
 	--with-libmad \
 	--with-vorbis
 
-%{__make} CCC="g++ -fno-exceptions -fno-rtti"
+%{__make} CCC="%{__cxx} -fno-exceptions -fno-rtti"
 
 %install
 rm -rf $RPM_BUILD_ROOT
