@@ -1,6 +1,6 @@
-diff -aurN audacity-src-1.2.0-pre2.orig/locale/bg.po audacity-src-1.2.0-pre2/locale/bg.po
---- audacity-src-1.2.0-pre2.orig/locale/bg.po	2003-09-29 08:51:27.000000000 +0200
-+++ audacity-src-1.2.0-pre2/locale/bg.po	2003-10-16 14:38:48.096172360 +0200
+diff -aurN audacity-src-1.2.0-pre3.orig/locale/bg.po audacity-src-1.2.0-pre3/locale/bg.po
+--- audacity-src-1.2.0-pre3.orig/locale/bg.po	2003-11-02 11:21:15.000000000 +0100
++++ audacity-src-1.2.0-pre3/locale/bg.po	2003-11-22 17:06:17.000000000 +0100
 @@ -597,19 +597,19 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -36,9 +36,9 @@ diff -aurN audacity-src-1.2.0-pre2.orig/locale/bg.po audacity-src-1.2.0-pre2/loc
  
  #: ../src/Legacy.cpp:330
  msgid "Opening Audacity Project"
-diff -aurN audacity-src-1.2.0-pre2.orig/locale/ca.po audacity-src-1.2.0-pre2/locale/ca.po
---- audacity-src-1.2.0-pre2.orig/locale/ca.po	2003-09-29 08:51:27.000000000 +0200
-+++ audacity-src-1.2.0-pre2/locale/ca.po	2003-10-16 14:38:48.106170840 +0200
+diff -aurN audacity-src-1.2.0-pre3.orig/locale/ca.po audacity-src-1.2.0-pre3/locale/ca.po
+--- audacity-src-1.2.0-pre3.orig/locale/ca.po	2003-11-02 11:21:15.000000000 +0100
++++ audacity-src-1.2.0-pre3/locale/ca.po	2003-11-22 17:06:17.000000000 +0100
 @@ -595,19 +595,19 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -74,9 +74,9 @@ diff -aurN audacity-src-1.2.0-pre2.orig/locale/ca.po audacity-src-1.2.0-pre2/loc
  
  #: ../src/Legacy.cpp:330
  msgid "Opening Audacity Project"
-diff -aurN audacity-src-1.2.0-pre2.orig/locale/cs.po audacity-src-1.2.0-pre2/locale/cs.po
---- audacity-src-1.2.0-pre2.orig/locale/cs.po	2003-09-29 08:51:27.000000000 +0200
-+++ audacity-src-1.2.0-pre2/locale/cs.po	2003-10-16 14:38:48.116169320 +0200
+diff -aurN audacity-src-1.2.0-pre3.orig/locale/cs.po audacity-src-1.2.0-pre3/locale/cs.po
+--- audacity-src-1.2.0-pre3.orig/locale/cs.po	2003-11-02 11:21:15.000000000 +0100
++++ audacity-src-1.2.0-pre3/locale/cs.po	2003-11-22 17:06:17.000000000 +0100
 @@ -586,7 +586,7 @@
  "Would you like to locate lame_enc.dll now?"
  msgstr ""
@@ -115,9 +115,9 @@ diff -aurN audacity-src-1.2.0-pre2.orig/locale/cs.po audacity-src-1.2.0-pre2/loc
  
  #: ../src/Legacy.cpp:330
  msgid "Opening Audacity Project"
-diff -aurN audacity-src-1.2.0-pre2.orig/locale/da.po audacity-src-1.2.0-pre2/locale/da.po
---- audacity-src-1.2.0-pre2.orig/locale/da.po	2003-09-29 08:51:27.000000000 +0200
-+++ audacity-src-1.2.0-pre2/locale/da.po	2003-10-16 14:38:48.127167648 +0200
+diff -aurN audacity-src-1.2.0-pre3.orig/locale/da.po audacity-src-1.2.0-pre3/locale/da.po
+--- audacity-src-1.2.0-pre3.orig/locale/da.po	2003-11-02 11:21:15.000000000 +0100
++++ audacity-src-1.2.0-pre3/locale/da.po	2003-11-22 17:06:17.000000000 +0100
 @@ -600,19 +600,19 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -153,9 +153,9 @@ diff -aurN audacity-src-1.2.0-pre2.orig/locale/da.po audacity-src-1.2.0-pre2/loc
  
  #: ../src/Legacy.cpp:330
  msgid "Opening Audacity Project"
-diff -aurN audacity-src-1.2.0-pre2.orig/locale/de.po audacity-src-1.2.0-pre2/locale/de.po
---- audacity-src-1.2.0-pre2.orig/locale/de.po	2003-09-29 08:51:27.000000000 +0200
-+++ audacity-src-1.2.0-pre2/locale/de.po	2003-10-16 14:38:48.137166128 +0200
+diff -aurN audacity-src-1.2.0-pre3.orig/locale/de.po audacity-src-1.2.0-pre3/locale/de.po
+--- audacity-src-1.2.0-pre3.orig/locale/de.po	2003-11-02 11:21:15.000000000 +0100
++++ audacity-src-1.2.0-pre3/locale/de.po	2003-11-22 17:06:17.000000000 +0100
 @@ -621,11 +621,11 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -169,7 +169,7 @@ diff -aurN audacity-src-1.2.0-pre2.orig/locale/de.po audacity-src-1.2.0-pre2/loc
 +"Would you like to locate libmp3lame.so.0 now?"
  msgstr ""
  "Audacity exportiert MP3-Dateien nicht direkt, sondern benutzt\n"
- "die frei verf√ºgbare LAME MP3-Bibliothek. sie m√ºssen sich die \n"
+ "die frei verf¸gbare LAME MP3-Bibliothek. sie m¸ssen sich die \n"
 @@ -2492,10 +2492,10 @@
  
  #: ../src/export/ExportMP3.cpp:235
@@ -183,9 +183,9 @@ diff -aurN audacity-src-1.2.0-pre2.orig/locale/de.po audacity-src-1.2.0-pre2/loc
  "Extended Libraries (*.so*)|*.so*|Alle Dateien (*)|*"
  
  #: ../src/Legacy.cpp:330
-diff -aurN audacity-src-1.2.0-pre2.orig/locale/es.po audacity-src-1.2.0-pre2/locale/es.po
---- audacity-src-1.2.0-pre2.orig/locale/es.po	2003-09-29 08:51:27.000000000 +0200
-+++ audacity-src-1.2.0-pre2/locale/es.po	2003-10-16 14:38:48.147164608 +0200
+diff -aurN audacity-src-1.2.0-pre3.orig/locale/es.po audacity-src-1.2.0-pre3/locale/es.po
+--- audacity-src-1.2.0-pre3.orig/locale/es.po	2003-11-02 11:21:15.000000000 +0100
++++ audacity-src-1.2.0-pre3/locale/es.po	2003-11-22 17:06:17.000000000 +0100
 @@ -587,19 +587,19 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -221,9 +221,9 @@ diff -aurN audacity-src-1.2.0-pre2.orig/locale/es.po audacity-src-1.2.0-pre2/loc
  
  #: ../src/Legacy.cpp:330
  msgid "Opening Audacity Project"
-diff -aurN audacity-src-1.2.0-pre2.orig/locale/it.po audacity-src-1.2.0-pre2/locale/it.po
---- audacity-src-1.2.0-pre2.orig/locale/it.po	2003-09-29 08:51:27.000000000 +0200
-+++ audacity-src-1.2.0-pre2/locale/it.po	2003-10-16 14:38:48.159162784 +0200
+diff -aurN audacity-src-1.2.0-pre3.orig/locale/it.po audacity-src-1.2.0-pre3/locale/it.po
+--- audacity-src-1.2.0-pre3.orig/locale/it.po	2003-11-02 11:21:15.000000000 +0100
++++ audacity-src-1.2.0-pre3/locale/it.po	2003-11-22 17:06:17.000000000 +0100
 @@ -624,19 +624,19 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -261,9 +261,9 @@ diff -aurN audacity-src-1.2.0-pre2.orig/locale/it.po audacity-src-1.2.0-pre2/loc
  "Librerie estese (*.so*)|*.so*|All Files (*)|*"
  
  #: ../src/import/ImportLOF.cpp:394
-diff -aurN audacity-src-1.2.0-pre2.orig/locale/mk.po audacity-src-1.2.0-pre2/locale/mk.po
---- audacity-src-1.2.0-pre2.orig/locale/mk.po	2003-09-29 08:51:27.000000000 +0200
-+++ audacity-src-1.2.0-pre2/locale/mk.po	2003-10-16 14:38:48.169161264 +0200
+diff -aurN audacity-src-1.2.0-pre3.orig/locale/mk.po audacity-src-1.2.0-pre3/locale/mk.po
+--- audacity-src-1.2.0-pre3.orig/locale/mk.po	2003-11-02 11:21:15.000000000 +0100
++++ audacity-src-1.2.0-pre3/locale/mk.po	2003-11-22 17:06:17.000000000 +0100
 @@ -632,19 +632,19 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -301,9 +301,9 @@ diff -aurN audacity-src-1.2.0-pre2.orig/locale/mk.po audacity-src-1.2.0-pre2/loc
  "–∑–∞—ò–∞–∫–Ω–∞—Ç–∏ –±–∏–±–ª–∏–æ—Ç–µ–∫–∏ (*.so*)|*.so*|—Å–∏—Ç–µ –¥–∞—Ç–æ—Ç–µ–∫–∏ (*)|*"
  
  #: ../src/import/ImportLOF.cpp:394
-diff -aurN audacity-src-1.2.0-pre2.orig/locale/nl.po audacity-src-1.2.0-pre2/locale/nl.po
---- audacity-src-1.2.0-pre2.orig/locale/nl.po	2003-09-29 08:51:27.000000000 +0200
-+++ audacity-src-1.2.0-pre2/locale/nl.po	2003-10-16 14:38:48.180159592 +0200
+diff -aurN audacity-src-1.2.0-pre3.orig/locale/nl.po audacity-src-1.2.0-pre3/locale/nl.po
+--- audacity-src-1.2.0-pre3.orig/locale/nl.po	2003-11-02 11:21:15.000000000 +0100
++++ audacity-src-1.2.0-pre3/locale/nl.po	2003-11-22 17:06:17.000000000 +0100
 @@ -650,20 +650,20 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -342,9 +342,9 @@ diff -aurN audacity-src-1.2.0-pre2.orig/locale/nl.po audacity-src-1.2.0-pre2/loc
  "Uitgebreide bibliotheken (*.so)|*.so*|Alle Bestanden (*)|*"
  
  #: ../src/Legacy.cpp:330
-diff -aurN audacity-src-1.2.0-pre2.orig/locale/pt.po audacity-src-1.2.0-pre2/locale/pt.po
---- audacity-src-1.2.0-pre2.orig/locale/pt.po	2003-09-29 08:51:27.000000000 +0200
-+++ audacity-src-1.2.0-pre2/locale/pt.po	2003-10-16 14:38:48.191157920 +0200
+diff -aurN audacity-src-1.2.0-pre3.orig/locale/pt.po audacity-src-1.2.0-pre3/locale/pt.po
+--- audacity-src-1.2.0-pre3.orig/locale/pt.po	2003-11-02 11:21:15.000000000 +0100
++++ audacity-src-1.2.0-pre3/locale/pt.po	2003-11-22 17:06:17.000000000 +0100
 @@ -602,19 +602,19 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -380,9 +380,9 @@ diff -aurN audacity-src-1.2.0-pre2.orig/locale/pt.po audacity-src-1.2.0-pre2/loc
  
  #: ../src/Legacy.cpp:330
  msgid "Opening Audacity Project"
-diff -aurN audacity-src-1.2.0-pre2.orig/locale/ru.po audacity-src-1.2.0-pre2/locale/ru.po
---- audacity-src-1.2.0-pre2.orig/locale/ru.po	2003-09-29 08:51:27.000000000 +0200
-+++ audacity-src-1.2.0-pre2/locale/ru.po	2003-10-16 14:38:48.202156248 +0200
+diff -aurN audacity-src-1.2.0-pre3.orig/locale/ru.po audacity-src-1.2.0-pre3/locale/ru.po
+--- audacity-src-1.2.0-pre3.orig/locale/ru.po	2003-11-02 11:21:15.000000000 +0100
++++ audacity-src-1.2.0-pre3/locale/ru.po	2003-11-22 17:06:17.000000000 +0100
 @@ -654,20 +654,20 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -421,9 +421,9 @@ diff -aurN audacity-src-1.2.0-pre2.orig/locale/ru.po audacity-src-1.2.0-pre2/loc
  "¬…¬Ã…œ‘≈À… (*.so)|*.so|Ú¡”€…“≈ŒŒŸ≈ ¬…¬Ã…œ‘≈À… (*.so*)|*.so*| ˜”≈ ∆¡ ÃŸ (*)|*"
  
  #: ../src/Legacy.cpp:337
-diff -aurN audacity-src-1.2.0-pre2.orig/locale/sv.po audacity-src-1.2.0-pre2/locale/sv.po
---- audacity-src-1.2.0-pre2.orig/locale/sv.po	2003-09-29 08:51:27.000000000 +0200
-+++ audacity-src-1.2.0-pre2/locale/sv.po	2003-10-16 14:38:48.212154728 +0200
+diff -aurN audacity-src-1.2.0-pre3.orig/locale/sv.po audacity-src-1.2.0-pre3/locale/sv.po
+--- audacity-src-1.2.0-pre3.orig/locale/sv.po	2003-11-02 11:21:15.000000000 +0100
++++ audacity-src-1.2.0-pre3/locale/sv.po	2003-11-22 17:06:17.000000000 +0100
 @@ -597,19 +597,19 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -459,9 +459,9 @@ diff -aurN audacity-src-1.2.0-pre2.orig/locale/sv.po audacity-src-1.2.0-pre2/loc
  
  #: ../src/Legacy.cpp:330
  msgid "Opening Audacity Project"
-diff -aurN audacity-src-1.2.0-pre2.orig/src/export/ExportMP3.cpp audacity-src-1.2.0-pre2/src/export/ExportMP3.cpp
---- audacity-src-1.2.0-pre2.orig/src/export/ExportMP3.cpp	2003-09-29 08:51:27.000000000 +0200
-+++ audacity-src-1.2.0-pre2/src/export/ExportMP3.cpp	2003-10-16 14:40:38.780345808 +0200
+diff -aurN audacity-src-1.2.0-pre3.orig/src/export/ExportMP3.cpp audacity-src-1.2.0-pre3/src/export/ExportMP3.cpp
+--- audacity-src-1.2.0-pre3.orig/src/export/ExportMP3.cpp	2003-11-02 11:21:16.000000000 +0100
++++ audacity-src-1.2.0-pre3/src/export/ExportMP3.cpp	2003-11-22 17:05:00.000000000 +0100
 @@ -247,12 +247,12 @@
  
           wxString GetLibraryName()
