@@ -12,7 +12,7 @@ Release:	0.%{_pre}.1
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
-Source0:	http://dl.sourceforge.net/sourceforge/%{name}/%{name}-src-%{version}-%{_pre}.tar.bz2
+Source0:	http://dl.sourceforge.net/audacity/%{name}-src-%{version}-%{_pre}.tar.bz2
 # Source0-md5:	a7efddd64e2ce3e380614796d689e11f
 Source1:	%{name}.desktop
 Source2:	%{name}-icon.png
