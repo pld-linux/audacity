@@ -1,13 +1,14 @@
 Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl):	Audacity - narzêdzie do obróbki plików d¼wiêkowych
 Name:		audacity
-Version:	1.1.1
+%define ver	1.1.1
 %define	subv	3
+Version:	%{ver}.%{subv}
 Release:	1
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
-Source0:	http://dl.sourceforge.net/%{name}/%{name}-src-%{version}-%{subv}.tgz
+Source0:	http://dl.sourceforge.net/%{name}/%{name}-src-%{ver}-%{subv}.tgz
 Source1:	%{name}.desktop
 Source2:	%{name}-icon.png
 Patch0:		%{name}-system-expat.patch
@@ -23,7 +24,7 @@ BuildRequires:	libsndfile-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	mad-devel
-BuildRequires:	wxGTK-devel >= 2.3.2-10
+BuildRequires:	wxGTK-devel >= 2.4.0
 Requires:	lame-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -36,7 +37,7 @@ Audacity to program obs³uguj±cy ró¿ne formaty dzwiêku cyfrowego.
 Obs³uguje .wav, .mp3 oraz ogg/vorbis.
 
 %prep
-%setup -q -n %{name}-src-%{version}-%{subv}
+%setup -q -n %{name}-src-%{ver}-%{subv}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -45,6 +46,7 @@ Obs³uguje .wav, .mp3 oraz ogg/vorbis.
 
 %build
 %{__autoconf}
+export WX_CONFIG=/usr/bin/wxgtk2-2.4-config
 %configure \
 	--with-id3tag=system \
 	--with-libmad=system \
