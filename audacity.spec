@@ -8,7 +8,7 @@ Summary(ru):	 россплатформенный звуковой редактор
 Name:		audacity
 Version:	1.2.0
 %define		_pre pre3
-Release:	0.%{_pre}.1
+Release:	0.%{_pre}.2
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
@@ -69,6 +69,7 @@ Audacity - это звуковой редактор, позвол€ющий работать с файлами в
 %patch3 -p1
 
 %build
+cp -f /usr/share/automake/config.sub .
 %{__autoconf}
 export WX_CONFIG="`which wxgtk%{!?_with_gtk1:2}-2.4-config`"
 %configure \
