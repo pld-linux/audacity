@@ -1,0 +1,92 @@
+diff -urN audacity-src-0.98.orig/Help.cpp audacity-src-0.98/Help.cpp
+--- audacity-src-0.98.orig/Help.cpp	Sun May 12 14:34:09 2002
++++ audacity-src-0.98/Help.cpp	Sun May 12 14:34:31 2002
+@@ -48,6 +48,7 @@
+ 
+ #else
+ 
++#include <wx/generic/filedlgg.h>
+ #include <wx/filedlg.h>
+ #include <wx/msgdlg.h>
+ #include <wx/textdlg.h>
+diff -urN audacity-src-0.98.orig/ImportRaw.cpp audacity-src-0.98/ImportRaw.cpp
+--- audacity-src-0.98.orig/ImportRaw.cpp	Tue Jan 22 07:14:15 2002
++++ audacity-src-0.98/ImportRaw.cpp	Sun May 12 14:34:31 2002
+@@ -10,7 +10,7 @@
+ 
+ #include <math.h>
+ 
+-#include <wx/button.h>
++#include <wx/gtk/button.h>
+ #include <wx/dc.h>
+ #include <wx/dcmemory.h>
+ #include <wx/file.h>
+diff -urN audacity-src-0.98.orig/NoteTrack.h audacity-src-0.98/NoteTrack.h
+--- audacity-src-0.98.orig/NoteTrack.h	Tue Jan 22 07:14:15 2002
++++ audacity-src-0.98/NoteTrack.h	Sun May 12 14:37:18 2002
+@@ -11,7 +11,8 @@
+ #ifndef __AUDACITY_NOTETRACK__
+ #define __AUDACITY_NOTETRACK__
+ 
+ #include <wx/string.h>
++#include <wx/dc.h>
+ 
+ #include "Track.h"
+ 
+diff -urN audacity-src-0.98.orig/effects/Amplify.h audacity-src-0.98/effects/Amplify.h
+--- audacity-src-0.98.orig/effects/Amplify.h	Tue Jan 22 07:14:15 2002
++++ audacity-src-0.98/effects/Amplify.h	Sun May 12 14:34:31 2002
+@@ -15,14 +15,15 @@
+ #ifndef __AUDACITY_EFFECT_AMPLIFY__
+ #define __AUDACITY_EFFECT_AMPLIFY__
+ 
+-#include <wx/checkbox.h>
+-#include <wx/button.h>
++#include <wx/gtk/button.h>
+ #include <wx/dialog.h>
+ #include <wx/stattext.h>
+ #include <wx/slider.h>
+ #include <wx/textctrl.h>
+ #include <wx/sizer.h>
+ 
++#include <wx/checkbox.h>
++
+ // Declare window functions
+ 
+ #define ID_TEXT 10000
+diff -urN audacity-src-0.98.orig/effects/BassBoost.h audacity-src-0.98/effects/BassBoost.h
+--- audacity-src-0.98.orig/effects/BassBoost.h	Tue Jan 22 07:14:15 2002
++++ audacity-src-0.98/effects/BassBoost.h	Sun May 12 14:34:31 2002
+@@ -15,7 +15,7 @@
+ #ifndef __AUDACITY_EFFECT_BASS_BOOST__
+ #define __AUDACITY_EFFECT_BASS_BOOST__
+ 
+-#include <wx/button.h>
++#include <wx/gtk/button.h>
+ #include <wx/dialog.h>
+ #include <wx/stattext.h>
+ #include <wx/slider.h>
+diff -urN audacity-src-0.98.orig/effects/Phaser.h audacity-src-0.98/effects/Phaser.h
+--- audacity-src-0.98.orig/effects/Phaser.h	Tue Jan 22 07:14:15 2002
++++ audacity-src-0.98/effects/Phaser.h	Sun May 12 14:34:31 2002
+@@ -15,7 +15,7 @@
+ #ifndef __AUDACITY_EFFECT_PHASER__
+ #define __AUDACITY_EFFECT_PHASER__
+ 
+-#include <wx/button.h>
++#include <wx/gtk/button.h>
+ #include <wx/dialog.h>
+ #include <wx/stattext.h>
+ #include <wx/slider.h>
+diff -urN audacity-src-0.98.orig/effects/Wahwah.h audacity-src-0.98/effects/Wahwah.h
+--- audacity-src-0.98.orig/effects/Wahwah.h	Tue Jan 22 07:14:15 2002
++++ audacity-src-0.98/effects/Wahwah.h	Sun May 12 14:34:31 2002
+@@ -15,7 +15,7 @@
+ #ifndef __AUDACITY_EFFECT_WAHWAH__
+ #define __AUDACITY_EFFECT_WAHWAH__
+ 
+-#include <wx/button.h>
++#include <wx/gtk/button.h>
+ #include <wx/dialog.h>
+ #include <wx/stattext.h>
+ #include <wx/slider.h>
