@@ -1,6 +1,497 @@
---- audacity-src-1.1.1-3/src/export/ExportMP3.cpp.orig	Mon Nov 11 07:58:21 2002
-+++ audacity-src-1.1.1-3/src/export/ExportMP3.cpp	Sat Jan 25 01:10:38 2003
-@@ -224,12 +224,12 @@
+--- audacity-src-1.1.3/locale/bg.po.wiget	Thu Mar 20 05:38:08 2003
++++ audacity-src-1.1.3/locale/bg.po	Fri Mar 28 01:51:37 2003
+@@ -606,19 +606,19 @@
+ msgid ""
+ "Audacity does not export MP3 files directly, but instead uses the \n"
+ "freely available LAME library to handle MP3 file encoding.  You must \n"
+-"obtain libmp3lame.so separately, either by downloading it or building \n"
++"obtain libmp3lame.so.0.0 separately, either by downloading it or building \n"
+ "it from the sources, and then locate the file for Audacity.  You only \n"
+ "need to do this once.\n"
+ "\n"
+-"Would you like to locate libmp3lame.so now?"
++"Would you like to locate libmp3lame.so.0.0 now?"
+ msgstr ""
+ "Audacity íå åêñïîğòèğà ïğÿêî âúâ ôîğìàò MP3, à èçïîëçâà\n"
+ "áåçïëàòíàòà áèáëèîòåêà LAME çà êîäèğàíå íà MP3.  Òğÿáâà äà\n"
+-"ñè íàáàâèòå libmp3lame.so îòäåëíî, ñâàëÿéêè ÿ îò ìğåæàòà èëè\n"
++"ñè íàáàâèòå libmp3lame.so.0.0 îòäåëíî, ñâàëÿéêè ÿ îò ìğåæàòà èëè\n"
+ "êîìïèëèğàéêè ÿ îò èçõîäíèÿ êîä, è ïîñëå äà ïîñî÷èòå ôàéëà\n"
+ "íà Audacity. Òîâà ñå ïğàâè ñàìî åäèí ïúò.\n"
+ "\n"
+-"Æåëàåòå ëè íåçàáàâíî òúğñåíå çà libmp3lame.so?"
++"Æåëàåòå ëè íåçàáàâíî òúğñåíå çà libmp3lame.so.0.0?"
+ 
+ #: ../src/AboutDialog.cpp:114
+ msgid "Audacity is a free program being written by a team of developers using Sourceforge, an online service for open-source projects.  It is based on the wxWindows toolkit and is available for Windows, MacOS 9 and X, Linux, and other Unix-like systems."
+@@ -2051,8 +2051,8 @@
+ msgstr "Ñàìî lame_enc.dll|lame_enc.dll|Áèáëèîòåêè çà äèíàì. ñâúğçâàíå (*.dll)|*.dll|Âñè÷êè ôàéëîâå (*.*)|*"
+ 
+ #: ../src/export/ExportMP3.cpp:232
+-msgid "Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files (*)|*"
+-msgstr "Ñàìî libmp3lame.so|libmp3lame.so|Ñïîäåëåíè îáåêòíè ôàéëîâå (*.so)|*.so|Âñè÷êè ôàéëîâå (*)|*"
++msgid "Only libmp3lame.so.0.0|libmp3lame.so.0.0|Shared Object files (*.so)|*.so|All Files (*)|*"
++msgstr "Ñàìî libmp3lame.so.0.0|libmp3lame.so.0.0|Ñïîäåëåíè îáåêòíè ôàéëîâå (*.so)|*.so|Âñè÷êè ôàéëîâå (*)|*"
+ 
+ #: ../src/commands.h:214
+ msgid "Open"
+--- audacity-src-1.1.3/locale/ca.po.wiget	Thu Mar 20 05:38:08 2003
++++ audacity-src-1.1.3/locale/ca.po	Fri Mar 28 01:51:37 2003
+@@ -550,19 +550,19 @@
+ msgid ""
+ "Audacity does not export MP3 files directly, but instead uses the \n"
+ "freely available LAME library to handle MP3 file encoding.  You must \n"
+-"obtain libmp3lame.so separately, either by downloading it or building \n"
++"obtain libmp3lame.so.0.0 separately, either by downloading it or building \n"
+ "it from the sources, and then locate the file for Audacity.  You only \n"
+ "need to do this once.\n"
+ "\n"
+-"Would you like to locate libmp3lame.so now?"
++"Would you like to locate libmp3lame.so.0.0 now?"
+ msgstr ""
+ "L'Audacity no exporta directament els fitxer de MP3 però enlloc d'això empra la \n"
+ "llibreria gratuïta LAME per manejar la codificació de MP3.  Heu de \n"
+-"obtenir libmp3lame.so separadament, descarregant-lo o  muntant-lo \n"
++"obtenir libmp3lame.so.0.0 separadament, descarregant-lo o  muntant-lo \n"
+ "des de les fonts, i llavors localitzar-lo per a l'Audacity.  Només ho \n"
+ "haureu de fer un cop.\n"
+ "\n"
+-"Desitgeu localitzar ara la llibreria libmp3lame.so?"
++"Desitgeu localitzar ara la llibreria libmp3lame.so.0.0?"
+ 
+ #: ../src/AboutDialog.cpp:114
+ msgid "Audacity is a free program being written by a team of developers using Sourceforge, an online service for open-source projects.  It is based on the wxWindows toolkit and is available for Windows, MacOS 9 and X, Linux, and other Unix-like systems."
+@@ -2005,8 +2005,8 @@
+ msgstr "Només lame_enc.dll|lame_enc.dll|Llibreries enllaçades dinàmicament (*.dll)|*.dll|Tots els fitxers (*.*)|*"
+ 
+ #: ../src/export/ExportMP3.cpp:232
+-msgid "Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files (*)|*"
+-msgstr "Només libmp3lame.so|libmp3lame.so|Fitxers d'objectes compartits (*.so)|*.so|Tots els fitxers (*)|*"
++msgid "Only libmp3lame.so.0.0|libmp3lame.so.0.0|Shared Object files (*.so)|*.so|All Files (*)|*"
++msgstr "Només libmp3lame.so.0.0|libmp3lame.so.0.0|Fitxers d'objectes compartits (*.so)|*.so|Tots els fitxers (*)|*"
+ 
+ #: ../src/commands.h:196
+ msgid "Open"
+--- audacity-src-1.1.3/locale/da.po.wiget	Thu Mar 20 05:38:08 2003
++++ audacity-src-1.1.3/locale/da.po	Fri Mar 28 01:51:37 2003
+@@ -569,19 +569,19 @@
+ msgid ""
+ "Audacity does not export MP3 files directly, but instead uses the \n"
+ "freely available LAME library to handle MP3 file encoding.  You must \n"
+-"obtain libmp3lame.so separately, either by downloading it or building \n"
++"obtain libmp3lame.so.0.0 separately, either by downloading it or building \n"
+ "it from the sources, and then locate the file for Audacity.  You only \n"
+ "need to do this once.\n"
+ "\n"
+-"Would you like to locate libmp3lame.so now?"
++"Would you like to locate libmp3lame.so.0.0 now?"
+ msgstr ""
+ "Audacity eksporterer ikke mp3-filer direkte, men bruger det frit\n"
+ "tilgængelige bibliotek LAME til at kode mp3-filer. Du skal skaffe\n"
+-"libmp3lame.so separat, enten ved at downloade det eller ved at\n"
++"libmp3lame.so.0.0 separat, enten ved at downloade det eller ved at\n"
+ "bygge det fra kildekoden. Derefter skal du finde filen i Audacity.\n"
+ "Dette skal kun gøres en gang.\n"
+ "\n"
+-"Vil du prøve at finde libmp3lame.so nu?"
++"Vil du prøve at finde libmp3lame.so.0.0 nu?"
+ 
+ #: ../src/AboutDialog.cpp:114
+ msgid "Audacity is a free program being written by a team of developers using Sourceforge, an online service for open-source projects.  It is based on the wxWindows toolkit and is available for Windows, MacOS 9 and X, Linux, and other Unix-like systems."
+@@ -2064,8 +2064,8 @@
+ msgstr "Kun lame_enc.dll|lame_enc.dll|Dynamisk linkede biblioteker (*.dll)|*.dll|All Files (*.*)|*"
+ 
+ #: ../src/export/ExportMP3.cpp:232
+-msgid "Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files (*)|*"
+-msgstr "Kun libmp3lame.so|libmp3lame.so|Delte objektifler (*.so)|*.so|All Files (*)|*"
++msgid "Only libmp3lame.so.0.0|libmp3lame.so.0.0|Shared Object files (*.so)|*.so|All Files (*)|*"
++msgstr "Kun libmp3lame.so.0.0|libmp3lame.so.0.0|Delte objektifler (*.so)|*.so|All Files (*)|*"
+ 
+ #: ../src/commands.h:196
+ msgid "Open"
+--- audacity-src-1.1.3/locale/de.po.wiget	Thu Mar 20 05:38:08 2003
++++ audacity-src-1.1.3/locale/de.po	Fri Mar 28 01:51:37 2003
+@@ -612,11 +612,11 @@
+ msgid ""
+ "Audacity does not export MP3 files directly, but instead uses the \n"
+ "freely available LAME library to handle MP3 file encoding.  You must \n"
+-"obtain libmp3lame.so separately, either by downloading it or building \n"
++"obtain libmp3lame.so.0.0 separately, either by downloading it or building \n"
+ "it from the sources, and then locate the file for Audacity.  You only \n"
+ "need to do this once.\n"
+ "\n"
+-"Would you like to locate libmp3lame.so now?"
++"Would you like to locate libmp3lame.so.0.0 now?"
+ msgstr ""
+ "Audacity exportiert MP3-Dateien nicht direkt, sondern benutzt dafür\n"
+ "die frei verfügbare LAME MP3-Bibliothek. Sie müssen sich lame_enc.dll separat besorgen,\n"
+@@ -2063,8 +2063,8 @@
+ msgstr "Nur lame_enc.dll|lame_enc.dll|Dynamisch gelinkte Bibliotheken (*.dll)|*.dll|Alle Dateien (*.*)|*"
+ 
+ #: ../src/export/ExportMP3.cpp:232
+-msgid "Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files (*)|*"
+-msgstr "Nur libmp3lame.so|libmp3lame.so|Shared Object Dateien (*.so)|*.so|Alle Dateien (*)|*"
++msgid "Only libmp3lame.so.0.0|libmp3lame.so.0.0|Shared Object files (*.so)|*.so|All Files (*)|*"
++msgstr "Nur libmp3lame.so.0.0|libmp3lame.so.0.0|Shared Object Dateien (*.so)|*.so|Alle Dateien (*)|*"
+ 
+ #: ../src/commands.h:214
+ msgid "Open"
+--- audacity-src-1.1.3/locale/es.po.wiget	Thu Mar 20 05:38:08 2003
++++ audacity-src-1.1.3/locale/es.po	Fri Mar 28 01:51:37 2003
+@@ -601,19 +601,19 @@
+ msgid ""
+ "Audacity does not export MP3 files directly, but instead uses the \n"
+ "freely available LAME library to handle MP3 file encoding.  You must \n"
+-"obtain libmp3lame.so separately, either by downloading it or building \n"
++"obtain libmp3lame.so.0.0 separately, either by downloading it or building \n"
+ "it from the sources, and then locate the file for Audacity.  You only \n"
+ "need to do this once.\n"
+ "\n"
+-"Would you like to locate libmp3lame.so now?"
++"Would you like to locate libmp3lame.so.0.0 now?"
+ msgstr ""
+ "Audacity no exporta archivos MP3 en forma directa, pero usa LAME\n"
+ "una librería disponible libremente para manejar la codificación de\n"
+-"archivos MP3.  Debes adquirir libmp3lame.so por separado, bajándolo o\n"
++"archivos MP3.  Debes adquirir libmp3lame.so.0.0 por separado, bajándolo o\n"
+ "construyéndolo desde su código fuente, y luego localiza este archivo\n"
+ "para Audacity.  Sólo necesitas hacerlo una vez.\n"
+ "\n"
+-"¿Quisieras localizar libmp3lame.so ahora?"
++"¿Quisieras localizar libmp3lame.so.0.0 ahora?"
+ 
+ #: ../src/AboutDialog.cpp:114
+ msgid "Audacity is a free program being written by a team of developers using Sourceforge, an online service for open-source projects.  It is based on the wxWindows toolkit and is available for Windows, MacOS 9 and X, Linux, and other Unix-like systems."
+@@ -2046,8 +2046,8 @@
+ msgstr "Sólo lame_enc.dll|lame_enc.dll|Dynamically Linked Libraries (*.dll)|*.dll|Todos los Archivos (*.*)|*"
+ 
+ #: ../src/export/ExportMP3.cpp:232
+-msgid "Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files (*)|*"
+-msgstr "Sólo libmp3lame.so|libmp3lame.so|Archivos Shared Object (*.so)|*.so|Todos los Archivos (*)|*"
++msgid "Only libmp3lame.so.0.0|libmp3lame.so.0.0|Shared Object files (*.so)|*.so|All Files (*)|*"
++msgstr "Sólo libmp3lame.so.0.0|libmp3lame.so.0.0|Archivos Shared Object (*.so)|*.so|Todos los Archivos (*)|*"
+ 
+ #: ../src/commands.h:214
+ msgid "Open"
+--- audacity-src-1.1.3/locale/fr.po.wiget	Thu Mar 20 05:38:08 2003
++++ audacity-src-1.1.3/locale/fr.po	Fri Mar 28 01:51:37 2003
+@@ -578,11 +578,11 @@
+ msgid ""
+ "Audacity does not export MP3 files directly, but instead uses the \n"
+ "freely available LAME library to handle MP3 file encoding.  You must \n"
+-"obtain libmp3lame.so separately, either by downloading it or building \n"
++"obtain libmp3lame.so.0.0 separately, either by downloading it or building \n"
+ "it from the sources, and then locate the file for Audacity.  You only \n"
+ "need to do this once.\n"
+ "\n"
+-"Would you like to locate libmp3lame.so now?"
++"Would you like to locate libmp3lame.so.0.0 now?"
+ msgstr "Audacity n'exporte pas directement les fichiers MP3, mais utilise à la place\n"
+ "la librairie LAME gratuite pour prendre en charge l'encodage des fichiers MP3."
+ 
+@@ -2023,7 +2023,7 @@
+ msgstr "Dynamically Linked Libraries (*.dll)|*.dll"
+ 
+ #: ../src/export/ExportMP3.cpp:232
+-msgid "Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files (*)|*"
++msgid "Only libmp3lame.so.0.0|libmp3lame.so.0.0|Shared Object files (*.so)|*.so|All Files (*)|*"
+ msgstr ""
+ 
+ #: ../src/commands.h:214
+--- audacity-src-1.1.3/locale/hu.po.wiget	Thu Mar 20 05:38:08 2003
++++ audacity-src-1.1.3/locale/hu.po	Fri Mar 28 01:51:37 2003
+@@ -668,20 +668,20 @@
+ msgid ""
+ "Audacity does not export MP3 files directly, but instead uses the \n"
+ "freely available LAME library to handle MP3 file encoding.  You must \n"
+-"obtain libmp3lame.so separately, either by downloading it or building \n"
++"obtain libmp3lame.so.0.0 separately, either by downloading it or building \n"
+ "it from the sources, and then locate the file for Audacity.  You only \n"
+ "need to do this once.\n"
+ "\n"
+-"Would you like to locate libmp3lame.so now?"
++"Would you like to locate libmp3lame.so.0.0 now?"
+ msgstr ""
+ "Az Audacity nem exportálja közvetlenül az MP3 fájlokat, inkább az ingyen \n"
+ "használható LAME könyvtárat használja az MP3 fájlkódolás kezeléséhez.\n"
+-"Ezért vagy töltse le a libmp3lame.so fájlt, vagy készítse el a "
++"Ezért vagy töltse le a libmp3lame.so.0.0 fájlt, vagy készítse el a "
+ "forrásfájlokból, \n"
+ "majd határozza meg a helyét az Audacity számára.  Csak egyszer van erre \n"
+ "szükség.\n"
+ "\n"
+-"Szeretné most megadni a libmp3lame.so helyét?"
++"Szeretné most megadni a libmp3lame.so.0.0 helyét?"
+ 
+ #: ../src/AboutDialog.cpp:114
+ #, fuzzy
+@@ -2132,7 +2132,7 @@
+ 
+ #: ../src/export/ExportMP3.cpp:232
+ msgid ""
+-"Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files "
++"Only libmp3lame.so.0|libmp3lame.so.0|Shared Object files (*.so)|*.so|All Files "
+ "(*)|*"
+ msgstr ""
+ 
+--- audacity-src-1.1.3/locale/it.po.wiget	Thu Mar 20 05:38:08 2003
++++ audacity-src-1.1.3/locale/it.po	Fri Mar 28 01:51:38 2003
+@@ -652,19 +652,19 @@
+ msgid ""
+ "Audacity does not export MP3 files directly, but instead uses the \n"
+ "freely available LAME library to handle MP3 file encoding.  You must \n"
+-"obtain libmp3lame.so separately, either by downloading it or building \n"
++"obtain libmp3lame.so.0.0 separately, either by downloading it or building \n"
+ "it from the sources, and then locate the file for Audacity.  You only \n"
+ "need to do this once.\n"
+ "\n"
+-"Would you like to locate libmp3lame.so now?"
++"Would you like to locate libmp3lame.so.0.0 now?"
+ msgstr ""
+ "Audacity non esporta direttamente in file MP3 ma invece usa la libreria LAME "
+ "per l'encoding\n"
+-"E' necessario ottenere il libmp3lame.so separatamente scaricandolo e "
++"E' necessario ottenere il libmp3lame.so.0.0 separatamente scaricandolo e "
+ "compilandolo dai sorgenti  e localizzare questo file per Audacity.  Lo devi "
+ "fare solo una volta.\n"
+ "\n"
+-"Desideri cercare ora libmp3lame.so?"
++"Desideri cercare ora libmp3lame.so.0.0?"
+ 
+ #: ../src/AboutDialog.cpp:114
+ msgid ""
+@@ -2101,10 +2101,10 @@
+ 
+ #: ../src/export/ExportMP3.cpp:232
+ msgid ""
+-"Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files "
++"Only libmp3lame.so.0|libmp3lame.so.0|Shared Object files (*.so)|*.so|All Files "
+ "(*)|*"
+ msgstr ""
+-"Solo libmp3lame.so|libmp3lame.so|File oggetto condivisi(*.so)|*.so|Tutti i "
++"Solo libmp3lame.so.0|libmp3lame.so.0|File oggetto condivisi(*.so)|*.so|Tutti i "
+ "file (*)|*"
+ 
+ #: ../src/commands.h:214
+--- audacity-src-1.1.3/locale/ja.po.wiget	Thu Mar 20 05:38:08 2003
++++ audacity-src-1.1.3/locale/ja.po	Fri Mar 28 01:51:38 2003
+@@ -541,11 +541,11 @@
+ msgid ""
+ "Audacity does not export MP3 files directly, but instead uses the \n"
+ "freely available LAME library to handle MP3 file encoding.  You must \n"
+-"obtain libmp3lame.so separately, either by downloading it or building \n"
++"obtain libmp3lame.so.0.0 separately, either by downloading it or building \n"
+ "it from the sources, and then locate the file for Audacity.  You only \n"
+ "need to do this once.\n"
+ "\n"
+-"Would you like to locate libmp3lame.so now?"
++"Would you like to locate libmp3lame.so.0.0 now?"
+ msgstr ""
+ 
+ #: ../src/AboutDialog.cpp:114
+@@ -1978,7 +1978,7 @@
+ msgstr ""
+ 
+ #: ../src/export/ExportMP3.cpp:232
+-msgid "Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files (*)|*"
++msgid "Only libmp3lame.so.0.0|libmp3lame.so.0.0|Shared Object files (*.so)|*.so|All Files (*)|*"
+ msgstr ""
+ 
+ #: ../src/commands.h:196
+--- audacity-src-1.1.3/locale/nl.po.wiget	Thu Mar 20 05:38:08 2003
++++ audacity-src-1.1.3/locale/nl.po	Fri Mar 28 01:51:38 2003
+@@ -605,20 +605,20 @@
+ msgid ""
+ "Audacity does not export MP3 files directly, but instead uses the \n"
+ "freely available LAME library to handle MP3 file encoding.  You must \n"
+-"obtain libmp3lame.so separately, either by downloading it or building \n"
++"obtain libmp3lame.so.0.0 separately, either by downloading it or building \n"
+ "it from the sources, and then locate the file for Audacity.  You only \n"
+ "need to do this once.\n"
+ "\n"
+-"Would you like to locate libmp3lame.so now?"
++"Would you like to locate libmp3lame.so.0.0 now?"
+ msgstr ""
+ "Audacity exporteert MP3 bestanden niet direct, maar maakt gebruik\n"
+ "van de vrij beschikbare LAME-bibliotheek om bestanden naar MP3 te\n"
+-"coderen. U kunt libmp3lame.so apart verkrijgen door het te downloaden\n"
++"coderen. U kunt libmp3lame.so.0.0 apart verkrijgen door het te downloaden\n"
+ "of zelf te compileren vanuit de bronbestanden. U moet dit bestand "
+ "vervolgens\n"
+ "localiseren voor Audacity. Dit hoeft u slechts een keer te doen.\n"
+ "\n"
+-"Wilt u libmp3lame.so nu localiseren?"
++"Wilt u libmp3lame.so.0.0 nu localiseren?"
+ 
+ #: ../src/AboutDialog.cpp:114
+ msgid ""
+@@ -2125,9 +2125,9 @@
+ 
+ #: ../src/export/ExportMP3.cpp:232
+ msgid ""
+-"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0.0|libmp3lame.so.0.0|Primary Shared Object files (*.so)|*.so|"
+ "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
+-msgstr "Enkel libmp3lame.so|libmp3lame.so|Shared Object bestanden (*.so)|*.so|Uitgebreide bibliotheken (*.so)|*.so*|Alle Bestanden (*)|*"
++msgstr "Enkel libmp3lame.so.0.0|libmp3lame.so.0.0|Shared Object bestanden (*.so)|*.so|Uitgebreide bibliotheken (*.so)|*.so*|Alle Bestanden (*)|*"
+ 
+ #: ../src/effects/AvcCompressor.cpp:645
+ msgid "Original Value"
+--- audacity-src-1.1.3/locale/pl.po.wiget	Thu Mar 20 05:38:08 2003
++++ audacity-src-1.1.3/locale/pl.po	Fri Mar 28 01:51:38 2003
+@@ -648,19 +648,19 @@
+ msgid ""
+ "Audacity does not export MP3 files directly, but instead uses the \n"
+ "freely available LAME library to handle MP3 file encoding.  You must \n"
+-"obtain libmp3lame.so separately, either by downloading it or building \n"
++"obtain libmp3lame.so.0.0 separately, either by downloading it or building \n"
+ "it from the sources, and then locate the file for Audacity.  You only \n"
+ "need to do this once.\n"
+ "\n"
+-"Would you like to locate libmp3lame.so now?"
++"Would you like to locate libmp3lame.so.0.0 now?"
+ msgstr ""
+ "Audacity nie eksportuje plików MP3 bezpo¶rednio. Zamiast tego u¿ywa\n"
+-" dostêpnej za darmo biblioteki LAME. Musisz zdobyæ libmp3lame.so\n"
++" dostêpnej za darmo biblioteki LAME. Musisz zdobyæ libmp3lame.so.0.0\n"
+ "jako oddzielny pakiet, poprzez ¶ci±gniêcie go z internetu lub kompilacjê\n"
+ " ze ¼róde³. Nastêpnie nale¿y okre¶liæ jego po³o¿enie dla Audacity.\n"
+ "Wystarczy ¿e zrobisz to tylko raz.\n"
+ "\n"
+-"Czy chcia³by¶ okre¶liæ po³o¿enie libmp3lame.so teraz?"
++"Czy chcia³by¶ okre¶liæ po³o¿enie libmp3lame.so.0.0 teraz?"
+ 
+ #: ../src/AboutDialog.cpp:114
+ msgid ""
+@@ -2100,10 +2100,10 @@
+ 
+ #: ../src/export/ExportMP3.cpp:232
+ msgid ""
+-"Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files "
++"Only libmp3lame.so.0|libmp3lame.so.0|Shared Object files (*.so)|*.so|All Files "
+ "(*)|*"
+ msgstr ""
+-"Tylko libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files "
++"Tylko libmp3lame.so.0|libmp3lame.so.0|Shared Object files (*.so)|*.so|All Files "
+ "(*)|*"
+ 
+ #: ../src/commands.h:214
+--- audacity-src-1.1.3/locale/pt.po.wiget	Thu Mar 20 05:38:08 2003
++++ audacity-src-1.1.3/locale/pt.po	Fri Mar 28 01:51:38 2003
+@@ -621,18 +621,18 @@
+ msgid ""
+ "Audacity does not export MP3 files directly, but instead uses the \n"
+ "freely available LAME library to handle MP3 file encoding.  You must \n"
+-"obtain libmp3lame.so separately, either by downloading it or building \n"
++"obtain libmp3lame.so.0.0 separately, either by downloading it or building \n"
+ "it from the sources, and then locate the file for Audacity.  You only \n"
+ "need to do this once.\n"
+ "\n"
+-"Would you like to locate libmp3lame.so now?"
++"Would you like to locate libmp3lame.so.0.0 now?"
+ msgstr ""
+ "Não é feita a exportação para MP3 diretamente. O Audacity usa uma biblioteca disponível gratuitamente na Internet da LAME para isso.\n"
+-"Você deve obter o arquivo \"libmp3lame.so\" separadamente, baixando-o\n"
++"Você deve obter o arquivo \"libmp3lame.so.0.0\" separadamente, baixando-o\n"
+ "da Internet e então localizando-o no Audacity.  Só há a  necessidade de \n"
+ "se proceder assim uma única vez.\n"
+ "\n"
+-"Proceder a busca por libmp3lame.so no sistema agora?"
++"Proceder a busca por libmp3lame.so.0.0 no sistema agora?"
+ 
+ #: ../src/AboutDialog.cpp:114
+ msgid "Audacity is a free program being written by a team of developers using Sourceforge, an online service for open-source projects.  It is based on the wxWindows toolkit and is available for Windows, MacOS 9 and X, Linux, and other Unix-like systems."
+@@ -2069,8 +2069,8 @@
+ msgstr "Apenas lame_enc.dll|lame_enc.dll|DLLs do sistema (*.dll)|*.dll|Todos os arquivos (*.*)|*"
+ 
+ #: ../src/export/ExportMP3.cpp:232
+-msgid "Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files (*)|*"
+-msgstr "Apenas libmp3lame.so|libmp3lame.so|Arquivos Shared Object (*.so)|*.so|Todos os arquivos (*)|*"
++msgid "Only libmp3lame.so.0.0|libmp3lame.so.0.0|Shared Object files (*.so)|*.so|All Files (*)|*"
++msgstr "Apenas libmp3lame.so.0.0|libmp3lame.so.0.0|Arquivos Shared Object (*.so)|*.so|Todos os arquivos (*)|*"
+ 
+ #: ../src/commands.h:214
+ msgid "Open"
+--- audacity-src-1.1.3/locale/ru.po.wiget	Thu Mar 20 05:38:08 2003
++++ audacity-src-1.1.3/locale/ru.po	Fri Mar 28 01:51:38 2003
+@@ -600,19 +600,19 @@
+ msgid ""
+ "Audacity does not export MP3 files directly, but instead uses the \n"
+ "freely available LAME library to handle MP3 file encoding.  You must \n"
+-"obtain libmp3lame.so separately, either by downloading it or building \n"
++"obtain libmp3lame.so.0.0 separately, either by downloading it or building \n"
+ "it from the sources, and then locate the file for Audacity.  You only \n"
+ "need to do this once.\n"
+ "\n"
+-"Would you like to locate libmp3lame.so now?"
++"Would you like to locate libmp3lame.so.0.0 now?"
+ msgstr ""
+ "Audacity ÎÅ ÜËÓĞÏÒÔÉÒÕÅÔ ÄÁÎÎÙÅ × MP3 ÎÁĞÒÑÍÕÀ, Á ÉÓĞÏÌØÚÕÅÔ ÄÌÑ ÜÔÏÇÏ\n"
+ "LAME - ÂÉÂÌÉÏÔÅËÕ ÄÌÑ ÜËÓĞÏÒÔÁ × MP3, ÄÏÓÔÕĞÎÕÀ ÏÔÄÅÌØÎÏ. äÌÑ ÜÔÏÇÏ ×ÁÍ\n"
+-"ÎÅÏÂÈÏÄÉÍÏ ÏÔÄÅÌØÎÏ ÄÏÓÔÁÔØ ÂÉÂÌÉÏÔÅËÕ libmp3lame.so, ÓËÁŞÁ× Å£ × ÇÏÔÏ×ÏÍ "
++"ÎÅÏÂÈÏÄÉÍÏ ÏÔÄÅÌØÎÏ ÄÏÓÔÁÔØ ÂÉÂÌÉÏÔÅËÕ libmp3lame.so.0.0, ÓËÁŞÁ× Å£ × ÇÏÔÏ×ÏÍ "
+ "×ÉÄÅ, ÌÉÂÏ ÓËÏÍÉĞÉÌÉÒÏ×Á× ÉÚ ÉÓÈÏÄÎÙÈ ÔÅËÓÔÏ×, Á ÚÁÔÅÍ ÕËÁÚÁÔØ ÒÁÓĞÏÌÏÖÅÎÉÅ "
+ "ÜÔÏÇÏ ÆÁÊÌÁ ÄÌÑ Audacity. üÔÏ ÎÅÏÂÈÏÄÉÍÏ ÓÄÅÌÁÔØ ÔÏÌØËÏ ÏÄÉÎ ÒÁÚ\n"
+ "\n"
+-"÷Ù ÈÏÔÅÌÉ ÂÙ ÓÅÊŞÁÓ ÕËÁÚÁÔØ ÒÁÓĞÏÌÏÖÅÎÉÅ libmp3lame.so?"
++"÷Ù ÈÏÔÅÌÉ ÂÙ ÓÅÊŞÁÓ ÕËÁÚÁÔØ ÒÁÓĞÏÌÏÖÅÎÉÅ libmp3lame.so.0.0?"
+ 
+ #: ../src/AboutDialog.cpp:114
+ msgid ""
+@@ -2111,10 +2111,10 @@
+ 
+ #: ../src/export/ExportMP3.cpp:232
+ msgid ""
+-"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0.0|libmp3lame.so.0.0|Primary Shared Object files (*.so)|*.so|"
+ "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
+ msgstr ""
+-"ôÏÌØËÏ libmp3lame.so|libmp3lame.so| ğÅÒ×ÉŞÎÙÅ ÄÉÎÁÍÉŞÅÓËÉ ÚÁÇÒÕÖÁÅÍÙÅ "
++"ôÏÌØËÏ libmp3lame.so.0.0|libmp3lame.so.0.0| ğÅÒ×ÉŞÎÙÅ ÄÉÎÁÍÉŞÅÓËÉ ÚÁÇÒÕÖÁÅÍÙÅ "
+ "ÂÉÂÌÉÏÔÅËÉ (*.so)|*.so|òÁÓÛÉÒÅÎÎÙÅ ÂÉÂÌÉÏÔÅËÉ (*.so*)|*.so*| ÷ÓÅ ÆÁÊÌÙ (*)|*"
+ 
+ #: ../src/effects/AvcCompressor.cpp:645
+--- audacity-src-1.1.3/locale/sl.po.wiget	Thu Mar 20 05:38:08 2003
++++ audacity-src-1.1.3/locale/sl.po	Fri Mar 28 01:51:38 2003
+@@ -653,18 +653,18 @@
+ msgid ""
+ "Audacity does not export MP3 files directly, but instead uses the \n"
+ "freely available LAME library to handle MP3 file encoding.  You must \n"
+-"obtain libmp3lame.so separately, either by downloading it or building \n"
++"obtain libmp3lame.so.0.0 separately, either by downloading it or building \n"
+ "it from the sources, and then locate the file for Audacity.  You only \n"
+ "need to do this once.\n"
+ "\n"
+-"Would you like to locate libmp3lame.so now?"
++"Would you like to locate libmp3lame.so.0.0 now?"
+ msgstr ""
+ "Audacity ne izva¾a MP3 datotek neposredno, ampak uporablja \n"
+ "prosto dostopno LAME knji¾nico za upravljanje MP3 kodiranja.  Morate\n"
+-"nalo¾iti libmp3lame.so , in nato vnesti pot do knji¾nice za Audacity.  To je "
++"nalo¾iti libmp3lame.so.0.0 , in nato vnesti pot do knji¾nice za Audacity.  To je "
+ "potrebno storiti le enkrat.\n"
+ "\n"
+-"Bi radi poiskali libmp3lame.so zdaj?"
++"Bi radi poiskali libmp3lame.so.0.0 zdaj?"
+ 
+ #: ../src/AboutDialog.cpp:114
+ msgid ""
+@@ -2102,10 +2102,10 @@
+ 
+ #: ../src/export/ExportMP3.cpp:232
+ msgid ""
+-"Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files "
++"Only libmp3lame.so.0|libmp3lame.so.0|Shared Object files (*.so)|*.so|All Files "
+ "(*)|*"
+ msgstr ""
+-"Samo libmp3lame.so|libmp3lame.so|Deljene Razredne datoteke (*.so)|*.so|Vse "
++"Samo libmp3lame.so.0|libmp3lame.so.0|Deljene Razredne datoteke (*.so)|*.so|Vse "
+ "datoteke (*)|*"
+ 
+ #: ../src/commands.h:214
+--- audacity-src-1.1.3/src/export/ExportMP3.cpp.wiget	Thu Mar 20 05:38:08 2003
++++ audacity-src-1.1.3/src/export/ExportMP3.cpp	Fri Mar 28 01:48:09 2003
+@@ -224,22 +224,22 @@
  
           wxString GetLibraryName()
           {
@@ -10,159 +501,20 @@
           
           wxString GetLibraryTypeString()
           {
--            return wxString(_("Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files (*)|*"));
-+            return wxString(_("Only libmp3lame.so*|libmp3lame.so*|Shared Object files (*.so*)|*.so*|All Files (*)|*"));
+-            return wxString(_("Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"));
++            return wxString(_("Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"));
           }
           
           wxString GetLibraryMessage()
---- audacity-src-1.1.1-3/locale/bg.po.orig	Mon Nov 11 07:58:21 2002
-+++ audacity-src-1.1.1-3/locale/bg.po	Sat Jan 25 01:12:28 2003
-@@ -2106,11 +2106,11 @@
+          {
+             return _("Audacity does not export MP3 files directly, but instead uses the \n"
+                    "freely available LAME library to handle MP3 file encoding.  You must \n"
+-                   "obtain libmp3lame.so separately, either by downloading it or building \n"
++                   "obtain libmp3lame.so.0 separately, either by downloading it or building \n"
+                    "it from the sources, and then locate the file for Audacity.  You only \n"
+                    "need to do this once.\n\n"
+-                   "Would you like to locate libmp3lame.so now?");
++                   "Would you like to locate libmp3lame.so.0 now?");
+          }
  
- #: ../src/export/ExportMP3.cpp:232
- msgid ""
--"Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files "
-+"Only libmp3lame.so*|libmp3lame.so*|Shared Object files (*.so*)|*.so*|All Files "
- "(*)|*"
- msgstr ""
--"Ñàìî libmp3lame.so|libmp3lame.so|Ñïîäåëåíè îáåêòíè ôàéëîâå "
--"(*.so)|*.so|Âñè÷êè ôàéëîâå (*)|*"
-+"Ñàìî libmp3lame.so*|libmp3lame.so*|Ñïîäåëåíè îáåêòíè ôàéëîâå "
-+"(*.so*)|*.so*|Âñè÷êè ôàéëîâå (*)|*"
- 
- #: ../src/commands.h:214
- msgid "Open"
---- audacity-src-1.1.1-3/locale/da.po.orig	Mon Nov 11 07:58:21 2002
-+++ audacity-src-1.1.1-3/locale/da.po	Sat Jan 25 01:12:53 2003
-@@ -2161,10 +2161,10 @@
- 
- #: ../src/export/ExportMP3.cpp:232
- msgid ""
--"Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files "
-+"Only libmp3lame.so*|libmp3lame.so*|Shared Object files (*.so*)|*.so*|All Files "
- "(*)|*"
- msgstr ""
--"Kun libmp3lame.so|libmp3lame.so|Delte objektifler (*.so)|*.so|All Files (*)|*"
-+"Kun libmp3lame.so*|libmp3lame.so*|Delte objektifler (*.so*)|*.so*|All Files (*)|*"
- 
- #: ../src/commands.h:214
- msgid "Open"
---- audacity-src-1.1.1-3/locale/de.po.orig	Mon Nov 11 07:58:21 2002
-+++ audacity-src-1.1.1-3/locale/de.po	Sat Jan 25 01:13:07 2003
-@@ -2142,7 +2142,7 @@
- 
- #: ../src/export/ExportMP3.cpp:232
- msgid ""
--"Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files "
-+"Only libmp3lame.so*|libmp3lame.so*|Shared Object files (*.so*)|*.so*|All Files "
- "(*)|*"
- msgstr ""
- 
---- audacity-src-1.1.1-3/locale/es.po.orig	Mon Nov 11 07:58:21 2002
-+++ audacity-src-1.1.1-3/locale/es.po	Sat Jan 25 01:13:29 2003
-@@ -2092,10 +2092,10 @@
- 
- #: ../src/export/ExportMP3.cpp:232
- msgid ""
--"Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files "
-+"Only libmp3lame.so*|libmp3lame.so*|Shared Object files (*.so*)|*.so*|All Files "
- "(*)|*"
- msgstr ""
--"Sólo libmp3lame.so|libmp3lame.so|Archivos Shared Object (*.so)|*.so|Todos "
-+"Sólo libmp3lame.so*|libmp3lame.so*|Archivos Shared Object (*.so*)|*.so*|Todos "
- "los Archivos (*)|*"
- 
- #: ../src/commands.h:214
---- audacity-src-1.1.1-3/locale/fr.po.orig	Mon Nov 11 07:58:21 2002
-+++ audacity-src-1.1.1-3/locale/fr.po	Sat Jan 25 01:13:44 2003
-@@ -2068,7 +2068,7 @@
- 
- #: ../src/export/ExportMP3.cpp:232
- msgid ""
--"Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files "
-+"Only libmp3lame.so*|libmp3lame.so*|Shared Object files (*.so*)|*.so*|All Files "
- "(*)|*"
- msgstr ""
- 
---- audacity-src-1.1.1-3/locale/hu.po.orig	Mon Nov 11 07:58:21 2002
-+++ audacity-src-1.1.1-3/locale/hu.po	Sat Jan 25 01:13:58 2003
-@@ -2132,7 +2132,7 @@
- 
- #: ../src/export/ExportMP3.cpp:232
- msgid ""
--"Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files "
-+"Only libmp3lame.so*|libmp3lame.so*|Shared Object files (*.so*)|*.so*|All Files "
- "(*)|*"
- msgstr ""
- 
---- audacity-src-1.1.1-3/locale/it.po.orig	Mon Nov 11 07:58:21 2002
-+++ audacity-src-1.1.1-3/locale/it.po	Sat Jan 25 01:14:22 2003
-@@ -2091,10 +2091,10 @@
- 
- #: ../src/export/ExportMP3.cpp:232
- msgid ""
--"Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files "
-+"Only libmp3lame.so*|libmp3lame.so*|Shared Object files (*.so*)|*.so*|All Files "
- "(*)|*"
- msgstr ""
--"Solo libmp3lame.so|libmp3lame.so|File oggetto condivisi(*.so)|*.so|Tutti i "
-+"Solo libmp3lame.so*|libmp3lame.so*|File oggetto condivisi(*.so*)|*.so*|Tutti i "
- "file (*)|*"
- 
- #: ../src/commands.h:214
---- audacity-src-1.1.1-3/locale/nl.po.orig	Mon Nov 11 07:58:21 2002
-+++ audacity-src-1.1.1-3/locale/nl.po	Sat Jan 25 01:14:46 2003
-@@ -2095,10 +2095,10 @@
- 
- #: ../src/export/ExportMP3.cpp:232
- msgid ""
--"Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files "
-+"Only libmp3lame.so*|libmp3lame.so*|Shared Object files (*.so*)|*.so*|All Files "
- "(*)|*"
- msgstr ""
--"Enkel libmp3lame.so|libmp3lame.so|Shared Object bestanden (*.so)|*.so|Alle "
-+"Enkel libmp3lame.so*|libmp3lame.so*|Shared Object bestanden (*.so*)|*.so*|Alle "
- "Bestanden (*)|*"
- 
- #: ../src/commands.h:214
---- audacity-src-1.1.1-3/locale/pl.po.orig	Mon Nov 11 07:58:21 2002
-+++ audacity-src-1.1.1-3/locale/pl.po	Sat Jan 25 01:15:34 2003
-@@ -2100,10 +2100,10 @@
- 
- #: ../src/export/ExportMP3.cpp:232
- msgid ""
--"Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files "
-+"Only libmp3lame.so*|libmp3lame.so*|Shared Object files (*.so*)|*.so*|All Files "
- "(*)|*"
- msgstr ""
--"Tylko libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files "
-+"Tylko libmp3lame.so*|libmp3lame.so*|Shared Object files (*.so*)|*.so*|All Files "
- "(*)|*"
- 
- #: ../src/commands.h:214
---- audacity-src-1.1.1-3/locale/ru.po.orig	Mon Nov 11 07:58:21 2002
-+++ audacity-src-1.1.1-3/locale/ru.po	Sat Jan 25 01:16:05 2003
-@@ -2105,7 +2105,7 @@
- 
- #: ../src/export/ExportMP3.cpp:232
- msgid ""
--"Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files "
-+"Only libmp3lame.so*|libmp3lame.so*|Shared Object files (*.so*)|*.so*|All Files "
- "(*)|*"
- msgstr ""
- 
---- audacity-src-1.1.1-3/locale/sl.po.orig	Mon Nov 11 07:58:21 2002
-+++ audacity-src-1.1.1-3/locale/sl.po	Sat Jan 25 01:16:31 2003
-@@ -2102,10 +2102,10 @@
- 
- #: ../src/export/ExportMP3.cpp:232
- msgid ""
--"Only libmp3lame.so|libmp3lame.so|Shared Object files (*.so)|*.so|All Files "
-+"Only libmp3lame.so*|libmp3lame.so*|Shared Object files (*.so*)|*.so*|All Files "
- "(*)|*"
- msgstr ""
--"Samo libmp3lame.so|libmp3lame.so|Deljene Razredne datoteke (*.so)|*.so|Vse "
-+"Samo libmp3lame.so*|libmp3lame.so*|Deljene Razredne datoteke (*.so*)|*.so*|Vse "
- "datoteke (*)|*"
- 
- #: ../src/commands.h:214
+          bool  LoadLibrary() {

@@ -1,5 +1,5 @@
---- audacity-src-1.1.1-3/lib-src/allegro/Makefile.in.orig	Mon Nov 11 07:58:21 2002
-+++ audacity-src-1.1.1-3/lib-src/allegro/Makefile.in	Sat Jan 25 01:31:51 2003
+--- audacity-src-1.1.3/lib-src/allegro/Makefile.in.wiget	Thu Mar 20 05:38:08 2003
++++ audacity-src-1.1.3/lib-src/allegro/Makefile.in	Fri Mar 28 01:56:59 2003
 @@ -3,7 +3,7 @@
  CC = @CC@
  CCC = @CXX@
@@ -9,25 +9,25 @@
  OBJ = \
  	allegro.cpp.o \
  	allegrord.cpp.o \
---- audacity-src-1.1.1-3/lib-src/libnyquist/Makefile.orig	Mon Nov 11 07:58:21 2002
-+++ audacity-src-1.1.1-3/lib-src/libnyquist/Makefile	Sat Jan 25 01:33:47 2003
+--- audacity-src-1.1.3/lib-src/libnyquist/Makefile.wiget	Thu Mar 20 05:38:11 2003
++++ audacity-src-1.1.3/lib-src/libnyquist/Makefile	Fri Mar 28 01:58:03 2003
 @@ -6,7 +6,7 @@
  INCL = -Inyqsrc -Itran -Ixlisp -Icmt -Isys -Isnd -Ifft
  
  CC = cc
--CFLAGS = -g -DCMTSTUFF -O2 -DEXT $(INCL)
-+CFLAGS = $(OPTFLAGS) -DCMTSTUFF -DEXT $(INCL)
+-override CFLAGS += -g -DCMTSTUFF -O2 -DEXT $(INCL)
++override CFLAGS += $(OPTFLAGS) -DCMTSTUFF -DEXT $(INCL)
  LN = $(CC)
  LFLAGS = -lm
  
---- audacity-src-1.1.1-3/lib-src/portaudio/pa_unix_oss/Makefile.orig	Mon Nov 11 07:58:21 2002
-+++ audacity-src-1.1.1-3/lib-src/portaudio/pa_unix_oss/Makefile	Sat Jan 25 01:38:35 2003
+--- audacity-src-1.1.3/lib-src/portaudio/pa_unix_oss/Makefile.wiget	Thu Mar 20 05:38:17 2003
++++ audacity-src-1.1.3/lib-src/portaudio/pa_unix_oss/Makefile	Fri Mar 28 01:58:45 2003
 @@ -2,7 +2,7 @@
  
  CC = gcc
  
--CFLAGS = -g -O -ansi -I../pa_common
-+CFLAGS = $(OPTFLAGS) -ansi -I../pa_common
- PASRC = ../pa_common/pa_lib.c pa_unix_oss.c
+-override CFLAGS += -g -O -ansi -I../pa_common
++override CFLAGS += $(OPTFLAGS) -ansi -I../pa_common
+ PASRC = ../pa_common/pa_lib.c pa_unix_oss.c pa_unix.c
  PAINC = ../pa_common/portaudio.h
- PAOBJ = ../pa_common/pa_lib.o pa_unix_oss.o
+ PAOBJ = ../pa_common/pa_lib.o pa_unix_oss.o pa_unix.o
