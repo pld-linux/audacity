@@ -1,6 +1,6 @@
-diff -aurN audacity-src-1.2.0-pre2.orig/lib-src/allegro/Makefile.in audacity-src-1.2.0-pre2/lib-src/allegro/Makefile.in
---- audacity-src-1.2.0-pre2.orig/lib-src/allegro/Makefile.in	2003-09-29 08:51:27.000000000 +0200
-+++ audacity-src-1.2.0-pre2/lib-src/allegro/Makefile.in	2003-10-16 13:56:45.234705600 +0200
+diff -aurN audacity-src-1.2.3.orig/lib-src/allegro/Makefile.in audacity-src-1.2.3/lib-src/allegro/Makefile.in
+--- audacity-src-1.2.3.orig/lib-src/allegro/Makefile.in	2004-11-18 07:17:30.000000000 +0100
++++ audacity-src-1.2.3/lib-src/allegro/Makefile.in	2004-12-05 19:50:14.926174384 +0100
 @@ -3,7 +3,7 @@
  CC = @CC@
  CCC = @CXX@
@@ -10,9 +10,9 @@ diff -aurN audacity-src-1.2.0-pre2.orig/lib-src/allegro/Makefile.in audacity-src
  OBJ = \
  	allegro.cpp.o \
  	allegrord.cpp.o \
-diff -aurN audacity-src-1.2.0-pre2.orig/lib-src/libnyquist/Makefile.in audacity-src-1.2.0-pre2/lib-src/libnyquist/Makefile.in
---- audacity-src-1.2.0-pre2.orig/lib-src/libnyquist/Makefile.in	2003-09-29 08:51:31.000000000 +0200
-+++ audacity-src-1.2.0-pre2/lib-src/libnyquist/Makefile.in	2003-10-16 13:57:45.269578912 +0200
+diff -aurN audacity-src-1.2.3.orig/lib-src/libnyquist/Makefile.in audacity-src-1.2.3/lib-src/libnyquist/Makefile.in
+--- audacity-src-1.2.3.orig/lib-src/libnyquist/Makefile.in	2004-11-18 07:17:32.000000000 +0100
++++ audacity-src-1.2.3/lib-src/libnyquist/Makefile.in	2004-12-05 19:51:30.418697776 +0100
 @@ -6,7 +6,7 @@
  INCL = -Inyqsrc -Itran -Ixlisp -Icmt -Isys -Isnd -Ifft
  
@@ -22,9 +22,9 @@ diff -aurN audacity-src-1.2.0-pre2.orig/lib-src/libnyquist/Makefile.in audacity-
  LN = $(CC)
  LFLAGS = -lm
  
-diff -aurN audacity-src-1.2.0-pre2.orig/lib-src/portaudio/pa_unix_oss/Makefile audacity-src-1.2.0-pre2/lib-src/portaudio/pa_unix_oss/Makefile
---- audacity-src-1.2.0-pre2.orig/lib-src/portaudio/pa_unix_oss/Makefile	2003-09-29 08:51:36.000000000 +0200
-+++ audacity-src-1.2.0-pre2/lib-src/portaudio/pa_unix_oss/Makefile	2003-10-16 13:58:31.298581440 +0200
+diff -aurN audacity-src-1.2.3.orig/lib-src/portaudio/pa_unix_oss/Makefile audacity-src-1.2.3/lib-src/portaudio/pa_unix_oss/Makefile
+--- audacity-src-1.2.3.orig/lib-src/portaudio/pa_unix_oss/Makefile	2004-11-18 07:17:34.000000000 +0100
++++ audacity-src-1.2.3/lib-src/portaudio/pa_unix_oss/Makefile	2004-12-05 19:52:26.867116312 +0100
 @@ -2,7 +2,7 @@
  
  CC = gcc
@@ -34,9 +34,9 @@ diff -aurN audacity-src-1.2.0-pre2.orig/lib-src/portaudio/pa_unix_oss/Makefile a
  PASRC = ../pa_common/pa_lib.c pa_unix_oss.c pa_unix.c
  PAINC = ../pa_common/portaudio.h
  PAOBJ = ../pa_common/pa_lib.o pa_unix_oss.o pa_unix.o
-diff -aurN audacity-src-1.2.0-pre2.orig/lib-src/portaudio-v19/Makefile.linux audacity-src-1.2.0-pre2/lib-src/portaudio-v19/Makefile.linux
---- audacity-src-1.2.0-pre2.orig/lib-src/portaudio-v19/Makefile.linux	2003-09-29 08:51:37.000000000 +0200
-+++ audacity-src-1.2.0-pre2/lib-src/portaudio-v19/Makefile.linux	2003-10-16 13:59:07.003153520 +0200
+diff -aurN audacity-src-1.2.3.orig/lib-src/portaudio-v19/Makefile.linux audacity-src-1.2.3/lib-src/portaudio-v19/Makefile.linux
+--- audacity-src-1.2.3.orig/lib-src/portaudio-v19/Makefile.linux	2004-11-18 07:17:34.000000000 +0100
++++ audacity-src-1.2.3/lib-src/portaudio-v19/Makefile.linux	2004-12-05 19:53:38.559217456 +0100
 @@ -17,7 +17,7 @@
  LIBS =  -lm -lpthread
  
@@ -46,14 +46,15 @@ diff -aurN audacity-src-1.2.0-pre2.orig/lib-src/portaudio-v19/Makefile.linux aud
  LIBINST = /usr/local/lib
  
  TESTS:= $(wildcard pa_tests/pa*.c pa_tests/debug*.c)
-diff -aurN audacity-src-1.2.0-pre2.orig/lib-src/soundtouch/configure.in audacity-src-1.2.0-pre2/lib-src/soundtouch/configure.in
---- audacity-src-1.2.0-pre2.orig/lib-src/soundtouch/configure.in	2003-09-29 08:51:38.000000000 +0200
-+++ audacity-src-1.2.0-pre2/lib-src/soundtouch/configure.in	2003-10-16 13:59:31.945361728 +0200
-@@ -24,6 +24,6 @@
-     AC_MSG_ERROR("Could not find ar - needed to create a library");
- fi
- 
--CXXFLAGS="-O2"
+diff -aurN audacity-src-1.2.3.orig/lib-src/soundtouch/configure.ac audacity-src-1.2.3/lib-src/soundtouch/configure.ac
+--- audacity-src-1.2.3.orig/lib-src/soundtouch/configure.ac	2004-11-18 07:17:35.000000000 +0100
++++ audacity-src-1.2.3/lib-src/soundtouch/configure.ac	2004-12-05 20:01:48.171785032 +0100
+@@ -35,7 +35,7 @@
+ dnl ############################################################################
+ dnl # Checks for programs                                                      #
+ dnl ############################################################################
+-CXXFLAGS= dnl AC_PROG_CXX automatically sets CXXFLAGS to -g -O2 if g++ is the C++ compiler and CXXFLAGS hasn't been set, so by setting CXXFLAGS, we can avoid this.
 +CXXFLAGS=$(OPTFLAGS)
- 
- AC_OUTPUT([Makefile src/Makefile])
+ AC_PROG_CXX
+ #AC_PROG_AWK
+ AC_PROG_CC

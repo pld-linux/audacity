@@ -1,6 +1,6 @@
-diff -urN audacity-src-1.2.2.orig/locale/bg.po audacity-src-1.2.2/locale/bg.po
---- audacity-src-1.2.2.orig/locale/bg.po	2004-08-26 05:27:33.000000000 +0200
-+++ audacity-src-1.2.2/locale/bg.po	2004-09-16 22:50:05.017847536 +0200
+diff -aurN audacity-src-1.2.3.orig/locale/bg.po audacity-src-1.2.3/locale/bg.po
+--- audacity-src-1.2.3.orig/locale/bg.po	2004-11-18 07:17:29.000000000 +0100
++++ audacity-src-1.2.3/locale/bg.po	2004-12-05 21:44:56.282049280 +0100
 @@ -638,19 +638,19 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -36,9 +36,9 @@ diff -urN audacity-src-1.2.2.orig/locale/bg.po audacity-src-1.2.2/locale/bg.po
  
  #: ../src/Legacy.cpp:338
  msgid "Opening Audacity Project"
-diff -urN audacity-src-1.2.2.orig/locale/ca.po audacity-src-1.2.2/locale/ca.po
---- audacity-src-1.2.2.orig/locale/ca.po	2004-08-26 05:27:33.000000000 +0200
-+++ audacity-src-1.2.2/locale/ca.po	2004-09-16 22:50:16.366122336 +0200
+diff -aurN audacity-src-1.2.3.orig/locale/ca.po audacity-src-1.2.3/locale/ca.po
+--- audacity-src-1.2.3.orig/locale/ca.po	2004-11-18 07:17:29.000000000 +0100
++++ audacity-src-1.2.3/locale/ca.po	2004-12-05 21:44:56.540010064 +0100
 @@ -643,19 +643,19 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -74,9 +74,9 @@ diff -urN audacity-src-1.2.2.orig/locale/ca.po audacity-src-1.2.2/locale/ca.po
  
  #: ../src/Legacy.cpp:338
  msgid "Opening Audacity Project"
-diff -urN audacity-src-1.2.2.orig/locale/cs.po audacity-src-1.2.2/locale/cs.po
---- audacity-src-1.2.2.orig/locale/cs.po	2004-08-26 05:27:33.000000000 +0200
-+++ audacity-src-1.2.2/locale/cs.po	2004-09-16 22:50:26.857527400 +0200
+diff -aurN audacity-src-1.2.3.orig/locale/cs.po audacity-src-1.2.3/locale/cs.po
+--- audacity-src-1.2.3.orig/locale/cs.po	2004-11-18 07:17:29.000000000 +0100
++++ audacity-src-1.2.3/locale/cs.po	2004-12-05 21:44:56.781973280 +0100
 @@ -630,7 +630,7 @@
  "Would you like to locate lame_enc.dll now?"
  msgstr ""
@@ -115,9 +115,9 @@ diff -urN audacity-src-1.2.2.orig/locale/cs.po audacity-src-1.2.2/locale/cs.po
  
  #: ../src/Legacy.cpp:338
  msgid "Opening Audacity Project"
-diff -urN audacity-src-1.2.2.orig/locale/da.po audacity-src-1.2.2/locale/da.po
---- audacity-src-1.2.2.orig/locale/da.po	2004-08-26 05:27:33.000000000 +0200
-+++ audacity-src-1.2.2/locale/da.po	2004-09-16 22:50:41.054369152 +0200
+diff -aurN audacity-src-1.2.3.orig/locale/da.po audacity-src-1.2.3/locale/da.po
+--- audacity-src-1.2.3.orig/locale/da.po	2004-11-18 07:17:29.000000000 +0100
++++ audacity-src-1.2.3/locale/da.po	2004-12-05 21:44:57.013938016 +0100
 @@ -641,19 +641,19 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -153,9 +153,9 @@ diff -urN audacity-src-1.2.2.orig/locale/da.po audacity-src-1.2.2/locale/da.po
  
  #: ../src/Legacy.cpp:338
  msgid "Opening Audacity Project"
-diff -urN audacity-src-1.2.2.orig/locale/de.po audacity-src-1.2.2/locale/de.po
---- audacity-src-1.2.2.orig/locale/de.po	2004-08-26 05:27:33.000000000 +0200
-+++ audacity-src-1.2.2/locale/de.po	2004-09-16 22:50:57.564859176 +0200
+diff -aurN audacity-src-1.2.3.orig/locale/de.po audacity-src-1.2.3/locale/de.po
+--- audacity-src-1.2.3.orig/locale/de.po	2004-11-18 07:17:29.000000000 +0100
++++ audacity-src-1.2.3/locale/de.po	2004-12-05 21:44:57.267899408 +0100
 @@ -639,11 +639,11 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -181,10 +181,10 @@ diff -urN audacity-src-1.2.2.orig/locale/de.po audacity-src-1.2.2/locale/de.po
  
  #: ../src/Legacy.cpp:338
  msgid "Opening Audacity Project"
-diff -urN audacity-src-1.2.2.orig/locale/es.po audacity-src-1.2.2/locale/es.po
---- audacity-src-1.2.2.orig/locale/es.po	2004-08-26 05:27:33.000000000 +0200
-+++ audacity-src-1.2.2/locale/es.po	2004-09-16 22:51:09.372064208 +0200
-@@ -665,19 +665,19 @@
+diff -aurN audacity-src-1.2.3.orig/locale/es.po audacity-src-1.2.3/locale/es.po
+--- audacity-src-1.2.3.orig/locale/es.po	2004-11-18 07:17:29.000000000 +0100
++++ audacity-src-1.2.3/locale/es.po	2004-12-05 21:44:57.525860192 +0100
+@@ -671,19 +671,19 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
  "freely available LAME library to handle MP3 file encoding.  You must \n"
@@ -206,9 +206,9 @@ diff -urN audacity-src-1.2.2.orig/locale/es.po audacity-src-1.2.2/locale/es.po
 -"�Quisieras localizar libmp3lame.so ahora?"
 +"�Quisieras localizar libmp3lame.so.0 ahora?"
  
- #: ../src/DirManager.cpp:195
+ #: ../src/DirManager.cpp:127
  msgid ""
-@@ -2656,10 +2656,10 @@
+@@ -2784,10 +2784,10 @@
  
  #: ../src/export/ExportMP3.cpp:255
  msgid ""
@@ -221,9 +221,9 @@ diff -urN audacity-src-1.2.2.orig/locale/es.po audacity-src-1.2.2/locale/es.po
  "Libraries (*.so*)|*.so*|Todos los Archivos (*)|*"
  
  #: ../src/Legacy.cpp:338
-diff -urN audacity-src-1.2.2.orig/locale/fi.po audacity-src-1.2.2/locale/fi.po
---- audacity-src-1.2.2.orig/locale/fi.po	2004-08-26 05:27:33.000000000 +0200
-+++ audacity-src-1.2.2/locale/fi.po	2004-09-16 22:51:36.262976168 +0200
+diff -aurN audacity-src-1.2.3.orig/locale/fi.po audacity-src-1.2.3/locale/fi.po
+--- audacity-src-1.2.3.orig/locale/fi.po	2004-11-18 07:17:29.000000000 +0100
++++ audacity-src-1.2.3/locale/fi.po	2004-12-05 21:44:57.774822344 +0100
 @@ -635,15 +635,15 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -255,10 +255,10 @@ diff -urN audacity-src-1.2.2.orig/locale/fi.po audacity-src-1.2.2/locale/fi.po
  
  #: ../src/Legacy.cpp:338
  msgid "Opening Audacity Project"
-diff -urN audacity-src-1.2.2.orig/locale/fr.po audacity-src-1.2.2/locale/fr.po
---- audacity-src-1.2.2.orig/locale/fr.po	2004-08-26 05:27:33.000000000 +0200
-+++ audacity-src-1.2.2/locale/fr.po	2004-09-16 22:51:47.414280912 +0200
-@@ -636,11 +636,11 @@
+diff -aurN audacity-src-1.2.3.orig/locale/fr.po audacity-src-1.2.3/locale/fr.po
+--- audacity-src-1.2.3.orig/locale/fr.po	2004-11-18 07:17:29.000000000 +0100
++++ audacity-src-1.2.3/locale/fr.po	2004-12-05 21:44:58.048780696 +0100
+@@ -643,11 +643,11 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
  "freely available LAME library to handle MP3 file encoding.  You must \n"
@@ -272,16 +272,16 @@ diff -urN audacity-src-1.2.2.orig/locale/fr.po audacity-src-1.2.2/locale/fr.po
  msgstr ""
  "Audacity n'exporte pas directement les fichiers MP3, mais utilise � la place\n"
  "la librairie LAME gratuite pour prendre en charge l'encodage des fichiers MP3.\n"
-@@ -648,7 +648,7 @@
+@@ -655,7 +655,7 @@
  "� partir des codes source, et en indiquant ensuite son emplacement � Audacity.\n"
  "Vous n'aurez � faire ceci qu'une fois.\n"
  "\n"
 -"Voulez-vous indiquer l'emplacement de libmp3lame.so ?"
 +"Voulez-vous indiquer l'emplacement de libmp3lame.so.0 ?"
  
- #: ../src/DirManager.cpp:195
+ #: ../src/DirManager.cpp:127
  msgid ""
-@@ -2632,8 +2632,8 @@
+@@ -2784,8 +2784,8 @@
  msgstr "Seulement lame_enc.dll|lame_enc.dll|Dynamically Linked Libraries (*.dll)|*.dll|All Files (*.*)|*"
  
  #: ../src/export/ExportMP3.cpp:255
@@ -292,10 +292,10 @@ diff -urN audacity-src-1.2.2.orig/locale/fr.po audacity-src-1.2.2/locale/fr.po
  
  #: ../src/Legacy.cpp:338
  msgid "Opening Audacity Project"
-diff -urN audacity-src-1.2.2.orig/locale/hu.po audacity-src-1.2.2/locale/hu.po
---- audacity-src-1.2.2.orig/locale/hu.po	2004-08-26 05:27:33.000000000 +0200
-+++ audacity-src-1.2.2/locale/hu.po	2004-09-16 22:51:57.350770336 +0200
-@@ -638,16 +638,16 @@
+diff -aurN audacity-src-1.2.3.orig/locale/hu.po audacity-src-1.2.3/locale/hu.po
+--- audacity-src-1.2.3.orig/locale/hu.po	2004-11-18 07:17:29.000000000 +0100
++++ audacity-src-1.2.3/locale/hu.po	2004-12-05 21:44:58.317739808 +0100
+@@ -653,16 +653,16 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
  "freely available LAME library to handle MP3 file encoding.  You must \n"
@@ -314,9 +314,9 @@ diff -urN audacity-src-1.2.2.orig/locale/hu.po audacity-src-1.2.2/locale/hu.po
 +"Amennyiben m�r rendelkezel ezzel a f�jllal (libmp3lame.so.0), meg kell adnod az el�r�si �tvonal�t az Audacity sz�m�ra, ezt azonban el�g egyszer megtenned.\n"
 +"Szeretn�d magad meghat�rozni a libmp3lame.so.0 el�r�si �tvonal�t?"
  
- #: ../src/DirManager.cpp:195
+ #: ../src/DirManager.cpp:127
  msgid ""
-@@ -2605,8 +2605,8 @@
+@@ -2794,8 +2794,8 @@
  msgstr "Csak lame_enc.dll|lame_enc.dll|Dinamikusan linkelt k�nyvt�rak (*.dll)|*.dll|Minden F�jl (*.*)|*"
  
  #: ../src/export/ExportMP3.cpp:255
@@ -327,10 +327,10 @@ diff -urN audacity-src-1.2.2.orig/locale/hu.po audacity-src-1.2.2/locale/hu.po
  
  #: ../src/Legacy.cpp:338
  msgid "Opening Audacity Project"
-diff -urN audacity-src-1.2.2.orig/locale/it.po audacity-src-1.2.2/locale/it.po
---- audacity-src-1.2.2.orig/locale/it.po	2004-08-26 05:27:33.000000000 +0200
-+++ audacity-src-1.2.2/locale/it.po	2004-09-16 22:52:07.629207776 +0200
-@@ -664,19 +664,19 @@
+diff -aurN audacity-src-1.2.3.orig/locale/it.po audacity-src-1.2.3/locale/it.po
+--- audacity-src-1.2.3.orig/locale/it.po	2004-11-18 07:17:29.000000000 +0100
++++ audacity-src-1.2.3/locale/it.po	2004-12-05 21:44:58.568701656 +0100
+@@ -644,16 +644,16 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
  "freely available LAME library to handle MP3 file encoding.  You must \n"
@@ -342,34 +342,29 @@ diff -urN audacity-src-1.2.2.orig/locale/it.po audacity-src-1.2.2/locale/it.po
 -"Would you like to locate libmp3lame.so now?"
 +"Would you like to locate libmp3lame.so.0 now?"
  msgstr ""
- "Audacity non esporta direttamente in file MP3 ma invece usa la libreria LAME "
- "per la codifica\n"
--"E' necessario ottenere il libmp3lame.so separatamente scaricandolo e "
-+"E' necessario ottenere il libmp3lame.so.0 separatamente scaricandolo e "
- "compilandolo dai sorgenti  e localizzare questo file per Audacity.  Lo devi "
- "fare solo una volta.\n"
+ "Audacity non esporta direttamente in file MP3 ma invece usa la libreria LAME per la codifica\n"
+-"E' necessario ottenere il libmp3lame.so separatamente scaricandolo e compilandolo dai sorgenti  e localizzare questo file per Audacity.  Lo devi fare solo una volta.\n"
++"E' necessario ottenere il libmp3lame.so.0 separatamente scaricandolo e compilandolo dai sorgenti  e localizzare questo file per Audacity.  Lo devi fare solo una volta.\n"
  "\n"
 -"Desideri cercare ora libmp3lame.so?"
 +"Desideri cercare ora libmp3lame.so.0?"
  
- #: ../src/DirManager.cpp:195
+ #: ../src/DirManager.cpp:127
  msgid ""
-@@ -2640,10 +2640,10 @@
+@@ -2771,8 +2771,8 @@
+ msgstr "Solo lame_enc.dll|lame_enc.dll|Librerie a collegamento dinamico (*.dll)|*.dll|All Files (*.*)|*"
  
  #: ../src/export/ExportMP3.cpp:255
- msgid ""
--"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
- "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
- msgstr ""
--"Solo libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Solo libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
- "Librerie estese (*.so*)|*.so*|All Files (*)|*"
+-msgid "Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
+-msgstr "Solo libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|Librerie estese (*.so*)|*.so*|All Files (*)|*"
++msgid "Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
++msgstr "Solo libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|Librerie estese (*.so*)|*.so*|All Files (*)|*"
  
  #: ../src/Legacy.cpp:338
-diff -urN audacity-src-1.2.2.orig/locale/ja.po audacity-src-1.2.2/locale/ja.po
---- audacity-src-1.2.2.orig/locale/ja.po	2004-08-26 05:27:33.000000000 +0200
-+++ audacity-src-1.2.2/locale/ja.po	2004-09-16 22:52:15.265046952 +0200
+ msgid "Opening Audacity Project"
+diff -aurN audacity-src-1.2.3.orig/locale/ja.po audacity-src-1.2.3/locale/ja.po
+--- audacity-src-1.2.3.orig/locale/ja.po	2004-11-18 07:17:29.000000000 +0100
++++ audacity-src-1.2.3/locale/ja.po	2004-12-05 21:44:58.814664264 +0100
 @@ -637,17 +637,17 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -403,9 +398,9 @@ diff -urN audacity-src-1.2.2.orig/locale/ja.po audacity-src-1.2.2/locale/ja.po
  
  #: ../src/Legacy.cpp:338
  msgid "Opening Audacity Project"
-diff -urN audacity-src-1.2.2.orig/locale/mk.po audacity-src-1.2.2/locale/mk.po
---- audacity-src-1.2.2.orig/locale/mk.po	2004-08-26 05:27:33.000000000 +0200
-+++ audacity-src-1.2.2/locale/mk.po	2004-09-16 22:52:22.382964864 +0200
+diff -aurN audacity-src-1.2.3.orig/locale/mk.po audacity-src-1.2.3/locale/mk.po
+--- audacity-src-1.2.3.orig/locale/mk.po	2004-11-18 07:17:29.000000000 +0100
++++ audacity-src-1.2.3/locale/mk.po	2004-12-05 21:44:59.091622160 +0100
 @@ -678,19 +678,19 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -443,10 +438,10 @@ diff -urN audacity-src-1.2.2.orig/locale/mk.po audacity-src-1.2.2/locale/mk.po
  "зајакнати библиотеки (*.so*)|*.so*|сите датотеки (*)|*"
  
  #: ../src/Legacy.cpp:338
-diff -urN audacity-src-1.2.2.orig/locale/nb.po audacity-src-1.2.2/locale/nb.po
---- audacity-src-1.2.2.orig/locale/nb.po	2004-08-26 05:27:33.000000000 +0200
-+++ audacity-src-1.2.2/locale/nb.po	2004-09-16 22:52:28.162086304 +0200
-@@ -650,19 +650,19 @@
+diff -aurN audacity-src-1.2.3.orig/locale/nb.po audacity-src-1.2.3/locale/nb.po
+--- audacity-src-1.2.3.orig/locale/nb.po	2004-11-18 07:17:29.000000000 +0100
++++ audacity-src-1.2.3/locale/nb.po	2004-12-05 21:44:59.358581576 +0100
+@@ -661,19 +661,19 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
  "freely available LAME library to handle MP3 file encoding.  You must \n"
@@ -468,9 +463,9 @@ diff -urN audacity-src-1.2.2.orig/locale/nb.po audacity-src-1.2.2/locale/nb.po
 -"Vil du finne libmp3lame.so n�?"
 +"Vil du finne libmp3lame.so.0 n�?"
  
- #: ../src/DirManager.cpp:195
+ #: ../src/DirManager.cpp:127
  msgid ""
-@@ -2664,8 +2664,8 @@
+@@ -2826,8 +2826,8 @@
  msgstr "Bare lame_enc.dll|lame_enc.dll|Dynamisk lenkede bibliotek (*.dll)|*.dll|Alle filer (*.*)|*"
  
  #: ../src/export/ExportMP3.cpp:255
@@ -481,9 +476,9 @@ diff -urN audacity-src-1.2.2.orig/locale/nb.po audacity-src-1.2.2/locale/nb.po
  
  #: ../src/Legacy.cpp:338
  msgid "Opening Audacity Project"
-diff -urN audacity-src-1.2.2.orig/locale/nl.po audacity-src-1.2.2/locale/nl.po
---- audacity-src-1.2.2.orig/locale/nl.po	2004-08-26 05:27:33.000000000 +0200
-+++ audacity-src-1.2.2/locale/nl.po	2004-09-16 22:52:35.953901768 +0200
+diff -aurN audacity-src-1.2.3.orig/locale/nl.po audacity-src-1.2.3/locale/nl.po
+--- audacity-src-1.2.3.orig/locale/nl.po	2004-11-18 07:17:29.000000000 +0100
++++ audacity-src-1.2.3/locale/nl.po	2004-12-05 21:44:59.653536736 +0100
 @@ -693,20 +693,20 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -522,10 +517,10 @@ diff -urN audacity-src-1.2.2.orig/locale/nl.po audacity-src-1.2.2/locale/nl.po
  "Uitgebreide bibliotheken (*.so)|*.so*|Alle Bestanden (*)|*"
  
  #: ../src/Legacy.cpp:338
-diff -urN audacity-src-1.2.2.orig/locale/pl.po audacity-src-1.2.2/locale/pl.po
---- audacity-src-1.2.2.orig/locale/pl.po	2004-08-26 05:27:33.000000000 +0200
-+++ audacity-src-1.2.2/locale/pl.po	2004-09-16 22:52:44.408616456 +0200
-@@ -664,19 +664,19 @@
+diff -aurN audacity-src-1.2.3.orig/locale/pl.po audacity-src-1.2.3/locale/pl.po
+--- audacity-src-1.2.3.orig/locale/pl.po	2004-11-18 07:17:29.000000000 +0100
++++ audacity-src-1.2.3/locale/pl.po	2004-12-05 21:44:59.917496608 +0100
+@@ -650,19 +650,19 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
  "freely available LAME library to handle MP3 file encoding.  You must \n"
@@ -547,24 +542,22 @@ diff -urN audacity-src-1.2.2.orig/locale/pl.po audacity-src-1.2.2/locale/pl.po
 -"Czy chcia�by� okre�li� po�o�enie libmp3lame.so teraz?"
 +"Czy chcia�by� okre�li� po�o�enie libmp3lame.so.0 teraz?"
  
- #: ../src/DirManager.cpp:195
+ #: ../src/DirManager.cpp:127
  msgid ""
-@@ -2621,10 +2621,10 @@
+@@ -2780,8 +2780,8 @@
+ msgstr "Tylko lame_enc.dll|lame_enc.dll|Biblioteki dynamiczne (*.dll)|*.dll|All Files (*.*)|*"
  
  #: ../src/export/ExportMP3.cpp:255
- msgid ""
--"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
- "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
- msgstr ""
--"Tylko libmp3lame.so|libmp3lame.so|Podstawowe biblioteki wsp�dzielone (*.so)|*.so|"
-+"Tylko libmp3lame.so.0|libmp3lame.so.0|Podstawowe biblioteki wsp�dzielone (*.so)|*.so|"
- "Biblioteki rozszerzaj�ce (*.so*)|*.so*|All Files (*)|*"
+-msgid "Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
+-msgstr "Tylko libmp3lame.so|libmp3lame.so|Podstawowe biblioteki wsp�dzielone (*.so)|*.so|Biblioteki rozszerzaj�ce (*.so*)|*.so*|All Files (*)|*"
++msgid "Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
++msgstr "Tylko libmp3lame.so.0|libmp3lame.so.0|Podstawowe biblioteki wsp�dzielone (*.so)|*.so|Biblioteki rozszerzaj�ce (*.so*)|*.so*|All Files (*)|*"
  
  #: ../src/Legacy.cpp:338
-diff -urN audacity-src-1.2.2.orig/locale/pt.po audacity-src-1.2.2/locale/pt.po
---- audacity-src-1.2.2.orig/locale/pt.po	2004-08-26 05:27:33.000000000 +0200
-+++ audacity-src-1.2.2/locale/pt.po	2004-09-16 22:53:10.171699872 +0200
+ msgid "Opening Audacity Project"
+diff -aurN audacity-src-1.2.3.orig/locale/pt.po audacity-src-1.2.3/locale/pt.po
+--- audacity-src-1.2.3.orig/locale/pt.po	2004-11-18 07:17:29.000000000 +0100
++++ audacity-src-1.2.3/locale/pt.po	2004-12-05 21:45:00.171458000 +0100
 @@ -645,19 +645,19 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -600,10 +593,10 @@ diff -urN audacity-src-1.2.2.orig/locale/pt.po audacity-src-1.2.2/locale/pt.po
  
  #: ../src/Legacy.cpp:338
  msgid "Opening Audacity Project"
-diff -urN audacity-src-1.2.2.orig/locale/ru.po audacity-src-1.2.2/locale/ru.po
---- audacity-src-1.2.2.orig/locale/ru.po	2004-08-26 05:27:33.000000000 +0200
-+++ audacity-src-1.2.2/locale/ru.po	2004-09-16 22:53:18.534428544 +0200
-@@ -677,20 +677,20 @@
+diff -aurN audacity-src-1.2.3.orig/locale/ru.po audacity-src-1.2.3/locale/ru.po
+--- audacity-src-1.2.3.orig/locale/ru.po	2004-11-18 07:17:30.000000000 +0100
++++ audacity-src-1.2.3/locale/ru.po	2004-12-05 21:45:00.437417568 +0100
+@@ -680,20 +680,20 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
  "freely available LAME library to handle MP3 file encoding.  You must \n"
@@ -628,7 +621,7 @@ diff -urN audacity-src-1.2.2.orig/locale/ru.po audacity-src-1.2.2/locale/ru.po
  
  #: ../src/DirManager.cpp:127
  msgid ""
-@@ -2821,10 +2821,10 @@
+@@ -2831,10 +2831,10 @@
  
  #: ../src/export/ExportMP3.cpp:255
  msgid ""
@@ -641,9 +634,9 @@ diff -urN audacity-src-1.2.2.orig/locale/ru.po audacity-src-1.2.2/locale/ru.po
  "���������� (*.so)|*.so|����������� ���������� (*.so*)|*.so*| ��� ����� (*)|*"
  
  #: ../src/Legacy.cpp:338
-diff -urN audacity-src-1.2.2.orig/locale/sl.po audacity-src-1.2.2/locale/sl.po
---- audacity-src-1.2.2.orig/locale/sl.po	2004-08-26 05:27:33.000000000 +0200
-+++ audacity-src-1.2.2/locale/sl.po	2004-09-16 22:53:27.218108424 +0200
+diff -aurN audacity-src-1.2.3.orig/locale/sl.po audacity-src-1.2.3/locale/sl.po
+--- audacity-src-1.2.3.orig/locale/sl.po	2004-11-18 07:17:30.000000000 +0100
++++ audacity-src-1.2.3/locale/sl.po	2004-12-05 21:45:00.721374400 +0100
 @@ -703,18 +703,18 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -680,15 +673,9 @@ diff -urN audacity-src-1.2.2.orig/locale/sl.po audacity-src-1.2.2/locale/sl.po
  "datoteke (*)|*"
  
  #: ../src/Legacy.cpp:338
-diff -urN audacity-src-1.2.2.orig/locale/sv.po audacity-src-1.2.2/locale/sv.po
---- audacity-src-1.2.2.orig/locale/sv.po	2004-08-26 05:27:33.000000000 +0200
-+++ audacity-src-1.2.2/locale/sv.po	2004-09-16 22:53:45.732293840 +0200
-@@ -1,4 +1,4 @@
--# SOME DESCRIPTIVE TITLE.
-+
- # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
- # This file is distributed under the same license as the PACKAGE package.
- # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+diff -aurN audacity-src-1.2.3.orig/locale/sv.po audacity-src-1.2.3/locale/sv.po
+--- audacity-src-1.2.3.orig/locale/sv.po	2004-11-18 07:17:30.000000000 +0100
++++ audacity-src-1.2.3/locale/sv.po	2004-12-05 21:45:00.984334424 +0100
 @@ -645,19 +645,19 @@
  msgid ""
  "Audacity does not export MP3 files directly, but instead uses the \n"
@@ -724,9 +711,88 @@ diff -urN audacity-src-1.2.2.orig/locale/sv.po audacity-src-1.2.2/locale/sv.po
  
  #: ../src/Legacy.cpp:338
  msgid "Opening Audacity Project"
-diff -urN audacity-src-1.2.2.orig/src/export/ExportMP3.cpp audacity-src-1.2.2/src/export/ExportMP3.cpp
---- audacity-src-1.2.2.orig/src/export/ExportMP3.cpp	2004-08-26 05:27:34.000000000 +0200
-+++ audacity-src-1.2.2/src/export/ExportMP3.cpp	2004-09-16 22:49:08.000000000 +0200
+diff -aurN audacity-src-1.2.3.orig/locale/uk.po audacity-src-1.2.3/locale/uk.po
+--- audacity-src-1.2.3.orig/locale/uk.po	2004-11-18 07:17:30.000000000 +0100
++++ audacity-src-1.2.3/locale/uk.po	2004-12-05 21:45:01.257292928 +0100
+@@ -669,19 +669,19 @@
+ msgid ""
+ "Audacity does not export MP3 files directly, but instead uses the \n"
+ "freely available LAME library to handle MP3 file encoding.  You must \n"
+-"obtain libmp3lame.so separately, either by downloading it or building \n"
++"obtain libmp3lame.so.0 separately, either by downloading it or building \n"
+ "it from the sources, and then locate the file for Audacity.  You only \n"
+ "need to do this once.\n"
+ "\n"
+-"Would you like to locate libmp3lame.so now?"
++"Would you like to locate libmp3lame.so.0 now?"
+ msgstr ""
+ "Audacity не експортує дані у MP3 файли безпосередньо, натомість \n"
+ "використовується LAME -- бібліотека експорту у MP3. Необхідно отримати\n"
+-"файл libmp3lame.so, або завантаживши файл, або ж скопмілювавши його з\n"
++"файл libmp3lame.so.0, або завантаживши файл, або ж скопмілювавши його з\n"
+ "вихідного коду, а потім вказати програмі Audacity розташування цього файлу.\n"
+ "Це необхідно зробити лише один раз.\n"
+ "\n"
+-"Бажаєте вказати розташування libmp3lame.so?"
++"Бажаєте вказати розташування libmp3lame.so.0?"
+ 
+ #: ../src/DirManager.cpp:127
+ msgid ""
+@@ -2783,10 +2783,10 @@
+ 
+ #: ../src/export/ExportMP3.cpp:255
+ msgid ""
+-"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
+ "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
+ msgstr ""
+-"Лише libmp3lame.so|libmp3lame.so|Первинні спільні бібліотеки (*.so)|*.so|"
++"Лише libmp3lame.so.0|libmp3lame.so.0|Первинні спільні бібліотеки (*.so)|*.so|"
+ "Розширені бібліотеки (*.so*)|*.so*|Усі файли (*)|*"
+ 
+ #: ../src/Legacy.cpp:338
+diff -aurN audacity-src-1.2.3.orig/locale/zh.po audacity-src-1.2.3/locale/zh.po
+--- audacity-src-1.2.3.orig/locale/zh.po	2004-11-18 07:17:30.000000000 +0100
++++ audacity-src-1.2.3/locale/zh.po	2004-12-05 21:45:01.517253408 +0100
+@@ -664,18 +664,18 @@
+ msgid ""
+ "Audacity does not export MP3 files directly, but instead uses the \n"
+ "freely available LAME library to handle MP3 file encoding.  You must \n"
+-"obtain libmp3lame.so separately, either by downloading it or building \n"
++"obtain libmp3lame.so.0 separately, either by downloading it or building \n"
+ "it from the sources, and then locate the file for Audacity.  You only \n"
+ "need to do this once.\n"
+ "\n"
+-"Would you like to locate libmp3lame.so now?"
++"Would you like to locate libmp3lame.so.0 now?"
+ msgstr ""
+ "Audacity不能直接导出MP3文件，而是使用免费的\n"
+ "LAME库来处理MP3文件的编码。您必须另外获得\n"
+-"LAME MP3编码器(libmp3lame.so，该文件可以下载或者通过源代码编译得到)，\n"
++"LAME MP3编码器(libmp3lame.so.0，该文件可以下载或者通过源代码编译得到)，\n"
+ "然后告诉Audacity此文件的位置。此操作只需要执行一次即可。\n"
+ "\n"
+-"您要现在定位libmp3lame.so吗？"
++"您要现在定位libmp3lame.so.0吗？"
+ 
+ #: ../src/DirManager.cpp:127
+ msgid ""
+@@ -2777,10 +2777,10 @@
+ 
+ #: ../src/export/ExportMP3.cpp:255
+ msgid ""
+-"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
+ "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
+ msgstr ""
+-"仅限libmp3lame.so|libmp3lame.so|主要的共享目标文件(*.so)|*.so|"
++"仅限libmp3lame.so.0|libmp3lame.so.0|主要的共享目标文件(*.so)|*.so|"
+ "扩展库(*.so*)|*.so*|全部文件(*)|*"
+ 
+ #: ../src/Legacy.cpp:338
+diff -aurN audacity-src-1.2.3.orig/src/export/ExportMP3.cpp audacity-src-1.2.3/src/export/ExportMP3.cpp
+--- audacity-src-1.2.3.orig/src/export/ExportMP3.cpp	2004-11-18 07:17:30.000000000 +0100
++++ audacity-src-1.2.3/src/export/ExportMP3.cpp	2004-12-05 21:44:46.516533864 +0100
 @@ -247,12 +247,12 @@
  
           wxString GetLibraryName()
