@@ -1,0 +1,3485 @@
+diff -ruN audacity-src-0.98.orig/Help.cpp audacity-src-0.98/Help.cpp
+--- audacity-src-0.98.orig/Help.cpp	Tue Jan 22 06:14:15 2002
++++ audacity-src-0.98/Help.cpp	Sun May 12 07:38:51 2002
+@@ -48,6 +48,7 @@
+ 
+ #else
+ 
++#include <wx/generic/filedlgg.h>
+ #include <wx/filedlg.h>
+ #include <wx/msgdlg.h>
+ #include <wx/textdlg.h>
+diff -ruN audacity-src-0.98.orig/Help.cpp.orig audacity-src-0.98/Help.cpp.orig
+--- audacity-src-0.98.orig/Help.cpp.orig	Thu Jan  1 00:00:00 1970
++++ audacity-src-0.98/Help.cpp.orig	Sat May 11 21:00:55 2002
+@@ -0,0 +1,191 @@
++/**********************************************************************
++
++  Audacity: A Digital Audio Editor
++
++  Help.cpp
++
++  Dominic Mazzoni
++
++  Audacity uses the wxWindows HTML help controller and gets the
++  HTML files from a zip archive with a "htb" extension, which
++  is supposed to stand for "HTML Book".  It expects the help
++  file to be called "audacity-help.htb".
++
++  If you want to edit the help file, unzip audacity-help.htb
++  (rename it to audacity-help.zip first if you have to), edit
++  the files, and then zip them again.  Audacity asks the user
++  for the location of the help file the first time and then
++  remembers it from then on.
++
++**********************************************************************/
++
++#ifdef foo___WXMAC__
++
++void InitHelp(wxWindow * parent)
++{
++}
++
++void ShowHelp(wxWindow * parent)
++{
++}
++
++void ShowHelpIndex(wxWindow * parent)
++{
++}
++
++void ShowHelp(wxWindow * parent, wxString topic)
++{
++}
++
++void SearchHelp(wxWindow * parent)
++{
++}
++
++void QuitHelp()
++{
++}
++
++
++#else
++
++#include <wx/generic/filedlgg.h>
++#include <wx/filedlg.h>
++#include <wx/msgdlg.h>
++#include <wx/textdlg.h>
++#include <wx/html/helpctrl.h>
++
++#include "Help.h"
++#include "Prefs.h"
++
++wxHtmlHelpController *gHelp = NULL;
++
++void SetHelpFile(wxWindow * parent)
++{
++   if (gHelp) {
++      delete gHelp;
++      gHelp = NULL;
++   }
++
++   wxString helpFilePath = gPrefs->Read("/Help/HelpFilePath", "");
++   wxString searchPath;
++   if (::wxFileExists(helpFilePath))
++      searchPath = ::wxPathOnly(helpFilePath);
++
++   helpFilePath = wxFileSelector("Where is audacity-help.htb?",
++                                 searchPath,
++                                 "audacity-help.htb",  // Name
++                                 "",                   // Extension
++                                 "HTML Help Books (*.htb)|*.htb",
++                                 wxOPEN, parent);
++   if (helpFilePath == "")
++      return;
++
++   gHelp = new wxHtmlHelpController();
++   if (!gHelp->AddBook(helpFilePath)) {
++      wxMessageBox("Couldn't open the Audacity Help file.");
++      delete gHelp;
++      gHelp = NULL;
++      return;
++   }
++   
++   gPrefs->Write("/Help/HelpFilePath", helpFilePath);   
++
++   wxMessageBox("Help file loaded successfully.");
++}
++
++void InitHelp(wxWindow * parent)
++{
++   if (!gHelp) {
++      wxArrayString paths;
++      wxString helpFilePath = "";
++
++      wxString storedPath =
++         gPrefs->Read("/Help/HelpFilePath", "");
++      if (storedPath != "")
++         paths.Add(storedPath);
++
++      paths.Add(wxGetCwd() + wxFILE_SEP_PATH + "audacity-help.htb");
++
++      #ifdef __WXGTK__
++      paths.Add("/usr/X11R6/share/audacity/audacity-help.htb");
++      #endif
++
++      #ifdef __WXMSW__
++      paths.Add("C:\\Program Files\\Audacity\\audacity-help.htb");
++      #endif
++
++      for(int i=0; i<paths.GetCount() && helpFilePath==""; i++) {
++         if (::wxFileExists(paths[i]))
++            helpFilePath = paths[i];
++      }
++
++      if (helpFilePath == "") {
++         helpFilePath = wxFileSelector("Where is audacity-help.htb?",
++                                       NULL,
++                                       "audacity-help.htb",  // Name
++                                       "",                   // Extension
++                                       "HTML Help Books (*.htb)|*.htb",
++                                       wxOPEN, parent);
++         if (helpFilePath == "")
++            return;
++      }
++
++      gHelp = new wxHtmlHelpController();
++      if (!gHelp->AddBook(helpFilePath)) {
++         wxMessageBox("Couldn't open the Audacity Help file.");
++         delete gHelp;
++         gHelp = NULL;
++      }
++
++      gPrefs->Write("/Help/HelpFilePath", helpFilePath);
++   }
++}
++
++void ShowHelp(wxWindow * parent)
++{
++   InitHelp(parent);
++
++   if (gHelp)
++      gHelp->Display("Main");
++}
++
++void ShowHelpIndex(wxWindow * parent)
++{
++   InitHelp(parent);
++
++   if (gHelp)
++      gHelp->DisplayIndex();
++}
++
++void ShowHelp(wxWindow * parent, wxString topic)
++{
++   InitHelp(parent);
++
++   if (gHelp)
++      gHelp->KeywordSearch(topic);
++}
++
++void SearchHelp(wxWindow * parent)
++{
++   InitHelp(parent);
++
++   if (gHelp) {
++      wxString key = wxGetTextFromUser("Search for?",
++                                       "Search help for keyword",
++                                       "",
++                                       parent);
++
++      if (!key.IsEmpty())
++         gHelp->KeywordSearch(key);
++   }
++}
++
++void QuitHelp()
++{
++   if (gHelp) {
++      delete gHelp;
++      gHelp = NULL;
++   }
++}
++
++#endif
+diff -ruN audacity-src-0.98.orig/Import.cpp audacity-src-0.98/Import.cpp
+--- audacity-src-0.98.orig/Import.cpp	Tue Jan 22 06:14:15 2002
++++ audacity-src-0.98/Import.cpp	Sat May 11 21:30:22 2002
+@@ -23,6 +23,7 @@
+ #include "ImportMP3.h"
+ #include "ImportOGG.h"
+ #include "ImportRaw.h"
++#include "Mess.h"
+ 
+ #include "Project.h"
+ 
+diff -ruN audacity-src-0.98.orig/ImportRaw.cpp audacity-src-0.98/ImportRaw.cpp
+--- audacity-src-0.98.orig/ImportRaw.cpp	Tue Jan 22 06:14:15 2002
++++ audacity-src-0.98/ImportRaw.cpp	Sat May 11 21:46:43 2002
+@@ -10,7 +10,7 @@
+ 
+ #include <math.h>
+ 
+-#include <wx/button.h>
++#include <wx/gtk/button.h>
+ #include <wx/dc.h>
+ #include <wx/dcmemory.h>
+ #include <wx/file.h>
+diff -ruN audacity-src-0.98.orig/Makefile audacity-src-0.98/Makefile
+--- audacity-src-0.98.orig/Makefile	Thu Jan  1 00:00:00 1970
++++ audacity-src-0.98/Makefile	Sat May 11 22:09:31 2002
+@@ -0,0 +1,189 @@
++########################################
++#
++# Audacity Makefile
++#
++# Dominic Mazzoni
++#
++# Run configure to generate Makefile
++# from Makefile.in
++#
++
++LIBS =  -lmad -lvorbisfile -lvorbis -logg -lid3 -L/usr/X11R6/lib -s -lwx_gtk-2.3
++CFLAGS = -O2 -march=i686 -fno-exceptions -fno-rtti -I/usr/X11R6/lib/wx/include/gtk-2.3 -I/usr/X11R6/include -DGTK_NO_CHECK_CASTS -D__WXGTK__ -D_REENTRANT  -Iallegro
++CCC = g++
++CC = i686-pld-linux-gcc
++
++INSTALL = /usr/bin/install -c
++PREFIX = /usr/X11R6
++
++########################################
++# ALL OBJECT FILES
++
++OBJDIR = obj
++
++OBJS = \
++	$(OBJDIR)/AButton.cpp.o \
++	$(OBJDIR)/AColor.cpp.o \
++	$(OBJDIR)/APalette.cpp.o \
++	$(OBJDIR)/ASlider.cpp.o \
++	$(OBJDIR)/AStatus.cpp.o \
++	$(OBJDIR)/AboutDialog.cpp.o \
++	$(OBJDIR)/AudacityApp.cpp.o \
++	$(OBJDIR)/AudioIO.cpp.o \
++	$(OBJDIR)/BlockFile.cpp.o \
++	$(OBJDIR)/DirManager.cpp.o \
++	$(OBJDIR)/DiskFunctions.cpp.o \
++	$(OBJDIR)/Envelope.cpp.o \
++	$(OBJDIR)/Export.cpp.o \
++	$(OBJDIR)/ExportMP3.cpp.o \
++	$(OBJDIR)/ExportPCM.cpp.o \
++	$(OBJDIR)/FFT.cpp.o \
++	$(OBJDIR)/FreqWindow.cpp.o \
++	$(OBJDIR)/Help.cpp.o \
++	$(OBJDIR)/Import.cpp.o \
++	$(OBJDIR)/ImportMIDI.cpp.o \
++	$(OBJDIR)/ImportMP3.cpp.o \
++	$(OBJDIR)/ImportOGG.cpp.o \
++	$(OBJDIR)/ImportPCM.cpp.o \
++	$(OBJDIR)/ImportRaw.cpp.o \
++	$(OBJDIR)/LabelTrack.cpp.o \
++	$(OBJDIR)/Menus.cpp.o \
++	$(OBJDIR)/Mix.cpp.o \
++	$(OBJDIR)/NoteTrack.cpp.o \
++	$(OBJDIR)/Prefs.cpp.o \
++	$(OBJDIR)/Project.cpp.o \
++	$(OBJDIR)/Spectrum.cpp.o \
++	$(OBJDIR)/Tags.cpp.o \
++	$(OBJDIR)/Track.cpp.o \
++	$(OBJDIR)/TrackArtist.cpp.o \
++	$(OBJDIR)/TrackPanel.cpp.o \
++	$(OBJDIR)/UndoManager.cpp.o \
++	$(OBJDIR)/WaveTrack.cpp.o \
++	$(OBJDIR)/allegro/allegro.cpp.o \
++	$(OBJDIR)/allegro/allegrowr.cpp.o \
++	$(OBJDIR)/allegro/mfallegro.cpp.o \
++	$(OBJDIR)/allegro/mfmidi.cpp.o \
++	$(OBJDIR)/allegro/strparse.cpp.o \
++	$(OBJDIR)/allegro/stimelinux.c.o \
++	$(OBJDIR)/effects/Effect.cpp.o \
++	$(OBJDIR)/effects/Amplify.cpp.o \
++	$(OBJDIR)/effects/BassBoost.cpp.o \
++	$(OBJDIR)/effects/Echo.cpp.o \
++	$(OBJDIR)/effects/Fade.cpp.o \
++	$(OBJDIR)/effects/Filter.cpp.o \
++	$(OBJDIR)/effects/Invert.cpp.o \
++	$(OBJDIR)/effects/NoiseRemoval.cpp.o \
++	$(OBJDIR)/effects/Phaser.cpp.o \
++	$(OBJDIR)/effects/Reverse.cpp.o \
++	$(OBJDIR)/effects/Wahwah.cpp.o \
++	$(OBJDIR)/snd/ieeecvt.c.o \
++	$(OBJDIR)/snd/snd.c.o \
++	$(OBJDIR)/snd/sndheader.c.o \
++	$(OBJDIR)/snd/sndlinux.c.o \
++	$(OBJDIR)/snd/sndcvt.c.o \
++	$(OBJDIR)/snd/sndio.c.o \
++	$(OBJDIR)/prefs/PrefsDialog.cpp.o \
++	$(OBJDIR)/prefs/AudioIOPrefs.cpp.o \
++	$(OBJDIR)/prefs/SampleRatePrefs.cpp.o \
++	$(OBJDIR)/prefs/FileFormatPrefs.cpp.o \
++	$(OBJDIR)/prefs/DirectoriesPrefs.cpp.o \
++	$(OBJDIR)/prefs/SpectrumPrefs.cpp.o \
++	 $(OBJDIR)/snd/audiooss.c.o
++
++########################################
++# DEPENDENCIES
++
++DEPS = $(OBJS:$(OBJDIR)/%.o=%)
++
++########################################
++
++all: dirs  audacity-help.htb audacity
++
++audacity: $(OBJS) Makefile
++	$(CCC) -o audacity $(OBJS) $(LIBS)
++
++#
++#
++install:
++	-test -d $(PREFIX)/share/doc/audacity || \
++		mkdir -m 755 -p $(PREFIX)/share/doc/audacity
++	-test -f audacity-help.htb || $(INSTALL) -m 644 audacity-help.htb \
++		$(PREFIX)/share/doc/audacity/audacity-help.htb
++	$(INSTALL) -m 644 README.txt $(PREFIX)/share/doc/audacity/README.txt
++	$(INSTALL) -m 644 LICENSE.txt $(PREFIX)/share/doc/audacity/LICENSE.txt
++	-test -d $(PREFIX)/bin || \
++		mkdir -m 755 -p $(PREFIX)/bin
++	$(INSTALL) -m 755 audacity $(PREFIX)/bin/audacity
++
++#
++# make help file from the help directory
++audacity-help.htb: help/* help/images/*
++	rm -f audacity-help.htb
++	cd help && zip ../audacity-help.htb *.htm images/*.png *.hhc *.hhk *.hhp
++
++#
++# build id3lib from included source -- only if selected in configure script
++id3lib/src/.libs/libid3.a:
++	-test -f id3lib/Makefile || \
++		(cd id3lib && chmod u+x configure && ./configure)
++	cd id3lib && $(MAKE)
++
++#
++# rule for building libmpeg3 -- however, it's only built if selected in
++# the configure script
++mpeg3/libmpeg3.a:
++	$(MAKE) -C mpeg3
++
++#
++# You can optionally "make dep" to make dependencies.
++# voodoo magic in the form of a perl script turns
++# Foo.o: Foo.cpp into obj/Foo.cpp.o: Foo.cpp
++#
++# I'm not brave enough to try and translate that regex to sed
++
++dep:
++	$(CCC) -M $(CFLAGS) $(DEPS) | \
++		perl -pe 's/^(.*)\.o: ([^\/]*\/)??([^ \/]+\.(\w+))/$(OBJDIR)\/$$2$$1.$$4.o: $$2$$3/;' \
++		> .depend
++
++#
++# clean: Get rid of executable, dependencies, and all object files
++#
++
++clean:
++	rm -f audacity audacity-help.htb .depend
++	rm -rf obj/
++	rm -f mpeg3/libmpeg3.a:
++	cd id3lib && $(MAKE) clean
++
++#
++# We stick object files in separate directories for convenience
++#
++
++DIRS = \
++	$(OBJDIR) $(OBJDIR)/effects $(OBJDIR)/snd \
++	$(OBJDIR)/prefs $(OBJDIR)/allegro
++
++dirs: $(DIRS)
++
++$(DIRS): %: 
++	mkdir $@
++
++#
++# Rules for compiling C/C++ files
++#
++
++$(OBJDIR)/%.cpp.o: %.cpp
++	$(CCC) -c $(CFLAGS) $< -o $@
++
++$(OBJDIR)/%.c.o: %.c
++	$(CC) -c $(CFLAGS) $< -o $@
++
++#
++# Include ".depend" if it exists (run "make dep" to generate it)
++#
++
++ifeq (.depend,$(wildcard .depend))
++include .depend
++endif
++
+diff -ruN audacity-src-0.98.orig/Makefile.old audacity-src-0.98/Makefile.old
+--- audacity-src-0.98.orig/Makefile.old	Thu Jan  1 00:00:00 1970
++++ audacity-src-0.98/Makefile.old	Sat May 11 22:09:13 2002
+@@ -0,0 +1,189 @@
++########################################
++#
++# Audacity Makefile
++#
++# Dominic Mazzoni
++#
++# Run configure to generate Makefile
++# from Makefile.in
++#
++
++LIBS =  -lmad -lvorbisfile -lvorbis -logg -lid3 -L/usr/X11R6/lib -s -lwx_gtk-2.3
++CFLAGS = -O2 -march=i686 -I/usr/X11R6/lib/wx/include/gtk-2.3 -I/usr/X11R6/include -DGTK_NO_CHECK_CASTS -D__WXGTK__ -D_REENTRANT  -Iallegro
++CCC = g++
++CC = i686-pld-linux-gcc
++
++INSTALL = /usr/bin/install -c
++PREFIX = /usr/X11R6
++
++########################################
++# ALL OBJECT FILES
++
++OBJDIR = obj
++
++OBJS = \
++	$(OBJDIR)/AButton.cpp.o \
++	$(OBJDIR)/AColor.cpp.o \
++	$(OBJDIR)/APalette.cpp.o \
++	$(OBJDIR)/ASlider.cpp.o \
++	$(OBJDIR)/AStatus.cpp.o \
++	$(OBJDIR)/AboutDialog.cpp.o \
++	$(OBJDIR)/AudacityApp.cpp.o \
++	$(OBJDIR)/AudioIO.cpp.o \
++	$(OBJDIR)/BlockFile.cpp.o \
++	$(OBJDIR)/DirManager.cpp.o \
++	$(OBJDIR)/DiskFunctions.cpp.o \
++	$(OBJDIR)/Envelope.cpp.o \
++	$(OBJDIR)/Export.cpp.o \
++	$(OBJDIR)/ExportMP3.cpp.o \
++	$(OBJDIR)/ExportPCM.cpp.o \
++	$(OBJDIR)/FFT.cpp.o \
++	$(OBJDIR)/FreqWindow.cpp.o \
++	$(OBJDIR)/Help.cpp.o \
++	$(OBJDIR)/Import.cpp.o \
++	$(OBJDIR)/ImportMIDI.cpp.o \
++	$(OBJDIR)/ImportMP3.cpp.o \
++	$(OBJDIR)/ImportOGG.cpp.o \
++	$(OBJDIR)/ImportPCM.cpp.o \
++	$(OBJDIR)/ImportRaw.cpp.o \
++	$(OBJDIR)/LabelTrack.cpp.o \
++	$(OBJDIR)/Menus.cpp.o \
++	$(OBJDIR)/Mix.cpp.o \
++	$(OBJDIR)/NoteTrack.cpp.o \
++	$(OBJDIR)/Prefs.cpp.o \
++	$(OBJDIR)/Project.cpp.o \
++	$(OBJDIR)/Spectrum.cpp.o \
++	$(OBJDIR)/Tags.cpp.o \
++	$(OBJDIR)/Track.cpp.o \
++	$(OBJDIR)/TrackArtist.cpp.o \
++	$(OBJDIR)/TrackPanel.cpp.o \
++	$(OBJDIR)/UndoManager.cpp.o \
++	$(OBJDIR)/WaveTrack.cpp.o \
++	$(OBJDIR)/allegro/allegro.cpp.o \
++	$(OBJDIR)/allegro/allegrowr.cpp.o \
++	$(OBJDIR)/allegro/mfallegro.cpp.o \
++	$(OBJDIR)/allegro/mfmidi.cpp.o \
++	$(OBJDIR)/allegro/strparse.cpp.o \
++	$(OBJDIR)/allegro/stimelinux.c.o \
++	$(OBJDIR)/effects/Effect.cpp.o \
++	$(OBJDIR)/effects/Amplify.cpp.o \
++	$(OBJDIR)/effects/BassBoost.cpp.o \
++	$(OBJDIR)/effects/Echo.cpp.o \
++	$(OBJDIR)/effects/Fade.cpp.o \
++	$(OBJDIR)/effects/Filter.cpp.o \
++	$(OBJDIR)/effects/Invert.cpp.o \
++	$(OBJDIR)/effects/NoiseRemoval.cpp.o \
++	$(OBJDIR)/effects/Phaser.cpp.o \
++	$(OBJDIR)/effects/Reverse.cpp.o \
++	$(OBJDIR)/effects/Wahwah.cpp.o \
++	$(OBJDIR)/snd/ieeecvt.c.o \
++	$(OBJDIR)/snd/snd.c.o \
++	$(OBJDIR)/snd/sndheader.c.o \
++	$(OBJDIR)/snd/sndlinux.c.o \
++	$(OBJDIR)/snd/sndcvt.c.o \
++	$(OBJDIR)/snd/sndio.c.o \
++	$(OBJDIR)/prefs/PrefsDialog.cpp.o \
++	$(OBJDIR)/prefs/AudioIOPrefs.cpp.o \
++	$(OBJDIR)/prefs/SampleRatePrefs.cpp.o \
++	$(OBJDIR)/prefs/FileFormatPrefs.cpp.o \
++	$(OBJDIR)/prefs/DirectoriesPrefs.cpp.o \
++	$(OBJDIR)/prefs/SpectrumPrefs.cpp.o \
++	 $(OBJDIR)/snd/audiooss.c.o
++
++########################################
++# DEPENDENCIES
++
++DEPS = $(OBJS:$(OBJDIR)/%.o=%)
++
++########################################
++
++all: dirs  audacity-help.htb audacity
++
++audacity: $(OBJS) Makefile
++	$(CCC) -o audacity $(OBJS) $(LIBS)
++
++#
++#
++install:
++	-test -d $(PREFIX)/share/doc/audacity || \
++		mkdir -m 755 -p $(PREFIX)/share/doc/audacity
++	-test -f audacity-help.htb || $(INSTALL) -m 644 audacity-help.htb \
++		$(PREFIX)/share/doc/audacity/audacity-help.htb
++	$(INSTALL) -m 644 README.txt $(PREFIX)/share/doc/audacity/README.txt
++	$(INSTALL) -m 644 LICENSE.txt $(PREFIX)/share/doc/audacity/LICENSE.txt
++	-test -d $(PREFIX)/bin || \
++		mkdir -m 755 -p $(PREFIX)/bin
++	$(INSTALL) -m 755 audacity $(PREFIX)/bin/audacity
++
++#
++# make help file from the help directory
++audacity-help.htb: help/* help/images/*
++	rm -f audacity-help.htb
++	cd help && zip ../audacity-help.htb *.htm images/*.png *.hhc *.hhk *.hhp
++
++#
++# build id3lib from included source -- only if selected in configure script
++id3lib/src/.libs/libid3.a:
++	-test -f id3lib/Makefile || \
++		(cd id3lib && chmod u+x configure && ./configure)
++	cd id3lib && $(MAKE)
++
++#
++# rule for building libmpeg3 -- however, it's only built if selected in
++# the configure script
++mpeg3/libmpeg3.a:
++	$(MAKE) -C mpeg3
++
++#
++# You can optionally "make dep" to make dependencies.
++# voodoo magic in the form of a perl script turns
++# Foo.o: Foo.cpp into obj/Foo.cpp.o: Foo.cpp
++#
++# I'm not brave enough to try and translate that regex to sed
++
++dep:
++	$(CCC) -M $(CFLAGS) $(DEPS) | \
++		perl -pe 's/^(.*)\.o: ([^\/]*\/)??([^ \/]+\.(\w+))/$(OBJDIR)\/$$2$$1.$$4.o: $$2$$3/;' \
++		> .depend
++
++#
++# clean: Get rid of executable, dependencies, and all object files
++#
++
++clean:
++	rm -f audacity audacity-help.htb .depend
++	rm -rf obj/
++	rm -f mpeg3/libmpeg3.a:
++	cd id3lib && $(MAKE) clean
++
++#
++# We stick object files in separate directories for convenience
++#
++
++DIRS = \
++	$(OBJDIR) $(OBJDIR)/effects $(OBJDIR)/snd \
++	$(OBJDIR)/prefs $(OBJDIR)/allegro
++
++dirs: $(DIRS)
++
++$(DIRS): %: 
++	mkdir $@
++
++#
++# Rules for compiling C/C++ files
++#
++
++$(OBJDIR)/%.cpp.o: %.cpp
++	$(CCC) -c $(CFLAGS) $< -o $@
++
++$(OBJDIR)/%.c.o: %.c
++	$(CC) -c $(CFLAGS) $< -o $@
++
++#
++# Include ".depend" if it exists (run "make dep" to generate it)
++#
++
++ifeq (.depend,$(wildcard .depend))
++include .depend
++endif
++
+diff -ruN audacity-src-0.98.orig/Mess.h audacity-src-0.98/Mess.h
+--- audacity-src-0.98.orig/Mess.h	Thu Jan  1 00:00:00 1970
++++ audacity-src-0.98/Mess.h	Sat May 11 21:29:29 2002
+@@ -0,0 +1,8 @@
++#include <wx/generic/msgdlgg.h>
++
++int WXDLLEXPORT wxMessageBox(const wxString& message,
++			    const wxString& caption = wxMessageBoxCaptionStr,
++			    long style = wxOK | wxCENTRE,
++			    wxWindow *parent = NULL,
++			    int x = -1, int y = -1);
++
+diff -ruN audacity-src-0.98.orig/Mix.cpp audacity-src-0.98/Mix.cpp
+--- audacity-src-0.98.orig/Mix.cpp	Tue Jan 22 06:14:15 2002
++++ audacity-src-0.98/Mix.cpp	Sat May 11 21:48:56 2002
+@@ -14,6 +14,7 @@
+ #include <wx/timer.h>
+ 
+ #include "Mix.h"
++#include "Mess.h"
+ 
+ #include "WaveTrack.h"
+ #include "DirManager.h"
+diff -ruN audacity-src-0.98.orig/NoteTrack.h audacity-src-0.98/NoteTrack.h
+--- audacity-src-0.98.orig/NoteTrack.h	Tue Jan 22 06:14:15 2002
++++ audacity-src-0.98/NoteTrack.h	Sat May 11 21:23:33 2002
+@@ -12,10 +12,12 @@
+ #define __AUDACITY_NOTETRACK__
+ 
+ #include <wx/string.h>
++#include <wx/dc.h>
+ 
+ #include "Track.h"
+ 
+ #include "allegro/allegro.h"
++#include "Mess.h"
+ 
+ class DirManager;
+ 
+diff -ruN audacity-src-0.98.orig/config.log audacity-src-0.98/config.log
+--- audacity-src-0.98.orig/config.log	Thu Jan  1 00:00:00 1970
++++ audacity-src-0.98/config.log	Sat May 11 20:18:27 2002
+@@ -0,0 +1,661 @@
++This file contains any messages produced by compilers while
++running configure, to aid debugging if configure makes a mistake.
++
++It was created by configure, which was
++generated by GNU Autoconf 2.52.  Invocation command line was
++
++  $ ./configure LDFLAGS=-s CFLAGS=-O2 -march=i686 CXXFLAGS=-O2 -march=i686 FFLAGS=-O2 -march=i686 CC=i686-pld-linux-gcc CXX=g++ --build=i686-pld-linux --prefix=/usr/X11R6 --exec-prefix=/usr/X11R6 --bindir=/usr/X11R6/bin --sbindir=/usr/X11R6/sbin --sysconfdir=/etc --datadir=/usr/X11R6/share --includedir=/usr/X11R6/include --libdir=/usr/X11R6/lib --libexecdir=/usr/X11R6/lib --localstatedir=/var --sharedstatedir=/usr/X11R6/com --mandir=/usr/X11R6/share/man --infodir=/usr/share/info --with-vorbis --with-libmad
++
++## ---------- ##
++## Platform.  ##
++## ---------- ##
++
++hostname = aquila
++uname -m = i686
++uname -r = 2.2.20
++uname -s = Linux
++uname -v = #1 Sun Mar 17 11:56:15 UTC 2002
++
++/usr/bin/uname -p = unknown
++/bin/uname -X     = unknown
++
++/bin/arch              = i686
++/usr/bin/arch -k       = unknown
++/usr/convex/getsysinfo = unknown
++hostinfo               = unknown
++/bin/machine           = unknown
++/usr/bin/oslevel       = unknown
++/bin/universe          = unknown
++
++PATH = /bin:/usr/bin:/usr/sbin:/sbin:/usr/X11R6/bin
++
++## ------------ ##
++## Core tests.  ##
++## ------------ ##
++
++configure:980: PATH=".;."; conftest.sh
++./configure[988]: conftest.sh: not found
++configure:983: $? = 127
++configure:1035: checking for gcc
++configure:1058: result: i686-pld-linux-gcc
++configure:1286: checking for C compiler version
++configure:1289: i686-pld-linux-gcc --version </dev/null >&5
++2.95.4
++configure:1292: $? = 0
++configure:1294: i686-pld-linux-gcc -v </dev/null >&5
++Reading specs from /usr/lib/gcc-lib/i686-pld-linux/2.95.4/specs
++gcc version 2.95.4 20010319 (prerelease)
++configure:1297: $? = 0
++configure:1299: i686-pld-linux-gcc -V </dev/null >&5
++i686-pld-linux-gcc: argument to `-V' is missing
++configure:1302: $? = 1
++configure:1322: checking for C compiler default output
++configure:1325: i686-pld-linux-gcc -O2 -march=i686  -s conftest.c  >&5
++configure:1328: $? = 0
++configure:1357: result: a.out
++configure:1362: checking whether the C compiler works
++configure:1368: ./a.out
++configure:1371: $? = 0
++configure:1386: result: yes
++configure:1393: checking whether we are cross compiling
++configure:1395: result: no
++configure:1398: checking for executable suffix
++configure:1400: i686-pld-linux-gcc -o conftest -O2 -march=i686  -s conftest.c  >&5
++configure:1403: $? = 0
++configure:1425: result: 
++configure:1431: checking for object suffix
++configure:1449: i686-pld-linux-gcc -c -O2 -march=i686  conftest.c >&5
++configure:1452: $? = 0
++configure:1471: result: o
++configure:1475: checking whether we are using the GNU C compiler
++configure:1496: i686-pld-linux-gcc -c -O2 -march=i686  conftest.c >&5
++configure:1499: $? = 0
++configure:1502: test -s conftest.o
++configure:1505: $? = 0
++configure:1517: result: yes
++configure:1523: checking whether i686-pld-linux-gcc accepts -g
++configure:1541: i686-pld-linux-gcc -c -g  conftest.c >&5
++configure:1544: $? = 0
++configure:1547: test -s conftest.o
++configure:1550: $? = 0
++configure:1560: result: yes
++configure:1587: i686-pld-linux-gcc -c -O2 -march=i686  conftest.c >&5
++conftest.c:2: parse error before `me'
++configure:1590: $? = 1
++configure: failed program was:
++#ifndef __cplusplus
++  choke me
++#endif
++configure:1693: checking how to run the C preprocessor
++configure:1719: i686-pld-linux-gcc -E  conftest.c
++configure:1725: $? = 0
++configure:1752: i686-pld-linux-gcc -E  conftest.c
++configure:1749: ac_nonexistent.h: No such file or directory
++configure:1758: $? = 1
++configure: failed program was:
++#line 1748 "configure"
++#include "confdefs.h"
++#include <ac_nonexistent.h>
++configure:1795: result: i686-pld-linux-gcc -E
++configure:1810: i686-pld-linux-gcc -E  conftest.c
++configure:1816: $? = 0
++configure:1843: i686-pld-linux-gcc -E  conftest.c
++configure:1840: ac_nonexistent.h: No such file or directory
++configure:1849: $? = 1
++configure: failed program was:
++#line 1839 "configure"
++#include "confdefs.h"
++#include <ac_nonexistent.h>
++configure:1889: checking whether i686-pld-linux-gcc needs -traditional
++configure:1924: result: no
++configure:2024: checking for C++ compiler version
++configure:2027: g++ --version </dev/null >&5
++2.95.4
++configure:2030: $? = 0
++configure:2032: g++ -v </dev/null >&5
++Reading specs from /usr/lib/gcc-lib/i686-pld-linux/2.95.4/specs
++gcc version 2.95.4 20010319 (prerelease)
++configure:2035: $? = 0
++configure:2037: g++ -V </dev/null >&5
++g++: argument to `-V' missing
++
++configure:2040: $? = 1
++configure:2043: checking whether we are using the GNU C++ compiler
++configure:2064: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:2067: $? = 0
++configure:2070: test -s conftest.o
++configure:2073: $? = 0
++configure:2085: result: yes
++configure:2091: checking whether g++ accepts -g
++configure:2109: g++ -c -g  conftest.cc >&5
++configure:2112: $? = 0
++configure:2115: test -s conftest.o
++configure:2118: $? = 0
++configure:2128: result: yes
++configure:2168: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:2171: $? = 0
++configure:2174: test -s conftest.o
++configure:2177: $? = 0
++configure:2199: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:2202: $? = 0
++configure:2205: test -s conftest.o
++configure:2208: $? = 0
++configure:2235: checking how to run the C++ preprocessor
++configure:2257: g++ -E  conftest.cc
++configure:2263: $? = 0
++configure:2290: g++ -E  conftest.cc
++configure:2287: ac_nonexistent.h: No such file or directory
++configure:2296: $? = 1
++configure: failed program was:
++#line 2286 "configure"
++#include "confdefs.h"
++#include <ac_nonexistent.h>
++configure:2333: result: g++ -E
++configure:2348: g++ -E  conftest.cc
++configure:2354: $? = 0
++configure:2381: g++ -E  conftest.cc
++configure:2378: ac_nonexistent.h: No such file or directory
++configure:2387: $? = 1
++configure: failed program was:
++#line 2377 "configure"
++#include "confdefs.h"
++#include <ac_nonexistent.h>
++configure:2463: checking for a BSD compatible install
++configure:2512: result: /usr/bin/install -c
++configure:2577: checking build system type
++configure:2595: result: i686-pld-linux-gnu
++configure:2602: checking host system type
++configure:2616: result: i686-pld-linux-gnu
++configure:2654: checking for mad_decoder_init in -lmad
++configure:2681: g++ -o conftest -O2 -march=i686  -s conftest.cc -lmad   >&5
++configure:2684: $? = 0
++configure:2687: test -s conftest
++configure:2690: $? = 0
++configure:2701: result: yes
++configure:2711: checking for mad.h
++configure:2721: g++ -E  conftest.cc
++configure:2727: $? = 0
++configure:2746: result: yes
++configure:2801: checking for ov_open in -lvorbisfile
++configure:2828: g++ -o conftest -O2 -march=i686  -s conftest.cc -lvorbisfile -lvorbis -logg  -lmad >&5
++configure:2831: $? = 0
++configure:2834: test -s conftest
++configure:2837: $? = 0
++configure:2848: result: yes
++configure:2858: checking for vorbis/vorbisfile.h
++configure:2868: g++ -E  conftest.cc
++configure:2874: $? = 0
++configure:2893: result: yes
++configure:2950: checking for wx-config
++configure:2967: found /usr/X11R6/bin/wx-config
++configure:2979: result: /usr/X11R6/bin/wx-config
++configure:2994: checking for i686-pld-linux-gcc option to accept ANSI C
++configure:3051: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:3010: `p' was not declared in this scope
++configure:3010: `i' was not declared in this scope
++configure:3011: initializer list being treated as compound expression
++configure:3011: syntax error before `char'
++configure:3013: parse error before `{'
++configure: In function `int main()':
++configure:3034: passing `char *' as argument 1 of `f(char * (*)(char **, int), char **, ...)'
++configure:3034: passing `char *' as argument 1 of `f(char * (*)(char **, int), char **, ...)'
++configure:3054: $? = 1
++configure: failed program was:
++#line 3002 "configure"
++#include "confdefs.h"
++#include <stdarg.h>
++#include <stdio.h>
++#include <sys/types.h>
++#include <sys/stat.h>
++/* Most of the following tests are stolen from RCS 5.7's src/conf.sh.  */
++struct buf { int x; };
++FILE * (*rcsopen) (struct buf *, struct stat *, int);
++static char *e (p, i)
++     char **p;
++     int i;
++{
++  return p[i];
++}
++static char *f (char * (*g) (char **, int), char **p, ...)
++{
++  char *s;
++  va_list v;
++  va_start (v,p);
++  s = g (p, va_arg (v,int));
++  va_end (v);
++  return s;
++}
++int test (int i, double x);
++struct s1 {int (*f) (int a);};
++struct s2 {int (*f) (double a);};
++int pairnames (int, char **, FILE *(*)(struct buf *, struct stat *, int), int, int);
++int argc;
++char **argv;
++int
++main ()
++{
++return f (e, argv, 0) != argv[0]  ||  f (e, argv, 1) != argv[1];
++  ;
++  return 0;
++}
++configure:3051: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:3010: `p' was not declared in this scope
++configure:3010: `i' was not declared in this scope
++configure:3011: initializer list being treated as compound expression
++configure:3011: syntax error before `char'
++configure:3013: parse error before `{'
++configure: In function `int main()':
++configure:3034: passing `char *' as argument 1 of `f(char * (*)(char **, int), char **, ...)'
++configure:3034: passing `char *' as argument 1 of `f(char * (*)(char **, int), char **, ...)'
++configure:3054: $? = 1
++configure: failed program was:
++#line 3002 "configure"
++#include "confdefs.h"
++#include <stdarg.h>
++#include <stdio.h>
++#include <sys/types.h>
++#include <sys/stat.h>
++/* Most of the following tests are stolen from RCS 5.7's src/conf.sh.  */
++struct buf { int x; };
++FILE * (*rcsopen) (struct buf *, struct stat *, int);
++static char *e (p, i)
++     char **p;
++     int i;
++{
++  return p[i];
++}
++static char *f (char * (*g) (char **, int), char **p, ...)
++{
++  char *s;
++  va_list v;
++  va_start (v,p);
++  s = g (p, va_arg (v,int));
++  va_end (v);
++  return s;
++}
++int test (int i, double x);
++struct s1 {int (*f) (int a);};
++struct s2 {int (*f) (double a);};
++int pairnames (int, char **, FILE *(*)(struct buf *, struct stat *, int), int, int);
++int argc;
++char **argv;
++int
++main ()
++{
++return f (e, argv, 0) != argv[0]  ||  f (e, argv, 1) != argv[1];
++  ;
++  return 0;
++}
++configure:3051: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:3010: `p' was not declared in this scope
++configure:3010: `i' was not declared in this scope
++configure:3011: initializer list being treated as compound expression
++configure:3011: syntax error before `char'
++configure:3013: parse error before `{'
++configure: In function `int main()':
++configure:3034: passing `char *' as argument 1 of `f(char * (*)(char **, int), char **, ...)'
++configure:3034: passing `char *' as argument 1 of `f(char * (*)(char **, int), char **, ...)'
++configure:3054: $? = 1
++configure: failed program was:
++#line 3002 "configure"
++#include "confdefs.h"
++#include <stdarg.h>
++#include <stdio.h>
++#include <sys/types.h>
++#include <sys/stat.h>
++/* Most of the following tests are stolen from RCS 5.7's src/conf.sh.  */
++struct buf { int x; };
++FILE * (*rcsopen) (struct buf *, struct stat *, int);
++static char *e (p, i)
++     char **p;
++     int i;
++{
++  return p[i];
++}
++static char *f (char * (*g) (char **, int), char **p, ...)
++{
++  char *s;
++  va_list v;
++  va_start (v,p);
++  s = g (p, va_arg (v,int));
++  va_end (v);
++  return s;
++}
++int test (int i, double x);
++struct s1 {int (*f) (int a);};
++struct s2 {int (*f) (double a);};
++int pairnames (int, char **, FILE *(*)(struct buf *, struct stat *, int), int, int);
++int argc;
++char **argv;
++int
++main ()
++{
++return f (e, argv, 0) != argv[0]  ||  f (e, argv, 1) != argv[1];
++  ;
++  return 0;
++}
++configure:3051: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:3010: `p' was not declared in this scope
++configure:3010: `i' was not declared in this scope
++configure:3011: initializer list being treated as compound expression
++configure:3011: syntax error before `char'
++configure:3013: parse error before `{'
++configure: In function `int main()':
++configure:3034: passing `char *' as argument 1 of `f(char * (*)(char **, int), char **, ...)'
++configure:3034: passing `char *' as argument 1 of `f(char * (*)(char **, int), char **, ...)'
++configure:3054: $? = 1
++configure: failed program was:
++#line 3002 "configure"
++#include "confdefs.h"
++#include <stdarg.h>
++#include <stdio.h>
++#include <sys/types.h>
++#include <sys/stat.h>
++/* Most of the following tests are stolen from RCS 5.7's src/conf.sh.  */
++struct buf { int x; };
++FILE * (*rcsopen) (struct buf *, struct stat *, int);
++static char *e (p, i)
++     char **p;
++     int i;
++{
++  return p[i];
++}
++static char *f (char * (*g) (char **, int), char **p, ...)
++{
++  char *s;
++  va_list v;
++  va_start (v,p);
++  s = g (p, va_arg (v,int));
++  va_end (v);
++  return s;
++}
++int test (int i, double x);
++struct s1 {int (*f) (int a);};
++struct s2 {int (*f) (double a);};
++int pairnames (int, char **, FILE *(*)(struct buf *, struct stat *, int), int, int);
++int argc;
++char **argv;
++int
++main ()
++{
++return f (e, argv, 0) != argv[0]  ||  f (e, argv, 1) != argv[1];
++  ;
++  return 0;
++}
++configure:3051: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:3010: `p' was not declared in this scope
++configure:3010: `i' was not declared in this scope
++configure:3011: initializer list being treated as compound expression
++configure:3011: syntax error before `char'
++configure:3013: parse error before `{'
++configure: In function `int main()':
++configure:3034: passing `char *' as argument 1 of `f(char * (*)(char **, int), char **, ...)'
++configure:3034: passing `char *' as argument 1 of `f(char * (*)(char **, int), char **, ...)'
++configure:3054: $? = 1
++configure: failed program was:
++#line 3002 "configure"
++#include "confdefs.h"
++#include <stdarg.h>
++#include <stdio.h>
++#include <sys/types.h>
++#include <sys/stat.h>
++/* Most of the following tests are stolen from RCS 5.7's src/conf.sh.  */
++struct buf { int x; };
++FILE * (*rcsopen) (struct buf *, struct stat *, int);
++static char *e (p, i)
++     char **p;
++     int i;
++{
++  return p[i];
++}
++static char *f (char * (*g) (char **, int), char **p, ...)
++{
++  char *s;
++  va_list v;
++  va_start (v,p);
++  s = g (p, va_arg (v,int));
++  va_end (v);
++  return s;
++}
++int test (int i, double x);
++struct s1 {int (*f) (int a);};
++struct s2 {int (*f) (double a);};
++int pairnames (int, char **, FILE *(*)(struct buf *, struct stat *, int), int, int);
++int argc;
++char **argv;
++int
++main ()
++{
++return f (e, argv, 0) != argv[0]  ||  f (e, argv, 1) != argv[1];
++  ;
++  return 0;
++}
++configure:3051: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:3010: `p' was not declared in this scope
++configure:3010: `i' was not declared in this scope
++configure:3011: initializer list being treated as compound expression
++configure:3011: syntax error before `char'
++configure:3013: parse error before `{'
++configure: In function `int main()':
++configure:3034: passing `char *' as argument 1 of `f(char * (*)(char **, int), char **, ...)'
++configure:3034: passing `char *' as argument 1 of `f(char * (*)(char **, int), char **, ...)'
++configure:3054: $? = 1
++configure: failed program was:
++#line 3002 "configure"
++#include "confdefs.h"
++#include <stdarg.h>
++#include <stdio.h>
++#include <sys/types.h>
++#include <sys/stat.h>
++/* Most of the following tests are stolen from RCS 5.7's src/conf.sh.  */
++struct buf { int x; };
++FILE * (*rcsopen) (struct buf *, struct stat *, int);
++static char *e (p, i)
++     char **p;
++     int i;
++{
++  return p[i];
++}
++static char *f (char * (*g) (char **, int), char **p, ...)
++{
++  char *s;
++  va_list v;
++  va_start (v,p);
++  s = g (p, va_arg (v,int));
++  va_end (v);
++  return s;
++}
++int test (int i, double x);
++struct s1 {int (*f) (int a);};
++struct s2 {int (*f) (double a);};
++int pairnames (int, char **, FILE *(*)(struct buf *, struct stat *, int), int, int);
++int argc;
++char **argv;
++int
++main ()
++{
++return f (e, argv, 0) != argv[0]  ||  f (e, argv, 1) != argv[1];
++  ;
++  return 0;
++}
++configure:3077: result: none needed
++configure:3085: checking for an ANSI C-conforming const
++configure:3149: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:3152: $? = 0
++configure:3155: test -s conftest.o
++configure:3158: $? = 0
++configure:3168: result: yes
++configure:3178: checking for ANSI C header files
++configure:3192: g++ -E  conftest.cc
++configure:3198: $? = 0
++configure:3285: g++ -o conftest -O2 -march=i686  -s conftest.cc  -lmad -lvorbisfile -lvorbis -logg -lid3 -L/usr/X11R6/lib -s -lwx_gtk-2.3 >&5
++configure:3288: $? = 0
++configure:3290: ./conftest
++configure:3293: $? = 0
++configure:3306: result: yes
++configure:3322: checking for sys/types.h
++configure:3334: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:3337: $? = 0
++configure:3340: test -s conftest.o
++configure:3343: $? = 0
++configure:3353: result: yes
++configure:3322: checking for sys/stat.h
++configure:3334: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:3337: $? = 0
++configure:3340: test -s conftest.o
++configure:3343: $? = 0
++configure:3353: result: yes
++configure:3322: checking for stdlib.h
++configure:3334: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:3337: $? = 0
++configure:3340: test -s conftest.o
++configure:3343: $? = 0
++configure:3353: result: yes
++configure:3322: checking for string.h
++configure:3334: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:3337: $? = 0
++configure:3340: test -s conftest.o
++configure:3343: $? = 0
++configure:3353: result: yes
++configure:3322: checking for memory.h
++configure:3334: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:3337: $? = 0
++configure:3340: test -s conftest.o
++configure:3343: $? = 0
++configure:3353: result: yes
++configure:3322: checking for strings.h
++configure:3334: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:3337: $? = 0
++configure:3340: test -s conftest.o
++configure:3343: $? = 0
++configure:3353: result: yes
++configure:3322: checking for inttypes.h
++configure:3334: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:3337: $? = 0
++configure:3340: test -s conftest.o
++configure:3343: $? = 0
++configure:3353: result: yes
++configure:3322: checking for stdint.h
++configure:3334: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:3337: $? = 0
++configure:3340: test -s conftest.o
++configure:3343: $? = 0
++configure:3353: result: yes
++configure:3322: checking for unistd.h
++configure:3334: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:3337: $? = 0
++configure:3340: test -s conftest.o
++configure:3343: $? = 0
++configure:3353: result: yes
++configure:3363: checking for off_t
++configure:3384: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:3387: $? = 0
++configure:3390: test -s conftest.o
++configure:3393: $? = 0
++configure:3403: result: yes
++configure:3415: checking for size_t
++configure:3436: g++ -c -O2 -march=i686  conftest.cc >&5
++configure:3439: $? = 0
++configure:3442: test -s conftest.o
++configure:3445: $? = 0
++configure:3455: result: yes
++configure:3550: creating ./config.status
++
++## ----------------------- ##
++## Running config.status.  ##
++## ----------------------- ##
++
++This file was extended by config.status 2.52, executed with
++  CONFIG_FILES    = 
++  CONFIG_HEADERS  = 
++  CONFIG_LINKS    = 
++  CONFIG_COMMANDS = 
++  > ./config.status 
++on aquila
++
++config.status:4000: creating Makefile
++config.status:4092: creating configunix.h
++config.status:4233: configunix.h is unchanged
++
++## ----------------- ##
++## Cache variables.  ##
++## ----------------- ##
++
++ac_cv_build=i686-pld-linux-gnu
++ac_cv_build_alias=i686-pld-linux
++ac_cv_c_compiler_gnu=yes
++ac_cv_c_const=yes
++ac_cv_cxx_compiler_gnu=yes
++ac_cv_env_CC_set=set
++ac_cv_env_CC_value=i686-pld-linux-gcc
++ac_cv_env_CFLAGS_set=set
++ac_cv_env_CFLAGS_value='-O2 -march=i686'
++ac_cv_env_CPPFLAGS_set=
++ac_cv_env_CPPFLAGS_value=
++ac_cv_env_CPP_set=
++ac_cv_env_CPP_value=
++ac_cv_env_CXXCPP_set=
++ac_cv_env_CXXCPP_value=
++ac_cv_env_CXXFLAGS_set=set
++ac_cv_env_CXXFLAGS_value='-O2 -march=i686'
++ac_cv_env_CXX_set=set
++ac_cv_env_CXX_value=g++
++ac_cv_env_LDFLAGS_set=set
++ac_cv_env_LDFLAGS_value=-s
++ac_cv_env_build_alias_set=set
++ac_cv_env_build_alias_value=i686-pld-linux
++ac_cv_env_host_alias_set=
++ac_cv_env_host_alias_value=
++ac_cv_env_target_alias_set=
++ac_cv_env_target_alias_value=
++ac_cv_header_inttypes_h=yes
++ac_cv_header_mad_h=yes
++ac_cv_header_memory_h=yes
++ac_cv_header_stdc=yes
++ac_cv_header_stdint_h=yes
++ac_cv_header_stdlib_h=yes
++ac_cv_header_string_h=yes
++ac_cv_header_strings_h=yes
++ac_cv_header_sys_stat_h=yes
++ac_cv_header_sys_types_h=yes
++ac_cv_header_unistd_h=yes
++ac_cv_header_vorbis_vorbisfile_h=yes
++ac_cv_host=i686-pld-linux-gnu
++ac_cv_host_alias=i686-pld-linux
++ac_cv_lib_mad_mad_decoder_init=yes
++ac_cv_lib_vorbisfile_ov_open=yes
++ac_cv_objext=o
++ac_cv_path_WX_CONFIG=/usr/X11R6/bin/wx-config
++ac_cv_path_install='/usr/bin/install -c'
++ac_cv_prog_CPP='i686-pld-linux-gcc -E'
++ac_cv_prog_CXXCPP='g++ -E'
++ac_cv_prog_ac_ct_CC=i686-pld-linux-gcc
++ac_cv_prog_cc_g=yes
++ac_cv_prog_cc_stdc=no
++ac_cv_prog_cxx_g=yes
++ac_cv_prog_gcc_traditional=no
++ac_cv_type_off_t=yes
++ac_cv_type_size_t=yes
++
++## ------------ ##
++## confdefs.h.  ##
++## ------------ ##
++
++#define USE_LIBMAD 1
++#define MP3SUPPORT 1
++#define USE_LIBVORBIS 1
++#define USE_ID3LIB 1
++#define USE_OSS 1
++#define STDC_HEADERS 1
++#define HAVE_SYS_TYPES_H 1
++#define HAVE_SYS_STAT_H 1
++#define HAVE_STDLIB_H 1
++#define HAVE_STRING_H 1
++#define HAVE_MEMORY_H 1
++#define HAVE_STRINGS_H 1
++#define HAVE_INTTYPES_H 1
++#define HAVE_STDINT_H 1
++#define HAVE_UNISTD_H 1
++
++
++configure: exit 0
+diff -ruN audacity-src-0.98.orig/config.status audacity-src-0.98/config.status
+--- audacity-src-0.98.orig/config.status	Thu Jan  1 00:00:00 1970
++++ audacity-src-0.98/config.status	Sat May 11 20:18:26 2002
+@@ -0,0 +1,641 @@
++#! /bin/sh
++# Generated automatically by configure.
++# Run this file to recreate the current configuration.
++# Compiler output produced by configure, useful for debugging
++# configure, is in config.log if it exists.
++
++debug=false
++SHELL=${CONFIG_SHELL-/bin/sh}
++ac_cs_invocation="$0 $@"
++
++# Be Bourne compatible
++if test -n "${ZSH_VERSION+set}" && (emulate sh) >/dev/null 2>&1; then
++  emulate sh
++  NULLCMD=:
++elif test -n "${BASH_VERSION+set}" && (set -o posix) >/dev/null 2>&1; then
++  set -o posix
++fi
++
++# Name of the executable.
++as_me=`echo "$0" |sed 's,.*[\\/],,'`
++
++if expr a : '\(a\)' >/dev/null 2>&1; then
++  as_expr=expr
++else
++  as_expr=false
++fi
++
++rm -f conf$$ conf$$.exe conf$$.file
++echo >conf$$.file
++if ln -s conf$$.file conf$$ 2>/dev/null; then
++  # We could just check for DJGPP; but this test a) works b) is more generic
++  # and c) will remain valid once DJGPP supports symlinks (DJGPP 2.04).
++  if test -f conf$$.exe; then
++    # Don't use ln at all; we don't have any links
++    as_ln_s='cp -p'
++  else
++    as_ln_s='ln -s'
++  fi
++elif ln conf$$.file conf$$ 2>/dev/null; then
++  as_ln_s=ln
++else
++  as_ln_s='cp -p'
++fi
++rm -f conf$$ conf$$.exe conf$$.file
++
++as_executable_p="test -f"
++
++# Support unset when possible.
++if (FOO=FOO; unset FOO) >/dev/null 2>&1; then
++  as_unset=unset
++else
++  as_unset=false
++fi
++
++# NLS nuisances.
++$as_unset LANG || test "${LANG+set}" != set || { LANG=C; export LANG; }
++$as_unset LC_ALL || test "${LC_ALL+set}" != set || { LC_ALL=C; export LC_ALL; }
++$as_unset LC_TIME || test "${LC_TIME+set}" != set || { LC_TIME=C; export LC_TIME; }
++$as_unset LC_CTYPE || test "${LC_CTYPE+set}" != set || { LC_CTYPE=C; export LC_CTYPE; }
++$as_unset LANGUAGE || test "${LANGUAGE+set}" != set || { LANGUAGE=C; export LANGUAGE; }
++$as_unset LC_COLLATE || test "${LC_COLLATE+set}" != set || { LC_COLLATE=C; export LC_COLLATE; }
++$as_unset LC_NUMERIC || test "${LC_NUMERIC+set}" != set || { LC_NUMERIC=C; export LC_NUMERIC; }
++$as_unset LC_MESSAGES || test "${LC_MESSAGES+set}" != set || { LC_MESSAGES=C; export LC_MESSAGES; }
++
++# IFS
++# We need space, tab and new line, in precisely that order.
++as_nl='
++'
++IFS=" 	$as_nl"
++
++# CDPATH.
++$as_unset CDPATH || test "${CDPATH+set}" != set || { CDPATH=:; export CDPATH; }
++
++exec 6>&1
++
++config_files=" Makefile"
++config_headers=" configunix.h:configtemplate.h"
++
++ac_cs_usage="\
++\`$as_me' instantiates files from templates according to the
++current configuration.
++
++Usage: $0 [OPTIONS] [FILE]...
++
++  -h, --help       print this help, then exit
++  -V, --version    print version number, then exit
++  -d, --debug      don't remove temporary files
++      --recheck    update $as_me by reconfiguring in the same conditions
++  --file=FILE[:TEMPLATE]
++                   instantiate the configuration file FILE
++  --header=FILE[:TEMPLATE]
++                   instantiate the configuration header FILE
++
++Configuration files:
++$config_files
++
++Configuration headers:
++$config_headers
++
++Report bugs to <bug-autoconf@gnu.org>."
++ac_cs_version="\
++config.status
++configured by ./configure, generated by GNU Autoconf 2.52,
++  with options \"LDFLAGS=-s 'CFLAGS=-O2 -march=i686' 'CXXFLAGS=-O2 -march=i686' 'FFLAGS=-O2 -march=i686' CC=i686-pld-linux-gcc CXX=g++ --build=i686-pld-linux --prefix=/usr/X11R6 --exec-prefix=/usr/X11R6 --bindir=/usr/X11R6/bin --sbindir=/usr/X11R6/sbin --sysconfdir=/etc --datadir=/usr/X11R6/share --includedir=/usr/X11R6/include --libdir=/usr/X11R6/lib --libexecdir=/usr/X11R6/lib --localstatedir=/var --sharedstatedir=/usr/X11R6/com --mandir=/usr/X11R6/share/man --infodir=/usr/share/info --with-vorbis --with-libmad CC=i686-pld-linux-gcc 'CFLAGS=-O2 -march=i686' 'CXXFLAGS=-O2 -march=i686' CXX=g++ LDFLAGS=-s build_alias=i686-pld-linux\"
++
++Copyright 1992, 1993, 1994, 1995, 1996, 1998, 1999, 2000, 2001
++Free Software Foundation, Inc.
++This config.status script is free software; the Free Software Foundation
++gives unlimited permission to copy, distribute and modify it."
++srcdir=.
++INSTALL="/usr/bin/install -c"
++# If no file are specified by the user, then we need to provide default
++# value.  By we need to know if files were specified by the user.
++ac_need_defaults=:
++while test $# != 0
++do
++  case $1 in
++  --*=*)
++    ac_option=`expr "x$1" : 'x\([^=]*\)='`
++    ac_optarg=`expr "x$1" : 'x[^=]*=\(.*\)'`
++    shift
++    set dummy "$ac_option" "$ac_optarg" ${1+"$@"}
++    shift
++    ;;
++  -*);;
++  *) # This is not an option, so the user has probably given explicit
++     # arguments.
++     ac_need_defaults=false;;
++  esac
++
++  case $1 in
++  # Handling of the options.
++  -recheck | --recheck | --rechec | --reche | --rech | --rec | --re | --r)
++    echo "running /bin/sh ./configure " LDFLAGS=-s 'CFLAGS=-O2 -march=i686' 'CXXFLAGS=-O2 -march=i686' 'FFLAGS=-O2 -march=i686' CC=i686-pld-linux-gcc CXX=g++ --build=i686-pld-linux --prefix=/usr/X11R6 --exec-prefix=/usr/X11R6 --bindir=/usr/X11R6/bin --sbindir=/usr/X11R6/sbin --sysconfdir=/etc --datadir=/usr/X11R6/share --includedir=/usr/X11R6/include --libdir=/usr/X11R6/lib --libexecdir=/usr/X11R6/lib --localstatedir=/var --sharedstatedir=/usr/X11R6/com --mandir=/usr/X11R6/share/man --infodir=/usr/share/info --with-vorbis --with-libmad CC=i686-pld-linux-gcc 'CFLAGS=-O2 -march=i686' 'CXXFLAGS=-O2 -march=i686' CXX=g++ LDFLAGS=-s build_alias=i686-pld-linux " --no-create --no-recursion"
++    exec /bin/sh ./configure LDFLAGS=-s 'CFLAGS=-O2 -march=i686' 'CXXFLAGS=-O2 -march=i686' 'FFLAGS=-O2 -march=i686' CC=i686-pld-linux-gcc CXX=g++ --build=i686-pld-linux --prefix=/usr/X11R6 --exec-prefix=/usr/X11R6 --bindir=/usr/X11R6/bin --sbindir=/usr/X11R6/sbin --sysconfdir=/etc --datadir=/usr/X11R6/share --includedir=/usr/X11R6/include --libdir=/usr/X11R6/lib --libexecdir=/usr/X11R6/lib --localstatedir=/var --sharedstatedir=/usr/X11R6/com --mandir=/usr/X11R6/share/man --infodir=/usr/share/info --with-vorbis --with-libmad CC=i686-pld-linux-gcc 'CFLAGS=-O2 -march=i686' 'CXXFLAGS=-O2 -march=i686' CXX=g++ LDFLAGS=-s build_alias=i686-pld-linux --no-create --no-recursion ;;
++  --version | --vers* | -V )
++    echo "$ac_cs_version"; exit 0 ;;
++  --he | --h)
++    # Conflict between --help and --header
++    { { echo "$as_me:3723: error: ambiguous option: $1
++Try \`$0 --help' for more information." >&5
++echo "$as_me: error: ambiguous option: $1
++Try \`$0 --help' for more information." >&2;}
++   { (exit 1); exit 1; }; };;
++  --help | --hel | -h )
++    echo "$ac_cs_usage"; exit 0 ;;
++  --debug | --d* | -d )
++    debug=: ;;
++  --file | --fil | --fi | --f )
++    shift
++    CONFIG_FILES="$CONFIG_FILES $1"
++    ac_need_defaults=false;;
++  --header | --heade | --head | --hea )
++    shift
++    CONFIG_HEADERS="$CONFIG_HEADERS $1"
++    ac_need_defaults=false;;
++
++  # This is an error.
++  -*) { { echo "$as_me:3742: error: unrecognized option: $1
++Try \`$0 --help' for more information." >&5
++echo "$as_me: error: unrecognized option: $1
++Try \`$0 --help' for more information." >&2;}
++   { (exit 1); exit 1; }; } ;;
++
++  *) ac_config_targets="$ac_config_targets $1" ;;
++
++  esac
++  shift
++done
++
++exec 5>>config.log
++cat >&5 << _ACEOF
++
++## ----------------------- ##
++## Running config.status.  ##
++## ----------------------- ##
++
++This file was extended by $as_me 2.52, executed with
++  CONFIG_FILES    = $CONFIG_FILES
++  CONFIG_HEADERS  = $CONFIG_HEADERS
++  CONFIG_LINKS    = $CONFIG_LINKS
++  CONFIG_COMMANDS = $CONFIG_COMMANDS
++  > $ac_cs_invocation
++on `(hostname || uname -n) 2>/dev/null | sed 1q`
++
++_ACEOF
++for ac_config_target in $ac_config_targets
++do
++  case "$ac_config_target" in
++  # Handling of arguments.
++  "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
++  "configunix.h" ) CONFIG_HEADERS="$CONFIG_HEADERS configunix.h:configtemplate.h" ;;
++  *) { { echo "$as_me:3779: error: invalid argument: $ac_config_target" >&5
++echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
++   { (exit 1); exit 1; }; };;
++  esac
++done
++
++# If the user did not use the arguments to specify the items to instantiate,
++# then the envvar interface is used.  Set only those that are not.
++# We use the long form for the default assignment because of an extremely
++# bizarre bug on SunOS 4.1.3.
++if $ac_need_defaults; then
++  test "${CONFIG_FILES+set}" = set || CONFIG_FILES=$config_files
++  test "${CONFIG_HEADERS+set}" = set || CONFIG_HEADERS=$config_headers
++fi
++
++# Create a temporary directory, and hook for its removal unless debugging.
++$debug ||
++{
++  trap 'exit_status=$?; rm -rf $tmp && exit $exit_status' 0
++  trap '{ (exit 1); exit 1; }' 1 2 13 15
++}
++
++# Create a (secure) tmp directory for tmp files.
++: ${TMPDIR=/tmp}
++{
++  tmp=`(umask 077 && mktemp -d -q "$TMPDIR/csXXXXXX") 2>/dev/null` &&
++  test -n "$tmp" && test -d "$tmp"
++}  ||
++{
++  tmp=$TMPDIR/cs$$-$RANDOM
++  (umask 077 && mkdir $tmp)
++} ||
++{
++   echo "$me: cannot create a temporary directory in $TMPDIR" >&2
++   { (exit 1); exit 1; }
++}
++
++
++#
++# CONFIG_FILES section.
++#
++
++# No need to generate the scripts if there are no CONFIG_FILES.
++# This happens for instance when ./config.status config.h
++if test -n "$CONFIG_FILES"; then
++  # Protect against being on the right side of a sed subst in config.status.
++  sed 's/,@/@@/; s/@,/@@/; s/,;t t$/@;t t/; /@;t t$/s/[\\&,]/\\&/g;
++   s/@@/,@/; s/@@/@,/; s/@;t t$/,;t t/' >$tmp/subs.sed <<\CEOF
++s,@SHELL@,/bin/sh,;t t
++s,@exec_prefix@,/usr/X11R6,;t t
++s,@prefix@,/usr/X11R6,;t t
++s,@program_transform_name@,s,x,x,,;t t
++s,@bindir@,/usr/X11R6/bin,;t t
++s,@sbindir@,/usr/X11R6/sbin,;t t
++s,@libexecdir@,/usr/X11R6/lib,;t t
++s,@datadir@,/usr/X11R6/share,;t t
++s,@sysconfdir@,/etc,;t t
++s,@sharedstatedir@,/usr/X11R6/com,;t t
++s,@localstatedir@,/var,;t t
++s,@libdir@,/usr/X11R6/lib,;t t
++s,@includedir@,/usr/X11R6/include,;t t
++s,@oldincludedir@,/usr/include,;t t
++s,@infodir@,/usr/share/info,;t t
++s,@mandir@,/usr/X11R6/share/man,;t t
++s,@PACKAGE_NAME@,,;t t
++s,@PACKAGE_TARNAME@,,;t t
++s,@PACKAGE_VERSION@,,;t t
++s,@PACKAGE_STRING@,,;t t
++s,@PACKAGE_BUGREPORT@,,;t t
++s,@build_alias@,i686-pld-linux,;t t
++s,@host_alias@,,;t t
++s,@target_alias@,,;t t
++s,@ECHO_C@,\c,;t t
++s,@ECHO_N@,,;t t
++s,@ECHO_T@,,;t t
++s,@PATH_SEPARATOR@,:,;t t
++s,@DEFS@,-DHAVE_CONFIG_H,;t t
++s,@LIBS@, -lmad -lvorbisfile -lvorbis -logg -lid3 -L/usr/X11R6/lib -s -lwx_gtk-2.3,;t t
++s,@CC@,i686-pld-linux-gcc,;t t
++s,@CFLAGS@,-O2 -march=i686 -I/usr/X11R6/lib/wx/include/gtk-2.3 -I/usr/X11R6/include -DGTK_NO_CHECK_CASTS -D__WXGTK__ -D_REENTRANT,;t t
++s,@LDFLAGS@,-s,;t t
++s,@CPPFLAGS@,,;t t
++s,@ac_ct_CC@,i686-pld-linux-gcc,;t t
++s,@EXEEXT@,,;t t
++s,@OBJEXT@,o,;t t
++s,@CPP@,i686-pld-linux-gcc -E,;t t
++s,@CXX@,g++,;t t
++s,@CXXFLAGS@,-O2 -march=i686,;t t
++s,@ac_ct_CXX@,,;t t
++s,@CXXCPP@,g++ -E,;t t
++s,@INSTALL_PROGRAM@,${INSTALL},;t t
++s,@INSTALL_SCRIPT@,${INSTALL},;t t
++s,@INSTALL_DATA@,${INSTALL} -m 644,;t t
++s,@EXTRAOBJS@, $(OBJDIR)/snd/audiooss.c.o,;t t
++s,@MAKEALL@, audacity-help.htb,;t t
++s,@build@,i686-pld-linux-gnu,;t t
++s,@build_cpu@,i686,;t t
++s,@build_vendor@,pld,;t t
++s,@build_os@,linux-gnu,;t t
++s,@host@,i686-pld-linux-gnu,;t t
++s,@host_cpu@,i386,;t t
++s,@host_vendor@,pld,;t t
++s,@host_os@,linux,;t t
++s,@WX_CONFIG@,/usr/X11R6/bin/wx-config,;t t
++CEOF
++
++  # Split the substitutions into bite-sized pieces for seds with
++  # small command number limits, like on Digital OSF/1 and HP-UX.
++  ac_max_sed_lines=48
++  ac_sed_frag=1 # Number of current file.
++  ac_beg=1 # First line for current file.
++  ac_end=$ac_max_sed_lines # Line after last line for current file.
++  ac_more_lines=:
++  ac_sed_cmds=
++  while $ac_more_lines; do
++    if test $ac_beg -gt 1; then
++      sed "1,${ac_beg}d; ${ac_end}q" $tmp/subs.sed >$tmp/subs.frag
++    else
++      sed "${ac_end}q" $tmp/subs.sed >$tmp/subs.frag
++    fi
++    if test ! -s $tmp/subs.frag; then
++      ac_more_lines=false
++    else
++      # The purpose of the label and of the branching condition is to
++      # speed up the sed processing (if there are no `@' at all, there
++      # is no need to browse any of the substitutions).
++      # These are the two extra sed commands mentioned above.
++      (echo ':t
++  /@[a-zA-Z_][a-zA-Z_0-9]*@/!b' && cat $tmp/subs.frag) >$tmp/subs-$ac_sed_frag.sed
++      if test -z "$ac_sed_cmds"; then
++  	ac_sed_cmds="sed -f $tmp/subs-$ac_sed_frag.sed"
++      else
++  	ac_sed_cmds="$ac_sed_cmds | sed -f $tmp/subs-$ac_sed_frag.sed"
++      fi
++      ac_sed_frag=`expr $ac_sed_frag + 1`
++      ac_beg=$ac_end
++      ac_end=`expr $ac_end + $ac_max_sed_lines`
++    fi
++  done
++  if test -z "$ac_sed_cmds"; then
++    ac_sed_cmds=cat
++  fi
++fi # test -n "$CONFIG_FILES"
++
++for ac_file in : $CONFIG_FILES; do test "x$ac_file" = x: && continue
++  # Support "outfile[:infile[:infile...]]", defaulting infile="outfile.in".
++  case $ac_file in
++  - | *:- | *:-:* ) # input from stdin
++        cat >$tmp/stdin
++        ac_file_in=`echo "$ac_file" | sed 's,[^:]*:,,'`
++        ac_file=`echo "$ac_file" | sed 's,:.*,,'` ;;
++  *:* ) ac_file_in=`echo "$ac_file" | sed 's,[^:]*:,,'`
++        ac_file=`echo "$ac_file" | sed 's,:.*,,'` ;;
++  * )   ac_file_in=$ac_file.in ;;
++  esac
++
++  # Compute @srcdir@, @top_srcdir@, and @INSTALL@ for subdirectories.
++  ac_dir=`$as_expr X"$ac_file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
++         X"$ac_file" : 'X\(//\)[^/]' \| \
++         X"$ac_file" : 'X\(//\)$' \| \
++         X"$ac_file" : 'X\(/\)' \| \
++         .     : '\(.\)' 2>/dev/null ||
++echo X"$ac_file" |
++    sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{ s//\1/; q; }
++  	  /^X\(\/\/\)[^/].*/{ s//\1/; q; }
++  	  /^X\(\/\/\)$/{ s//\1/; q; }
++  	  /^X\(\/\).*/{ s//\1/; q; }
++  	  s/.*/./; q'`
++  if test "$ac_dir" != "$ac_file" && test "$ac_dir" != .; then
++    { case "$ac_dir" in
++  [\\/]* | ?:[\\/]* ) as_incr_dir=;;
++  *)                      as_incr_dir=.;;
++esac
++as_dummy="$ac_dir"
++for as_mkdir_dir in `IFS='/\\'; set X $as_dummy; shift; echo "$@"`; do
++  case $as_mkdir_dir in
++    # Skip DOS drivespec
++    ?:) as_incr_dir=$as_mkdir_dir ;;
++    *)
++      as_incr_dir=$as_incr_dir/$as_mkdir_dir
++      test -d "$as_incr_dir" || mkdir "$as_incr_dir"
++    ;;
++  esac
++done; }
++
++    ac_dir_suffix="/`echo $ac_dir|sed 's,^\./,,'`"
++    # A "../" for each directory in $ac_dir_suffix.
++    ac_dots=`echo "$ac_dir_suffix" | sed 's,/[^/]*,../,g'`
++  else
++    ac_dir_suffix= ac_dots=
++  fi
++
++  case $srcdir in
++  .)  ac_srcdir=.
++      if test -z "$ac_dots"; then
++         ac_top_srcdir=.
++      else
++         ac_top_srcdir=`echo $ac_dots | sed 's,/$,,'`
++      fi ;;
++  [\\/]* | ?:[\\/]* )
++      ac_srcdir=$srcdir$ac_dir_suffix;
++      ac_top_srcdir=$srcdir ;;
++  *) # Relative path.
++    ac_srcdir=$ac_dots$srcdir$ac_dir_suffix
++    ac_top_srcdir=$ac_dots$srcdir ;;
++  esac
++
++  case $INSTALL in
++  [\\/$]* | ?:[\\/]* ) ac_INSTALL=$INSTALL ;;
++  *) ac_INSTALL=$ac_dots$INSTALL ;;
++  esac
++
++  if test x"$ac_file" != x-; then
++    { echo "$as_me:4000: creating $ac_file" >&5
++echo "$as_me: creating $ac_file" >&6;}
++    rm -f "$ac_file"
++  fi
++  # Let's still pretend it is `configure' which instantiates (i.e., don't
++  # use $as_me), people would be surprised to read:
++  #    /* config.h.  Generated automatically by config.status.  */
++  configure_input="Generated automatically from `echo $ac_file_in |
++                                                 sed 's,.*/,,'` by configure."
++
++  # First look for the input files in the build tree, otherwise in the
++  # src tree.
++  ac_file_inputs=`IFS=:
++    for f in $ac_file_in; do
++      case $f in
++      -) echo $tmp/stdin ;;
++      [\\/$]*)
++         # Absolute (can't be DOS-style, as IFS=:)
++         test -f "$f" || { { echo "$as_me:4018: error: cannot find input file: $f" >&5
++echo "$as_me: error: cannot find input file: $f" >&2;}
++   { (exit 1); exit 1; }; }
++         echo $f;;
++      *) # Relative
++         if test -f "$f"; then
++           # Build tree
++           echo $f
++         elif test -f "$srcdir/$f"; then
++           # Source tree
++           echo $srcdir/$f
++         else
++           # /dev/null tree
++           { { echo "$as_me:4031: error: cannot find input file: $f" >&5
++echo "$as_me: error: cannot find input file: $f" >&2;}
++   { (exit 1); exit 1; }; }
++         fi;;
++      esac
++    done` || { (exit 1); exit 1; }
++  sed "/^[ 	]*VPATH[ 	]*=/{
++s/:*\$(srcdir):*/:/;
++s/:*\${srcdir}:*/:/;
++s/:*@srcdir@:*/:/;
++s/^\([^=]*=[ 	]*\):*/\1/;
++s/:*$//;
++s/^[^=]*=[ 	]*$//;
++}
++
++:t
++/@[a-zA-Z_][a-zA-Z_0-9]*@/!b
++s,@configure_input@,$configure_input,;t t
++s,@srcdir@,$ac_srcdir,;t t
++s,@top_srcdir@,$ac_top_srcdir,;t t
++s,@INSTALL@,$ac_INSTALL,;t t
++" $ac_file_inputs | (eval "$ac_sed_cmds") >$tmp/out
++  rm -f $tmp/stdin
++  if test x"$ac_file" != x-; then
++    mv $tmp/out $ac_file
++  else
++    cat $tmp/out
++    rm -f $tmp/out
++  fi
++
++done
++
++#
++# CONFIG_HEADER section.
++#
++
++# These sed commands are passed to sed as "A NAME B NAME C VALUE D", where
++# NAME is the cpp macro being defined and VALUE is the value it is being given.
++#
++# ac_d sets the value in "#define NAME VALUE" lines.
++ac_dA='s,^\([ 	]*\)#\([ 	]*define[ 	][ 	]*\)'
++ac_dB='[ 	].*$,\1#\2'
++ac_dC=' '
++ac_dD=',;t'
++# ac_u turns "#undef NAME" without trailing blanks into "#define NAME VALUE".
++ac_uA='s,^\([ 	]*\)#\([ 	]*\)undef\([ 	][ 	]*\)'
++ac_uB='$,\1#\2define\3'
++ac_uC=' '
++ac_uD=',;t'
++
++for ac_file in : $CONFIG_HEADERS; do test "x$ac_file" = x: && continue
++  # Support "outfile[:infile[:infile...]]", defaulting infile="outfile.in".
++  case $ac_file in
++  - | *:- | *:-:* ) # input from stdin
++        cat >$tmp/stdin
++        ac_file_in=`echo "$ac_file" | sed 's,[^:]*:,,'`
++        ac_file=`echo "$ac_file" | sed 's,:.*,,'` ;;
++  *:* ) ac_file_in=`echo "$ac_file" | sed 's,[^:]*:,,'`
++        ac_file=`echo "$ac_file" | sed 's,:.*,,'` ;;
++  * )   ac_file_in=$ac_file.in ;;
++  esac
++
++  test x"$ac_file" != x- && { echo "$as_me:4092: creating $ac_file" >&5
++echo "$as_me: creating $ac_file" >&6;}
++
++  # First look for the input files in the build tree, otherwise in the
++  # src tree.
++  ac_file_inputs=`IFS=:
++    for f in $ac_file_in; do
++      case $f in
++      -) echo $tmp/stdin ;;
++      [\\/$]*)
++         # Absolute (can't be DOS-style, as IFS=:)
++         test -f "$f" || { { echo "$as_me:4103: error: cannot find input file: $f" >&5
++echo "$as_me: error: cannot find input file: $f" >&2;}
++   { (exit 1); exit 1; }; }
++         echo $f;;
++      *) # Relative
++         if test -f "$f"; then
++           # Build tree
++           echo $f
++         elif test -f "$srcdir/$f"; then
++           # Source tree
++           echo $srcdir/$f
++         else
++           # /dev/null tree
++           { { echo "$as_me:4116: error: cannot find input file: $f" >&5
++echo "$as_me: error: cannot find input file: $f" >&2;}
++   { (exit 1); exit 1; }; }
++         fi;;
++      esac
++    done` || { (exit 1); exit 1; }
++  # Remove the trailing spaces.
++  sed 's/[ 	]*$//' $ac_file_inputs >$tmp/in
++
++  # Handle all the #define templates only if necessary.
++  if egrep "^[ 	]*#[ 	]*define" $tmp/in >/dev/null; then
++  # If there are no defines, we may have an empty if/fi
++  :
++  cat >$tmp/defines.sed <<CEOF
++/^[ 	]*#[ 	]*define/!b
++t clr
++: clr
++${ac_dA}USE_LIBMAD${ac_dB}USE_LIBMAD${ac_dC}1${ac_dD}
++${ac_dA}MP3SUPPORT${ac_dB}MP3SUPPORT${ac_dC}1${ac_dD}
++${ac_dA}USE_LIBVORBIS${ac_dB}USE_LIBVORBIS${ac_dC}1${ac_dD}
++${ac_dA}USE_ID3LIB${ac_dB}USE_ID3LIB${ac_dC}1${ac_dD}
++${ac_dA}USE_OSS${ac_dB}USE_OSS${ac_dC}1${ac_dD}
++${ac_dA}STDC_HEADERS${ac_dB}STDC_HEADERS${ac_dC}1${ac_dD}
++${ac_dA}HAVE_SYS_TYPES_H${ac_dB}HAVE_SYS_TYPES_H${ac_dC}1${ac_dD}
++${ac_dA}HAVE_SYS_STAT_H${ac_dB}HAVE_SYS_STAT_H${ac_dC}1${ac_dD}
++${ac_dA}HAVE_STDLIB_H${ac_dB}HAVE_STDLIB_H${ac_dC}1${ac_dD}
++${ac_dA}HAVE_STRING_H${ac_dB}HAVE_STRING_H${ac_dC}1${ac_dD}
++${ac_dA}HAVE_MEMORY_H${ac_dB}HAVE_MEMORY_H${ac_dC}1${ac_dD}
++${ac_dA}HAVE_STRINGS_H${ac_dB}HAVE_STRINGS_H${ac_dC}1${ac_dD}
++${ac_dA}HAVE_INTTYPES_H${ac_dB}HAVE_INTTYPES_H${ac_dC}1${ac_dD}
++${ac_dA}HAVE_STDINT_H${ac_dB}HAVE_STDINT_H${ac_dC}1${ac_dD}
++${ac_dA}HAVE_UNISTD_H${ac_dB}HAVE_UNISTD_H${ac_dC}1${ac_dD}
++CEOF
++  sed -f $tmp/defines.sed $tmp/in >$tmp/out
++  rm -f $tmp/in
++  mv $tmp/out $tmp/in
++
++  fi # egrep
++
++  # Handle all the #undef templates
++  cat >$tmp/undefs.sed <<CEOF
++/^[ 	]*#[ 	]*undef/!b
++t clr
++: clr
++${ac_uA}USE_LIBMAD${ac_uB}USE_LIBMAD${ac_uC}1${ac_uD}
++${ac_uA}MP3SUPPORT${ac_uB}MP3SUPPORT${ac_uC}1${ac_uD}
++${ac_uA}USE_LIBVORBIS${ac_uB}USE_LIBVORBIS${ac_uC}1${ac_uD}
++${ac_uA}USE_ID3LIB${ac_uB}USE_ID3LIB${ac_uC}1${ac_uD}
++${ac_uA}USE_OSS${ac_uB}USE_OSS${ac_uC}1${ac_uD}
++${ac_uA}STDC_HEADERS${ac_uB}STDC_HEADERS${ac_uC}1${ac_uD}
++${ac_uA}HAVE_SYS_TYPES_H${ac_uB}HAVE_SYS_TYPES_H${ac_uC}1${ac_uD}
++${ac_uA}HAVE_SYS_STAT_H${ac_uB}HAVE_SYS_STAT_H${ac_uC}1${ac_uD}
++${ac_uA}HAVE_STDLIB_H${ac_uB}HAVE_STDLIB_H${ac_uC}1${ac_uD}
++${ac_uA}HAVE_STRING_H${ac_uB}HAVE_STRING_H${ac_uC}1${ac_uD}
++${ac_uA}HAVE_MEMORY_H${ac_uB}HAVE_MEMORY_H${ac_uC}1${ac_uD}
++${ac_uA}HAVE_STRINGS_H${ac_uB}HAVE_STRINGS_H${ac_uC}1${ac_uD}
++${ac_uA}HAVE_INTTYPES_H${ac_uB}HAVE_INTTYPES_H${ac_uC}1${ac_uD}
++${ac_uA}HAVE_STDINT_H${ac_uB}HAVE_STDINT_H${ac_uC}1${ac_uD}
++${ac_uA}HAVE_UNISTD_H${ac_uB}HAVE_UNISTD_H${ac_uC}1${ac_uD}
++s,^[ 	]*#[ 	]*undef[ 	][ 	]*[a-zA-Z_][a-zA-Z_0-9]*,/* & */,
++CEOF
++  sed -f $tmp/undefs.sed $tmp/in >$tmp/out
++  rm -f $tmp/in
++  mv $tmp/out $tmp/in
++
++  # Let's still pretend it is `configure' which instantiates (i.e., don't
++  # use $as_me), people would be surprised to read:
++  #    /* config.h.  Generated automatically by config.status.  */
++  if test x"$ac_file" = x-; then
++    echo "/* Generated automatically by configure.  */" >$tmp/config.h
++  else
++    echo "/* $ac_file.  Generated automatically by configure.  */" >$tmp/config.h
++  fi
++  cat $tmp/in >>$tmp/config.h
++  rm -f $tmp/in
++  if test x"$ac_file" != x-; then
++    if cmp -s $ac_file $tmp/config.h 2>/dev/null; then
++      { echo "$as_me:4233: $ac_file is unchanged" >&5
++echo "$as_me: $ac_file is unchanged" >&6;}
++    else
++      ac_dir=`$as_expr X"$ac_file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
++         X"$ac_file" : 'X\(//\)[^/]' \| \
++         X"$ac_file" : 'X\(//\)$' \| \
++         X"$ac_file" : 'X\(/\)' \| \
++         .     : '\(.\)' 2>/dev/null ||
++echo X"$ac_file" |
++    sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{ s//\1/; q; }
++  	  /^X\(\/\/\)[^/].*/{ s//\1/; q; }
++  	  /^X\(\/\/\)$/{ s//\1/; q; }
++  	  /^X\(\/\).*/{ s//\1/; q; }
++  	  s/.*/./; q'`
++      if test "$ac_dir" != "$ac_file" && test "$ac_dir" != .; then
++        { case "$ac_dir" in
++  [\\/]* | ?:[\\/]* ) as_incr_dir=;;
++  *)                      as_incr_dir=.;;
++esac
++as_dummy="$ac_dir"
++for as_mkdir_dir in `IFS='/\\'; set X $as_dummy; shift; echo "$@"`; do
++  case $as_mkdir_dir in
++    # Skip DOS drivespec
++    ?:) as_incr_dir=$as_mkdir_dir ;;
++    *)
++      as_incr_dir=$as_incr_dir/$as_mkdir_dir
++      test -d "$as_incr_dir" || mkdir "$as_incr_dir"
++    ;;
++  esac
++done; }
++
++      fi
++      rm -f $ac_file
++      mv $tmp/config.h $ac_file
++    fi
++  else
++    cat $tmp/config.h
++    rm -f $tmp/config.h
++  fi
++done
++
++{ (exit 0); exit 0; }
+diff -ruN audacity-src-0.98.orig/configure audacity-src-0.98/configure
+--- audacity-src-0.98.orig/configure	Tue Jan 22 06:14:15 2002
++++ audacity-src-0.98/configure	Sat May 11 20:18:20 2002
+@@ -169,16 +169,16 @@
+ # Use braces instead of parens because sh, perl, etc. also accept them.
+ bindir='${exec_prefix}/bin'
+ sbindir='${exec_prefix}/sbin'
+-libexecdir='${exec_prefix}/libexec'
++libexecdir='${exec_prefix}/lib'
+ datadir='${prefix}/share'
+ sysconfdir='${prefix}/etc'
+ sharedstatedir='${prefix}/com'
+-localstatedir='${prefix}/var'
++localstatedir='/var/lib'
+ libdir='${exec_prefix}/lib'
+ includedir='${prefix}/include'
+ oldincludedir='/usr/include'
+-infodir='${prefix}/info'
+-mandir='${prefix}/man'
++infodir='${prefix}/share/info'
++mandir='${prefix}/share/man'
+ 
+ # Identity of this package.
+ PACKAGE_NAME=
+@@ -688,8 +688,6 @@
+   --with-xaudio           use xaudio for mp3 support [default=auto]
+   --with-vorbis           enable ogg vorbis support (libraries must be
+                           installed) [default=no]
+-  --with-id3              compile with id3lib (the source is included here)
+-                          [default=yes]
+   --with-help             Make the help file "audacity-help.htb" [default=yes]
+ 
+ Some influential environment variables:
+@@ -749,6 +747,8 @@
+ test -n "$ac_init_help" && exit 0
+ if $ac_init_version; then
+   cat <<\EOF
++configure
++generated by GNU Autoconf 2.52
+ 
+ Copyright 1992, 1993, 1994, 1995, 1996, 1998, 1999, 2000, 2001
+ Free Software Foundation, Inc.
+@@ -2558,14 +2558,7 @@
+ else
+   use_vorbis="no"
+ fi;
+-
+-# Check whether --with-id3 or --without-id3 was given.
+-if test "${with_id3+set}" = set; then
+-  withval="$with_id3"
+-  use_id3lib=$withval
+-else
+-  use_id3lib="yes"
+-fi;
++use_id3lib="yes"
+ 
+ # Check whether --with-help or --without-help was given.
+ if test "${with_help+set}" = set; then
+@@ -2577,11 +2570,11 @@
+ 
+ # Make sure we can run config.sub.
+ $ac_config_sub sun4 >/dev/null 2>&1 ||
+-  { { echo "$as_me:2580: error: cannot run $ac_config_sub" >&5
++  { { echo "$as_me:2573: error: cannot run $ac_config_sub" >&5
+ echo "$as_me: error: cannot run $ac_config_sub" >&2;}
+    { (exit 1); exit 1; }; }
+ 
+-echo "$as_me:2584: checking build system type" >&5
++echo "$as_me:2577: checking build system type" >&5
+ echo $ECHO_N "checking build system type... $ECHO_C" >&6
+ if test "${ac_cv_build+set}" = set; then
+   echo $ECHO_N "(cached) $ECHO_C" >&6
+@@ -2590,23 +2583,23 @@
+ test -z "$ac_cv_build_alias" &&
+   ac_cv_build_alias=`$ac_config_guess`
+ test -z "$ac_cv_build_alias" &&
+-  { { echo "$as_me:2593: error: cannot guess build type; you must specify one" >&5
++  { { echo "$as_me:2586: error: cannot guess build type; you must specify one" >&5
+ echo "$as_me: error: cannot guess build type; you must specify one" >&2;}
+    { (exit 1); exit 1; }; }
+ ac_cv_build=`$ac_config_sub $ac_cv_build_alias` ||
+-  { { echo "$as_me:2597: error: $ac_config_sub $ac_cv_build_alias failed." >&5
++  { { echo "$as_me:2590: error: $ac_config_sub $ac_cv_build_alias failed." >&5
+ echo "$as_me: error: $ac_config_sub $ac_cv_build_alias failed." >&2;}
+    { (exit 1); exit 1; }; }
+ 
+ fi
+-echo "$as_me:2602: result: $ac_cv_build" >&5
++echo "$as_me:2595: result: $ac_cv_build" >&5
+ echo "${ECHO_T}$ac_cv_build" >&6
+ build=$ac_cv_build
+ build_cpu=`echo $ac_cv_build | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\1/'`
+ build_vendor=`echo $ac_cv_build | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\2/'`
+ build_os=`echo $ac_cv_build | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\3/'`
+ 
+-echo "$as_me:2609: checking host system type" >&5
++echo "$as_me:2602: checking host system type" >&5
+ echo $ECHO_N "checking host system type... $ECHO_C" >&6
+ if test "${ac_cv_host+set}" = set; then
+   echo $ECHO_N "(cached) $ECHO_C" >&6
+@@ -2615,12 +2608,12 @@
+ test -z "$ac_cv_host_alias" &&
+   ac_cv_host_alias=$ac_cv_build_alias
+ ac_cv_host=`$ac_config_sub $ac_cv_host_alias` ||
+-  { { echo "$as_me:2618: error: $ac_config_sub $ac_cv_host_alias failed" >&5
++  { { echo "$as_me:2611: error: $ac_config_sub $ac_cv_host_alias failed" >&5
+ echo "$as_me: error: $ac_config_sub $ac_cv_host_alias failed" >&2;}
+    { (exit 1); exit 1; }; }
+ 
+ fi
+-echo "$as_me:2623: result: $ac_cv_host" >&5
++echo "$as_me:2616: result: $ac_cv_host" >&5
+ echo "${ECHO_T}$ac_cv_host" >&6
+ host=$ac_cv_host
+ host_cpu=`echo $ac_cv_host | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\1/'`
+@@ -2631,7 +2624,7 @@
+ host_os=`echo "$host_os" | sed "s/-.*//"`
+ 
+ if [ "$use_libmad" = "yes" ] && [ "$use_xaudio" = "yes" ] ; then
+-	{ { echo "$as_me:2634: error: *** --with-libmad and --with-xaudio are mutually exclusive" >&5
++	{ { echo "$as_me:2627: error: *** --with-libmad and --with-xaudio are mutually exclusive" >&5
+ echo "$as_me: error: *** --with-libmad and --with-xaudio are mutually exclusive" >&2;}
+    { (exit 1); exit 1; }; }
+ fi
+@@ -2645,7 +2638,7 @@
+ fi
+ 
+ if [ "$use_oss" = "yes" ] && [ "$use_arts" = "yes" ] ; then
+-	{ { echo "$as_me:2648: error: *** --with-oss and --with-arts-soundserver are mutually exclusive" >&5
++	{ { echo "$as_me:2641: error: *** --with-oss and --with-arts-soundserver are mutually exclusive" >&5
+ echo "$as_me: error: *** --with-oss and --with-arts-soundserver are mutually exclusive" >&2;}
+    { (exit 1); exit 1; }; }
+ fi
+@@ -2658,7 +2651,7 @@
+ 
+ if [ "$use_libmad" = "yes" ] ; then
+ 
+-echo "$as_me:2661: checking for mad_decoder_init in -lmad" >&5
++echo "$as_me:2654: checking for mad_decoder_init in -lmad" >&5
+ echo $ECHO_N "checking for mad_decoder_init in -lmad... $ECHO_C" >&6
+ if test "${ac_cv_lib_mad_mad_decoder_init+set}" = set; then
+   echo $ECHO_N "(cached) $ECHO_C" >&6
+@@ -2666,7 +2659,7 @@
+   ac_check_lib_save_LIBS=$LIBS
+ LIBS="-lmad  $LIBS"
+ cat >conftest.$ac_ext <<_ACEOF
+-#line 2669 "configure"
++#line 2662 "configure"
+ #include "confdefs.h"
+ 
+ /* Override any gcc2 internal prototype to avoid an error.  */
+@@ -2685,16 +2678,16 @@
+ }
+ _ACEOF
+ rm -f conftest.$ac_objext conftest$ac_exeext
+-if { (eval echo "$as_me:2688: \"$ac_link\"") >&5
++if { (eval echo "$as_me:2681: \"$ac_link\"") >&5
+   (eval $ac_link) 2>&5
+   ac_status=$?
+-  echo "$as_me:2691: \$? = $ac_status" >&5
++  echo "$as_me:2684: \$? = $ac_status" >&5
+   (exit $ac_status); } &&
+          { ac_try='test -s conftest$ac_exeext'
+-  { (eval echo "$as_me:2694: \"$ac_try\"") >&5
++  { (eval echo "$as_me:2687: \"$ac_try\"") >&5
+   (eval $ac_try) 2>&5
+   ac_status=$?
+-  echo "$as_me:2697: \$? = $ac_status" >&5
++  echo "$as_me:2690: \$? = $ac_status" >&5
+   (exit $ac_status); }; }; then
+   ac_cv_lib_mad_mad_decoder_init=yes
+ else
+@@ -2705,33 +2698,33 @@
+ rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+ LIBS=$ac_check_lib_save_LIBS
+ fi
+-echo "$as_me:2708: result: $ac_cv_lib_mad_mad_decoder_init" >&5
++echo "$as_me:2701: result: $ac_cv_lib_mad_mad_decoder_init" >&5
+ echo "${ECHO_T}$ac_cv_lib_mad_mad_decoder_init" >&6
+ if test $ac_cv_lib_mad_mad_decoder_init = yes; then
+   true
+ else
+-  	   { { echo "$as_me:2713: error: *** libmad not found. Either compile and install it or use xaudio" >&5
++  	   { { echo "$as_me:2706: error: *** libmad not found. Either compile and install it or use xaudio" >&5
+ echo "$as_me: error: *** libmad not found. Either compile and install it or use xaudio" >&2;}
+    { (exit 1); exit 1; }; }
+ fi
+ 
+-echo "$as_me:2718: checking for mad.h" >&5
++echo "$as_me:2711: checking for mad.h" >&5
+ echo $ECHO_N "checking for mad.h... $ECHO_C" >&6
+ if test "${ac_cv_header_mad_h+set}" = set; then
+   echo $ECHO_N "(cached) $ECHO_C" >&6
+ else
+   cat >conftest.$ac_ext <<_ACEOF
+-#line 2724 "configure"
++#line 2717 "configure"
+ #include "confdefs.h"
+ #include <mad.h>
+ _ACEOF
+-if { (eval echo "$as_me:2728: \"$ac_cpp conftest.$ac_ext\"") >&5
++if { (eval echo "$as_me:2721: \"$ac_cpp conftest.$ac_ext\"") >&5
+   (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
+   ac_status=$?
+   egrep -v '^ *\+' conftest.er1 >conftest.err
+   rm -f conftest.er1
+   cat conftest.err >&5
+-  echo "$as_me:2734: \$? = $ac_status" >&5
++  echo "$as_me:2727: \$? = $ac_status" >&5
+   (exit $ac_status); } >/dev/null; then
+   if test -s conftest.err; then
+     ac_cpp_err=$ac_cxx_preproc_warn_flag
+@@ -2750,12 +2743,12 @@
+ fi
+ rm -f conftest.err conftest.$ac_ext
+ fi
+-echo "$as_me:2753: result: $ac_cv_header_mad_h" >&5
++echo "$as_me:2746: result: $ac_cv_header_mad_h" >&5
+ echo "${ECHO_T}$ac_cv_header_mad_h" >&6
+ if test $ac_cv_header_mad_h = yes; then
+   :
+ else
+-  { { echo "$as_me:2758: error: *** libmad headers not found. Either compile and install it or use xaudio" >&5
++  { { echo "$as_me:2751: error: *** libmad headers not found. Either compile and install it or use xaudio" >&5
+ echo "$as_me: error: *** libmad headers not found. Either compile and install it or use xaudio" >&2;}
+    { (exit 1); exit 1; }; }
+ fi
+@@ -2772,7 +2765,7 @@
+ if [ "$use_xaudio" = "yes" ] ; then
+ 
+ 	if [ "$host_cpu" != "i386" ] ; then
+-		{ { echo "$as_me:2775: error: *** xaudio is not supported on architectures other than i386" >&5
++		{ { echo "$as_me:2768: error: *** xaudio is not supported on architectures other than i386" >&5
+ echo "$as_me: error: *** xaudio is not supported on architectures other than i386" >&2;}
+    { (exit 1); exit 1; }; }
+ 	fi
+@@ -2782,7 +2775,7 @@
+ 			LIBS="$LIBS -Lxaudio/linux/lib -lxaudio"
+ 			;;
+ 		*)
+-			{ { echo "$as_me:2785: error: *** xaudio is only supported on Linux" >&5
++			{ { echo "$as_me:2778: error: *** xaudio is only supported on Linux" >&5
+ echo "$as_me: error: *** xaudio is only supported on Linux" >&2;}
+    { (exit 1); exit 1; }; }
+ 			;;
+@@ -2805,7 +2798,7 @@
+ 
+ if [ $use_vorbis = "yes" ] ; then
+ 
+-   echo "$as_me:2808: checking for ov_open in -lvorbisfile" >&5
++   echo "$as_me:2801: checking for ov_open in -lvorbisfile" >&5
+ echo $ECHO_N "checking for ov_open in -lvorbisfile... $ECHO_C" >&6
+ if test "${ac_cv_lib_vorbisfile_ov_open+set}" = set; then
+   echo $ECHO_N "(cached) $ECHO_C" >&6
+@@ -2813,7 +2806,7 @@
+   ac_check_lib_save_LIBS=$LIBS
+ LIBS="-lvorbisfile -lvorbis -logg $LIBS"
+ cat >conftest.$ac_ext <<_ACEOF
+-#line 2816 "configure"
++#line 2809 "configure"
+ #include "confdefs.h"
+ 
+ /* Override any gcc2 internal prototype to avoid an error.  */
+@@ -2832,16 +2825,16 @@
+ }
+ _ACEOF
+ rm -f conftest.$ac_objext conftest$ac_exeext
+-if { (eval echo "$as_me:2835: \"$ac_link\"") >&5
++if { (eval echo "$as_me:2828: \"$ac_link\"") >&5
+   (eval $ac_link) 2>&5
+   ac_status=$?
+-  echo "$as_me:2838: \$? = $ac_status" >&5
++  echo "$as_me:2831: \$? = $ac_status" >&5
+   (exit $ac_status); } &&
+          { ac_try='test -s conftest$ac_exeext'
+-  { (eval echo "$as_me:2841: \"$ac_try\"") >&5
++  { (eval echo "$as_me:2834: \"$ac_try\"") >&5
+   (eval $ac_try) 2>&5
+   ac_status=$?
+-  echo "$as_me:2844: \$? = $ac_status" >&5
++  echo "$as_me:2837: \$? = $ac_status" >&5
+   (exit $ac_status); }; }; then
+   ac_cv_lib_vorbisfile_ov_open=yes
+ else
+@@ -2852,33 +2845,33 @@
+ rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+ LIBS=$ac_check_lib_save_LIBS
+ fi
+-echo "$as_me:2855: result: $ac_cv_lib_vorbisfile_ov_open" >&5
++echo "$as_me:2848: result: $ac_cv_lib_vorbisfile_ov_open" >&5
+ echo "${ECHO_T}$ac_cv_lib_vorbisfile_ov_open" >&6
+ if test $ac_cv_lib_vorbisfile_ov_open = yes; then
+   true
+ else
+-  	   { { echo "$as_me:2860: error: *** Ogg Vorbis libraries not found. libvorbis must be installed for Ogg Vorbis support" >&5
++  	   { { echo "$as_me:2853: error: *** Ogg Vorbis libraries not found. libvorbis must be installed for Ogg Vorbis support" >&5
+ echo "$as_me: error: *** Ogg Vorbis libraries not found. libvorbis must be installed for Ogg Vorbis support" >&2;}
+    { (exit 1); exit 1; }; }
+ fi
+ 
+-   echo "$as_me:2865: checking for vorbis/vorbisfile.h" >&5
++   echo "$as_me:2858: checking for vorbis/vorbisfile.h" >&5
+ echo $ECHO_N "checking for vorbis/vorbisfile.h... $ECHO_C" >&6
+ if test "${ac_cv_header_vorbis_vorbisfile_h+set}" = set; then
+   echo $ECHO_N "(cached) $ECHO_C" >&6
+ else
+   cat >conftest.$ac_ext <<_ACEOF
+-#line 2871 "configure"
++#line 2864 "configure"
+ #include "confdefs.h"
+ #include <vorbis/vorbisfile.h>
+ _ACEOF
+-if { (eval echo "$as_me:2875: \"$ac_cpp conftest.$ac_ext\"") >&5
++if { (eval echo "$as_me:2868: \"$ac_cpp conftest.$ac_ext\"") >&5
+   (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
+   ac_status=$?
+   egrep -v '^ *\+' conftest.er1 >conftest.err
+   rm -f conftest.er1
+   cat conftest.err >&5
+-  echo "$as_me:2881: \$? = $ac_status" >&5
++  echo "$as_me:2874: \$? = $ac_status" >&5
+   (exit $ac_status); } >/dev/null; then
+   if test -s conftest.err; then
+     ac_cpp_err=$ac_cxx_preproc_warn_flag
+@@ -2897,12 +2890,12 @@
+ fi
+ rm -f conftest.err conftest.$ac_ext
+ fi
+-echo "$as_me:2900: result: $ac_cv_header_vorbis_vorbisfile_h" >&5
++echo "$as_me:2893: result: $ac_cv_header_vorbis_vorbisfile_h" >&5
+ echo "${ECHO_T}$ac_cv_header_vorbis_vorbisfile_h" >&6
+ if test $ac_cv_header_vorbis_vorbisfile_h = yes; then
+   :
+ else
+-  { { echo "$as_me:2905: error: *** Ogg Vorbis headers not found. libvorbis must be installed for Ogg Vorbis support" >&5
++  { { echo "$as_me:2898: error: *** Ogg Vorbis headers not found. libvorbis must be installed for Ogg Vorbis support" >&5
+ echo "$as_me: error: *** Ogg Vorbis headers not found. libvorbis must be installed for Ogg Vorbis support" >&2;}
+    { (exit 1); exit 1; }; }
+ fi
+@@ -2916,9 +2909,7 @@
+ fi
+ 
+ if [ $use_id3lib = "yes" ] ; then
+-	EXTRAOBJS="$EXTRAOBJS id3lib/src/.libs/libid3.a"
+-	MAKEALL="$MAKEALL id3lib/src/.libs/libid3.a"
+-	CFLAGS="$CFLAGS -Iid3lib/include"
++			LIBS="$LIBS -lid3"
+ 
+ cat >>confdefs.h <<\EOF
+ #define USE_ID3LIB 1
+@@ -2956,7 +2947,7 @@
+ 
+ # Extract the first word of "wx-config", so it can be a program name with args.
+ set dummy wx-config; ac_word=$2
+-echo "$as_me:2959: checking for $ac_word" >&5
++echo "$as_me:2950: checking for $ac_word" >&5
+ echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+ if test "${ac_cv_path_WX_CONFIG+set}" = set; then
+   echo $ECHO_N "(cached) $ECHO_C" >&6
+@@ -2973,7 +2964,7 @@
+   test -z "$ac_dir" && ac_dir=.
+   if $as_executable_p "$ac_dir/$ac_word"; then
+    ac_cv_path_WX_CONFIG="$ac_dir/$ac_word"
+-   echo "$as_me:2976: found $ac_dir/$ac_word" >&5
++   echo "$as_me:2967: found $ac_dir/$ac_word" >&5
+    break
+ fi
+ done
+@@ -2985,22 +2976,22 @@
+ WX_CONFIG=$ac_cv_path_WX_CONFIG
+ 
+ if test -n "$WX_CONFIG"; then
+-  echo "$as_me:2988: result: $WX_CONFIG" >&5
++  echo "$as_me:2979: result: $WX_CONFIG" >&5
+ echo "${ECHO_T}$WX_CONFIG" >&6
+ else
+-  echo "$as_me:2991: result: no" >&5
++  echo "$as_me:2982: result: no" >&5
+ echo "${ECHO_T}no" >&6
+ fi
+ 
+ if [ "$WX_CONFIG" = "no" ] ; then
+-	{ { echo "$as_me:2996: error: \"Could not find wx-config: is wxWindows installed? is wx-config in your path?\"" >&5
++	{ { echo "$as_me:2987: error: \"Could not find wx-config: is wxWindows installed? is wx-config in your path?\"" >&5
+ echo "$as_me: error: \"Could not find wx-config: is wxWindows installed? is wx-config in your path?\"" >&2;}
+    { (exit 1); exit 1; }; }
+ fi
+ LIBS="$LIBS `$WX_CONFIG --libs`"
+ CFLAGS="$CFLAGS `$WX_CONFIG --cflags`"
+ 
+-echo "$as_me:3003: checking for $CC option to accept ANSI C" >&5
++echo "$as_me:2994: checking for $CC option to accept ANSI C" >&5
+ echo $ECHO_N "checking for $CC option to accept ANSI C... $ECHO_C" >&6
+ if test "${ac_cv_prog_cc_stdc+set}" = set; then
+   echo $ECHO_N "(cached) $ECHO_C" >&6
+@@ -3008,7 +2999,7 @@
+   ac_cv_prog_cc_stdc=no
+ ac_save_CC=$CC
+ cat >conftest.$ac_ext <<_ACEOF
+-#line 3011 "configure"
++#line 3002 "configure"
+ #include "confdefs.h"
+ #include <stdarg.h>
+ #include <stdio.h>
+@@ -3057,16 +3048,16 @@
+ do
+   CC="$ac_save_CC $ac_arg"
+   rm -f conftest.$ac_objext
+-if { (eval echo "$as_me:3060: \"$ac_compile\"") >&5
++if { (eval echo "$as_me:3051: \"$ac_compile\"") >&5
+   (eval $ac_compile) 2>&5
+   ac_status=$?
+-  echo "$as_me:3063: \$? = $ac_status" >&5
++  echo "$as_me:3054: \$? = $ac_status" >&5
+   (exit $ac_status); } &&
+          { ac_try='test -s conftest.$ac_objext'
+-  { (eval echo "$as_me:3066: \"$ac_try\"") >&5
++  { (eval echo "$as_me:3057: \"$ac_try\"") >&5
+   (eval $ac_try) 2>&5
+   ac_status=$?
+-  echo "$as_me:3069: \$? = $ac_status" >&5
++  echo "$as_me:3060: \$? = $ac_status" >&5
+   (exit $ac_status); }; }; then
+   ac_cv_prog_cc_stdc=$ac_arg
+ break
+@@ -3083,21 +3074,21 @@
+ 
+ case "x$ac_cv_prog_cc_stdc" in
+   x|xno)
+-    echo "$as_me:3086: result: none needed" >&5
++    echo "$as_me:3077: result: none needed" >&5
+ echo "${ECHO_T}none needed" >&6 ;;
+   *)
+-    echo "$as_me:3089: result: $ac_cv_prog_cc_stdc" >&5
++    echo "$as_me:3080: result: $ac_cv_prog_cc_stdc" >&5
+ echo "${ECHO_T}$ac_cv_prog_cc_stdc" >&6
+     CC="$CC $ac_cv_prog_cc_stdc" ;;
+ esac
+ 
+-echo "$as_me:3094: checking for an ANSI C-conforming const" >&5
++echo "$as_me:3085: checking for an ANSI C-conforming const" >&5
+ echo $ECHO_N "checking for an ANSI C-conforming const... $ECHO_C" >&6
+ if test "${ac_cv_c_const+set}" = set; then
+   echo $ECHO_N "(cached) $ECHO_C" >&6
+ else
+   cat >conftest.$ac_ext <<_ACEOF
+-#line 3100 "configure"
++#line 3091 "configure"
+ #include "confdefs.h"
+ 
+ int
+@@ -3155,16 +3146,16 @@
+ }
+ _ACEOF
+ rm -f conftest.$ac_objext
+-if { (eval echo "$as_me:3158: \"$ac_compile\"") >&5
++if { (eval echo "$as_me:3149: \"$ac_compile\"") >&5
+   (eval $ac_compile) 2>&5
+   ac_status=$?
+-  echo "$as_me:3161: \$? = $ac_status" >&5
++  echo "$as_me:3152: \$? = $ac_status" >&5
+   (exit $ac_status); } &&
+          { ac_try='test -s conftest.$ac_objext'
+-  { (eval echo "$as_me:3164: \"$ac_try\"") >&5
++  { (eval echo "$as_me:3155: \"$ac_try\"") >&5
+   (eval $ac_try) 2>&5
+   ac_status=$?
+-  echo "$as_me:3167: \$? = $ac_status" >&5
++  echo "$as_me:3158: \$? = $ac_status" >&5
+   (exit $ac_status); }; }; then
+   ac_cv_c_const=yes
+ else
+@@ -3174,7 +3165,7 @@
+ fi
+ rm -f conftest.$ac_objext conftest.$ac_ext
+ fi
+-echo "$as_me:3177: result: $ac_cv_c_const" >&5
++echo "$as_me:3168: result: $ac_cv_c_const" >&5
+ echo "${ECHO_T}$ac_cv_c_const" >&6
+ if test $ac_cv_c_const = no; then
+ 
+@@ -3184,13 +3175,13 @@
+ 
+ fi
+ 
+-echo "$as_me:3187: checking for ANSI C header files" >&5
++echo "$as_me:3178: checking for ANSI C header files" >&5
+ echo $ECHO_N "checking for ANSI C header files... $ECHO_C" >&6
+ if test "${ac_cv_header_stdc+set}" = set; then
+   echo $ECHO_N "(cached) $ECHO_C" >&6
+ else
+   cat >conftest.$ac_ext <<_ACEOF
+-#line 3193 "configure"
++#line 3184 "configure"
+ #include "confdefs.h"
+ #include <stdlib.h>
+ #include <stdarg.h>
+@@ -3198,13 +3189,13 @@
+ #include <float.h>
+ 
+ _ACEOF
+-if { (eval echo "$as_me:3201: \"$ac_cpp conftest.$ac_ext\"") >&5
++if { (eval echo "$as_me:3192: \"$ac_cpp conftest.$ac_ext\"") >&5
+   (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
+   ac_status=$?
+   egrep -v '^ *\+' conftest.er1 >conftest.err
+   rm -f conftest.er1
+   cat conftest.err >&5
+-  echo "$as_me:3207: \$? = $ac_status" >&5
++  echo "$as_me:3198: \$? = $ac_status" >&5
+   (exit $ac_status); } >/dev/null; then
+   if test -s conftest.err; then
+     ac_cpp_err=$ac_cxx_preproc_warn_flag
+@@ -3226,7 +3217,7 @@
+ if test $ac_cv_header_stdc = yes; then
+   # SunOS 4.x string.h does not declare mem*, contrary to ANSI.
+   cat >conftest.$ac_ext <<_ACEOF
+-#line 3229 "configure"
++#line 3220 "configure"
+ #include "confdefs.h"
+ #include <string.h>
+ 
+@@ -3244,7 +3235,7 @@
+ if test $ac_cv_header_stdc = yes; then
+   # ISC 2.0.2 stdlib.h does not declare free, contrary to ANSI.
+   cat >conftest.$ac_ext <<_ACEOF
+-#line 3247 "configure"
++#line 3238 "configure"
+ #include "confdefs.h"
+ #include <stdlib.h>
+ 
+@@ -3265,7 +3256,7 @@
+   :
+ else
+   cat >conftest.$ac_ext <<_ACEOF
+-#line 3268 "configure"
++#line 3259 "configure"
+ #include "confdefs.h"
+ #include <ctype.h>
+ #if ((' ' & 0x0FF) == 0x020)
+@@ -3291,15 +3282,15 @@
+ }
+ _ACEOF
+ rm -f conftest$ac_exeext
+-if { (eval echo "$as_me:3294: \"$ac_link\"") >&5
++if { (eval echo "$as_me:3285: \"$ac_link\"") >&5
+   (eval $ac_link) 2>&5
+   ac_status=$?
+-  echo "$as_me:3297: \$? = $ac_status" >&5
++  echo "$as_me:3288: \$? = $ac_status" >&5
+   (exit $ac_status); } && { ac_try='./conftest$ac_exeext'
+-  { (eval echo "$as_me:3299: \"$ac_try\"") >&5
++  { (eval echo "$as_me:3290: \"$ac_try\"") >&5
+   (eval $ac_try) 2>&5
+   ac_status=$?
+-  echo "$as_me:3302: \$? = $ac_status" >&5
++  echo "$as_me:3293: \$? = $ac_status" >&5
+   (exit $ac_status); }; }; then
+   :
+ else
+@@ -3312,7 +3303,7 @@
+ fi
+ fi
+ fi
+-echo "$as_me:3315: result: $ac_cv_header_stdc" >&5
++echo "$as_me:3306: result: $ac_cv_header_stdc" >&5
+ echo "${ECHO_T}$ac_cv_header_stdc" >&6
+ if test $ac_cv_header_stdc = yes; then
+ 
+@@ -3328,28 +3319,28 @@
+                   inttypes.h stdint.h unistd.h
+ do
+ as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
+-echo "$as_me:3331: checking for $ac_header" >&5
++echo "$as_me:3322: checking for $ac_header" >&5
+ echo $ECHO_N "checking for $ac_header... $ECHO_C" >&6
+ if eval "test \"\${$as_ac_Header+set}\" = set"; then
+   echo $ECHO_N "(cached) $ECHO_C" >&6
+ else
+   cat >conftest.$ac_ext <<_ACEOF
+-#line 3337 "configure"
++#line 3328 "configure"
+ #include "confdefs.h"
+ $ac_includes_default
+ #include <$ac_header>
+ _ACEOF
+ rm -f conftest.$ac_objext
+-if { (eval echo "$as_me:3343: \"$ac_compile\"") >&5
++if { (eval echo "$as_me:3334: \"$ac_compile\"") >&5
+   (eval $ac_compile) 2>&5
+   ac_status=$?
+-  echo "$as_me:3346: \$? = $ac_status" >&5
++  echo "$as_me:3337: \$? = $ac_status" >&5
+   (exit $ac_status); } &&
+          { ac_try='test -s conftest.$ac_objext'
+-  { (eval echo "$as_me:3349: \"$ac_try\"") >&5
++  { (eval echo "$as_me:3340: \"$ac_try\"") >&5
+   (eval $ac_try) 2>&5
+   ac_status=$?
+-  echo "$as_me:3352: \$? = $ac_status" >&5
++  echo "$as_me:3343: \$? = $ac_status" >&5
+   (exit $ac_status); }; }; then
+   eval "$as_ac_Header=yes"
+ else
+@@ -3359,7 +3350,7 @@
+ fi
+ rm -f conftest.$ac_objext conftest.$ac_ext
+ fi
+-echo "$as_me:3362: result: `eval echo '${'$as_ac_Header'}'`" >&5
++echo "$as_me:3353: result: `eval echo '${'$as_ac_Header'}'`" >&5
+ echo "${ECHO_T}`eval echo '${'$as_ac_Header'}'`" >&6
+ if test `eval echo '${'$as_ac_Header'}'` = yes; then
+   cat >>confdefs.h <<EOF
+@@ -3369,13 +3360,13 @@
+ fi
+ done
+ 
+-echo "$as_me:3372: checking for off_t" >&5
++echo "$as_me:3363: checking for off_t" >&5
+ echo $ECHO_N "checking for off_t... $ECHO_C" >&6
+ if test "${ac_cv_type_off_t+set}" = set; then
+   echo $ECHO_N "(cached) $ECHO_C" >&6
+ else
+   cat >conftest.$ac_ext <<_ACEOF
+-#line 3378 "configure"
++#line 3369 "configure"
+ #include "confdefs.h"
+ $ac_includes_default
+ int
+@@ -3390,16 +3381,16 @@
+ }
+ _ACEOF
+ rm -f conftest.$ac_objext
+-if { (eval echo "$as_me:3393: \"$ac_compile\"") >&5
++if { (eval echo "$as_me:3384: \"$ac_compile\"") >&5
+   (eval $ac_compile) 2>&5
+   ac_status=$?
+-  echo "$as_me:3396: \$? = $ac_status" >&5
++  echo "$as_me:3387: \$? = $ac_status" >&5
+   (exit $ac_status); } &&
+          { ac_try='test -s conftest.$ac_objext'
+-  { (eval echo "$as_me:3399: \"$ac_try\"") >&5
++  { (eval echo "$as_me:3390: \"$ac_try\"") >&5
+   (eval $ac_try) 2>&5
+   ac_status=$?
+-  echo "$as_me:3402: \$? = $ac_status" >&5
++  echo "$as_me:3393: \$? = $ac_status" >&5
+   (exit $ac_status); }; }; then
+   ac_cv_type_off_t=yes
+ else
+@@ -3409,7 +3400,7 @@
+ fi
+ rm -f conftest.$ac_objext conftest.$ac_ext
+ fi
+-echo "$as_me:3412: result: $ac_cv_type_off_t" >&5
++echo "$as_me:3403: result: $ac_cv_type_off_t" >&5
+ echo "${ECHO_T}$ac_cv_type_off_t" >&6
+ if test $ac_cv_type_off_t = yes; then
+   :
+@@ -3421,13 +3412,13 @@
+ 
+ fi
+ 
+-echo "$as_me:3424: checking for size_t" >&5
++echo "$as_me:3415: checking for size_t" >&5
+ echo $ECHO_N "checking for size_t... $ECHO_C" >&6
+ if test "${ac_cv_type_size_t+set}" = set; then
+   echo $ECHO_N "(cached) $ECHO_C" >&6
+ else
+   cat >conftest.$ac_ext <<_ACEOF
+-#line 3430 "configure"
++#line 3421 "configure"
+ #include "confdefs.h"
+ $ac_includes_default
+ int
+@@ -3442,16 +3433,16 @@
+ }
+ _ACEOF
+ rm -f conftest.$ac_objext
+-if { (eval echo "$as_me:3445: \"$ac_compile\"") >&5
++if { (eval echo "$as_me:3436: \"$ac_compile\"") >&5
+   (eval $ac_compile) 2>&5
+   ac_status=$?
+-  echo "$as_me:3448: \$? = $ac_status" >&5
++  echo "$as_me:3439: \$? = $ac_status" >&5
+   (exit $ac_status); } &&
+          { ac_try='test -s conftest.$ac_objext'
+-  { (eval echo "$as_me:3451: \"$ac_try\"") >&5
++  { (eval echo "$as_me:3442: \"$ac_try\"") >&5
+   (eval $ac_try) 2>&5
+   ac_status=$?
+-  echo "$as_me:3454: \$? = $ac_status" >&5
++  echo "$as_me:3445: \$? = $ac_status" >&5
+   (exit $ac_status); }; }; then
+   ac_cv_type_size_t=yes
+ else
+@@ -3461,7 +3452,7 @@
+ fi
+ rm -f conftest.$ac_objext conftest.$ac_ext
+ fi
+-echo "$as_me:3464: result: $ac_cv_type_size_t" >&5
++echo "$as_me:3455: result: $ac_cv_type_size_t" >&5
+ echo "${ECHO_T}$ac_cv_type_size_t" >&6
+ if test $ac_cv_type_size_t = yes; then
+   :
+@@ -3556,7 +3547,7 @@
+ : ${CONFIG_STATUS=./config.status}
+ ac_clean_files_save=$ac_clean_files
+ ac_clean_files="$ac_clean_files $CONFIG_STATUS"
+-{ echo "$as_me:3559: creating $CONFIG_STATUS" >&5
++{ echo "$as_me:3550: creating $CONFIG_STATUS" >&5
+ echo "$as_me: creating $CONFIG_STATUS" >&6;}
+ cat >$CONFIG_STATUS <<_ACEOF
+ #! $SHELL
+@@ -3729,7 +3720,7 @@
+     echo "$ac_cs_version"; exit 0 ;;
+   --he | --h)
+     # Conflict between --help and --header
+-    { { echo "$as_me:3732: error: ambiguous option: $1
++    { { echo "$as_me:3723: error: ambiguous option: $1
+ Try \`$0 --help' for more information." >&5
+ echo "$as_me: error: ambiguous option: $1
+ Try \`$0 --help' for more information." >&2;}
+@@ -3748,7 +3739,7 @@
+     ac_need_defaults=false;;
+ 
+   # This is an error.
+-  -*) { { echo "$as_me:3751: error: unrecognized option: $1
++  -*) { { echo "$as_me:3742: error: unrecognized option: $1
+ Try \`$0 --help' for more information." >&5
+ echo "$as_me: error: unrecognized option: $1
+ Try \`$0 --help' for more information." >&2;}
+@@ -3785,7 +3776,7 @@
+   # Handling of arguments.
+   "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
+   "configunix.h" ) CONFIG_HEADERS="$CONFIG_HEADERS configunix.h:configtemplate.h" ;;
+-  *) { { echo "$as_me:3788: error: invalid argument: $ac_config_target" >&5
++  *) { { echo "$as_me:3779: error: invalid argument: $ac_config_target" >&5
+ echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
+    { (exit 1); exit 1; }; };;
+   esac
+@@ -4006,7 +3997,7 @@
+   esac
+ 
+   if test x"$ac_file" != x-; then
+-    { echo "$as_me:4009: creating $ac_file" >&5
++    { echo "$as_me:4000: creating $ac_file" >&5
+ echo "$as_me: creating $ac_file" >&6;}
+     rm -f "$ac_file"
+   fi
+@@ -4024,7 +4015,7 @@
+       -) echo $tmp/stdin ;;
+       [\\/$]*)
+          # Absolute (can't be DOS-style, as IFS=:)
+-         test -f "$f" || { { echo "$as_me:4027: error: cannot find input file: $f" >&5
++         test -f "$f" || { { echo "$as_me:4018: error: cannot find input file: $f" >&5
+ echo "$as_me: error: cannot find input file: $f" >&2;}
+    { (exit 1); exit 1; }; }
+          echo $f;;
+@@ -4037,7 +4028,7 @@
+            echo $srcdir/$f
+          else
+            # /dev/null tree
+-           { { echo "$as_me:4040: error: cannot find input file: $f" >&5
++           { { echo "$as_me:4031: error: cannot find input file: $f" >&5
+ echo "$as_me: error: cannot find input file: $f" >&2;}
+    { (exit 1); exit 1; }; }
+          fi;;
+@@ -4098,7 +4089,7 @@
+   * )   ac_file_in=$ac_file.in ;;
+   esac
+ 
+-  test x"$ac_file" != x- && { echo "$as_me:4101: creating $ac_file" >&5
++  test x"$ac_file" != x- && { echo "$as_me:4092: creating $ac_file" >&5
+ echo "$as_me: creating $ac_file" >&6;}
+ 
+   # First look for the input files in the build tree, otherwise in the
+@@ -4109,7 +4100,7 @@
+       -) echo $tmp/stdin ;;
+       [\\/$]*)
+          # Absolute (can't be DOS-style, as IFS=:)
+-         test -f "$f" || { { echo "$as_me:4112: error: cannot find input file: $f" >&5
++         test -f "$f" || { { echo "$as_me:4103: error: cannot find input file: $f" >&5
+ echo "$as_me: error: cannot find input file: $f" >&2;}
+    { (exit 1); exit 1; }; }
+          echo $f;;
+@@ -4122,7 +4113,7 @@
+            echo $srcdir/$f
+          else
+            # /dev/null tree
+-           { { echo "$as_me:4125: error: cannot find input file: $f" >&5
++           { { echo "$as_me:4116: error: cannot find input file: $f" >&5
+ echo "$as_me: error: cannot find input file: $f" >&2;}
+    { (exit 1); exit 1; }; }
+          fi;;
+@@ -4239,7 +4230,7 @@
+   rm -f $tmp/in
+   if test x"$ac_file" != x-; then
+     if cmp -s $ac_file $tmp/config.h 2>/dev/null; then
+-      { echo "$as_me:4242: $ac_file is unchanged" >&5
++      { echo "$as_me:4233: $ac_file is unchanged" >&5
+ echo "$as_me: $ac_file is unchanged" >&6;}
+     else
+       ac_dir=`$as_expr X"$ac_file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
+diff -ruN audacity-src-0.98.orig/effects/Amplify.h audacity-src-0.98/effects/Amplify.h
+--- audacity-src-0.98.orig/effects/Amplify.h	Tue Jan 22 06:14:15 2002
++++ audacity-src-0.98/effects/Amplify.h	Sat May 11 22:02:03 2002
+@@ -15,14 +15,15 @@
+ #ifndef __AUDACITY_EFFECT_AMPLIFY__
+ #define __AUDACITY_EFFECT_AMPLIFY__
+ 
+-#include <wx/checkbox.h>
+-#include <wx/button.h>
++#include <wx/gtk/button.h>
+ #include <wx/dialog.h>
+ #include <wx/stattext.h>
+ #include <wx/slider.h>
+ #include <wx/textctrl.h>
+ #include <wx/sizer.h>
+ 
++#include "checkbox.h"
++
+ // Declare window functions
+ 
+ #define ID_TEXT 10000
+diff -ruN audacity-src-0.98.orig/effects/Amplify.h~ audacity-src-0.98/effects/Amplify.h~
+--- audacity-src-0.98.orig/effects/Amplify.h~	Thu Jan  1 00:00:00 1970
++++ audacity-src-0.98/effects/Amplify.h~	Sat May 11 22:01:57 2002
+@@ -0,0 +1,128 @@
++/**********************************************************************
++
++  Audacity: A Digital Audio Editor
++
++  Amplify.h
++
++  Dominic Mazzoni
++  
++  This rewritten class supports a smart Amplify effect - it calculates
++  the maximum amount of gain that can be applied to all tracks without
++  causing clipping and selects this as the default parameter.
++
++**********************************************************************/
++
++#ifndef __AUDACITY_EFFECT_AMPLIFY__
++#define __AUDACITY_EFFECT_AMPLIFY__
++
++#include <wx/gtk/button.h>
++#include <wx/dialog.h>
++#include <wx/stattext.h>
++#include <wx/slider.h>
++#include <wx/textctrl.h>
++#include <wx/sizer.h>
++
++#include "checkbox.h"
++
++// Declare window functions
++
++#define ID_TEXT 10000
++#define ID_AMP_TEXT 10001
++#define ID_PEAK_TEXT 10002
++#define ID_AMP_SLIDER 10003
++#define ID_CLIP_CHECKBOX 10004
++
++class wxString;
++
++#include "Effect.h"
++
++class WaveTrack;
++
++class EffectAmplify:public Effect {
++
++ public:
++   EffectAmplify();
++
++   virtual wxString GetEffectName() {
++      return wxString("Amplify...");
++   }
++   
++   virtual wxString GetEffectAction() {
++      return wxString("Amplifying");
++   }
++   
++   virtual bool Init();
++
++   virtual bool PromptUser();
++   
++   virtual bool Process();
++
++ private:
++   bool ProcessOne(int count, WaveTrack * t,
++                   sampleCount start, sampleCount len);
++
++ private:
++   float ratio;
++   float peak;
++};
++
++//----------------------------------------------------------------------------
++// AmplifyDialog
++//----------------------------------------------------------------------------
++
++wxSizer *MakeAmplifyDialog(wxWindow * parent, bool call_fit,
++                           bool set_sizer);
++
++class AmplifyDialog:public wxDialog {
++ public:
++   // constructors and destructors
++   AmplifyDialog(wxWindow * parent, wxWindowID id,
++                 const wxString & title, const wxPoint & pos =
++                 wxDefaultPosition, const wxSize & size =
++                 wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE);
++
++   // WDR: method declarations for BassBoostDialog
++   wxSlider *GetAmpSlider() {
++      return (wxSlider *) FindWindow(ID_AMP_SLIDER);
++   }
++   wxTextCtrl *GetAmpText() {
++      return (wxTextCtrl *) FindWindow(ID_AMP_TEXT);
++   }
++   wxTextCtrl *GetPeakText() {
++      return (wxTextCtrl *) FindWindow(ID_PEAK_TEXT);
++   }
++   wxCheckBox *GetClipCheckBox() {
++      return (wxCheckBox *) FindWindow(ID_CLIP_CHECKBOX);
++   }
++   wxButton *GetOK() {
++      return (wxButton *) FindWindow(wxID_OK);
++   }
++   virtual bool Validate();
++   virtual bool TransferDataToWindow();
++   virtual bool TransferDataFromWindow();
++
++ private:
++   // WDR: member variable declarations for BassBoostDialog
++
++ private:
++   // WDR: handler declarations for BassBoostDialog
++   void OnAmpText(wxCommandEvent & event);
++   void OnPeakText(wxCommandEvent & event);
++   void OnAmpSlider(wxCommandEvent & event);
++   void OnClipCheckBox(wxCommandEvent & event);
++   void OnOk(wxCommandEvent & event);
++   void OnCancel(wxCommandEvent & event);
++
++   void CheckClip();
++
++ private:
++   bool mLoopDetect;
++   DECLARE_EVENT_TABLE()
++
++ public:
++   float ratio;
++   float peak;
++};
++
++
++#endif
+diff -ruN audacity-src-0.98.orig/effects/BassBoost.h audacity-src-0.98/effects/BassBoost.h
+--- audacity-src-0.98.orig/effects/BassBoost.h	Tue Jan 22 06:14:15 2002
++++ audacity-src-0.98/effects/BassBoost.h	Sat May 11 22:02:42 2002
+@@ -15,7 +15,7 @@
+ #ifndef __AUDACITY_EFFECT_BASS_BOOST__
+ #define __AUDACITY_EFFECT_BASS_BOOST__
+ 
+-#include <wx/button.h>
++#include <wx/gtk/button.h>
+ #include <wx/dialog.h>
+ #include <wx/stattext.h>
+ #include <wx/slider.h>
+diff -ruN audacity-src-0.98.orig/effects/BassBoost.h~ audacity-src-0.98/effects/BassBoost.h~
+--- audacity-src-0.98.orig/effects/BassBoost.h~	Thu Jan  1 00:00:00 1970
++++ audacity-src-0.98/effects/BassBoost.h~	Sat May 11 22:02:27 2002
+@@ -0,0 +1,117 @@
++/**********************************************************************
++
++  Audacity: A Digital Audio Editor
++
++  Bass Boost
++
++  Effect programming:
++  Nasca Octavian Paul
++
++  UI programming:
++  Dominic Mazzoni (with the help of wxDesigner)
++
++**********************************************************************/
++
++#ifndef __AUDACITY_EFFECT_BASS_BOOST__
++#define __AUDACITY_EFFECT_BASS_BOOST__
++
++#include <wx/gtk/button.h>
++#include <wx/dialog.h>
++#include <wx/stattext.h>
++#include <wx/slider.h>
++#include <wx/textctrl.h>
++#include <wx/sizer.h>
++
++// Declare window functions
++
++#define ID_TEXT 10000
++#define ID_FREQ_TEXT 10001
++#define ID_FREQ_SLIDER 10002
++#define ID_BOOST_TEXT 10003
++#define ID_BOOST_SLIDER 10004
++
++#include "Effect.h"
++
++class WaveTrack;
++
++class EffectBassBoost:public Effect {
++
++ public:
++   EffectBassBoost();
++
++   virtual wxString GetEffectName() {
++      return wxString("BassBoost...");
++   }
++   
++   virtual wxString GetEffectAction() {
++      return wxString("Boosting Bass Frequencies");
++   }
++   
++   virtual bool PromptUser();
++   
++   virtual bool Process();
++
++ private:
++   bool ProcessOne(int count, WaveTrack * t,
++                   sampleCount start, sampleCount len);
++ 
++   float frequency, dB_boost;
++};
++
++// WDR: class declarations
++
++//----------------------------------------------------------------------------
++// BassBoostDialog
++//----------------------------------------------------------------------------
++
++wxSizer *MakeBassBoostDialog(wxWindow * parent, bool call_fit,
++                             bool set_sizer);
++
++class BassBoostDialog:public wxDialog {
++ public:
++   // constructors and destructors
++   BassBoostDialog(wxWindow * parent, wxWindowID id,
++                   const wxString & title, const wxPoint & pos =
++                   wxDefaultPosition, const wxSize & size =
++                   wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE);
++
++   // WDR: method declarations for BassBoostDialog
++   wxSlider *GetBoostSlider() {
++      return (wxSlider *) FindWindow(ID_BOOST_SLIDER);
++   } wxSlider *GetFreqSlider() {
++      return (wxSlider *) FindWindow(ID_FREQ_SLIDER);
++   }
++   wxTextCtrl *GetBoostText() {
++      return (wxTextCtrl *) FindWindow(ID_BOOST_TEXT);
++   }
++   wxTextCtrl *GetFreqText() {
++      return (wxTextCtrl *) FindWindow(ID_FREQ_TEXT);
++   }
++   virtual bool Validate();
++   virtual bool TransferDataToWindow();
++   virtual bool TransferDataFromWindow();
++
++ private:
++   // WDR: member variable declarations for BassBoostDialog
++
++ private:
++   // WDR: handler declarations for BassBoostDialog
++   void OnBoostText(wxCommandEvent & event);
++   void OnFreqText(wxCommandEvent & event);
++   void OnBoostSlider(wxCommandEvent & event);
++   void OnFreqSlider(wxCommandEvent & event);
++   void OnOk(wxCommandEvent & event);
++   void OnCancel(wxCommandEvent & event);
++
++ private:
++   DECLARE_EVENT_TABLE()
++
++ public:
++   float freq;
++   float boost;
++
++};
++
++
++
++#endif
+diff -ruN audacity-src-0.98.orig/effects/Phaser.h audacity-src-0.98/effects/Phaser.h
+--- audacity-src-0.98.orig/effects/Phaser.h	Tue Jan 22 06:14:15 2002
++++ audacity-src-0.98/effects/Phaser.h	Sat May 11 22:03:16 2002
+@@ -15,7 +15,7 @@
+ #ifndef __AUDACITY_EFFECT_PHASER__
+ #define __AUDACITY_EFFECT_PHASER__
+ 
+-#include <wx/button.h>
++#include <wx/gtk/button.h>
+ #include <wx/dialog.h>
+ #include <wx/stattext.h>
+ #include <wx/slider.h>
+diff -ruN audacity-src-0.98.orig/effects/Phaser.h~ audacity-src-0.98/effects/Phaser.h~
+--- audacity-src-0.98.orig/effects/Phaser.h~	Thu Jan  1 00:00:00 1970
++++ audacity-src-0.98/effects/Phaser.h~	Sat May 11 22:03:04 2002
+@@ -0,0 +1,169 @@
++/**********************************************************************
++
++  Audacity: A Digital Audio Editor
++
++  Phaser
++
++  Effect programming:
++  Nasca Octavian Paul
++
++  UI programming:
++  Dominic Mazzoni (with the help of wxDesigner)
++
++**********************************************************************/
++
++#ifndef __AUDACITY_EFFECT_PHASER__
++#define __AUDACITY_EFFECT_PHASER__
++
++#include <wx/gtk/button.h>
++#include <wx/dialog.h>
++#include <wx/stattext.h>
++#include <wx/slider.h>
++#include <wx/textctrl.h>
++#include <wx/sizer.h>
++#include <wx/spinbutt.h>
++#include <wx/spinctrl.h>
++
++class wxString;
++
++#include "Effect.h"
++
++class WaveTrack;
++
++class EffectPhaser:public Effect {
++
++ public:
++   EffectPhaser();
++
++   virtual wxString GetEffectName() {
++      return wxString("Phaser...");
++   }
++   
++   virtual wxString GetEffectAction() {
++      return wxString("Applying Phaser");
++   }
++   
++   virtual bool PromptUser();
++   
++   virtual bool Process();
++
++/*
++    Phaser Parameters        
++
++ freq       - Phaser's LFO frequency
++ startphase - Phaser's LFO startphase (radians), needed for stereo Phasers
++ depth      - Phaser depth (0 - no depth, 255 - max depth)
++ stages     - Phaser stages (recomanded from 2 to 16-24, and EVEN NUMBER)
++ drywet     - Dry/wet mix, (0 - dry, 128 - dry=wet, 255 - wet)
++ fb         - Phaser FeedBack (0 - no feedback, 100 = 100% Feedback,
++                               -100 = -100% FeedBack)
++*/
++
++ private:
++   bool ProcessOne(int count, WaveTrack * t,
++                   sampleCount start, sampleCount len,
++                   float startphase);
++ 
++   float freq;
++   float startphase;
++   float fb;
++
++   int depth;
++   int stages;
++   int drywet;
++};
++
++// Declare window functions
++
++#define ID_TEXT 10000
++#define ID_STAGES 10001
++#define ID_DRYWET 10002
++#define ID_FREQTEXT 10003
++#define ID_FREQSLIDER 10004
++#define ID_PHASETEXT 10005
++#define ID_PHASESLIDER 10006
++#define ID_DEPTHTEXT 10007
++#define ID_DEPTHSLIDER 10008
++#define ID_FEEDBACKTEXT 10009
++#define ID_FEEDBACKSLIDER 10010
++wxSizer *CreatePhaserDialog(wxWindow * parent, bool call_fit =
++                            TRUE, bool set_sizer = TRUE);
++
++// WDR: class declarations
++
++//----------------------------------------------------------------------------
++// PhaserDialog
++//----------------------------------------------------------------------------
++
++class PhaserDialog:public wxDialog {
++ public:
++   // constructors and destructors
++   PhaserDialog(wxWindow * parent, wxWindowID id, const wxString & title,
++                const wxPoint & pos = wxDefaultPosition,
++                const wxSize & size = wxDefaultSize,
++                long style = wxDEFAULT_DIALOG_STYLE);
++
++   // WDR: method declarations for PhaserDialog
++   wxSlider *GetFeedbackSlider() {
++      return (wxSlider *) FindWindow(ID_FEEDBACKSLIDER);
++   } wxSlider *GetDepthSlider() {
++      return (wxSlider *) FindWindow(ID_DEPTHSLIDER);
++   }
++   wxSlider *GetPhaseSlider() {
++      return (wxSlider *) FindWindow(ID_PHASESLIDER);
++   }
++   wxSlider *GetFreqSlider() {
++      return (wxSlider *) FindWindow(ID_FREQSLIDER);
++   }
++   wxTextCtrl *GetFeedbackText() {
++      return (wxTextCtrl *) FindWindow(ID_FEEDBACKTEXT);
++   }
++   wxTextCtrl *GetDepthText() {
++      return (wxTextCtrl *) FindWindow(ID_DEPTHTEXT);
++   }
++   wxTextCtrl *GetPhaseText() {
++      return (wxTextCtrl *) FindWindow(ID_PHASETEXT);
++   }
++   wxTextCtrl *GetFreqText() {
++      return (wxTextCtrl *) FindWindow(ID_FREQTEXT);
++   }
++   wxSlider *GetDryWet() {
++      return (wxSlider *) FindWindow(ID_DRYWET);
++   }
++   wxSpinCtrl *GetStages() {
++      return (wxSpinCtrl *) FindWindow(ID_STAGES);
++   }
++   virtual bool Validate();
++   virtual bool TransferDataToWindow();
++   virtual bool TransferDataFromWindow();
++
++ private:
++   // WDR: member variable declarations for PhaserDialog
++
++ private:
++   // WDR: handler declarations for PhaserDialog
++   void OnFeedbackSlider(wxCommandEvent & event);
++   void OnDepthSlider(wxCommandEvent & event);
++   void OnPhaseSlider(wxCommandEvent & event);
++   void OnFreqSlider(wxCommandEvent & event);
++   void OnFeedbackText(wxCommandEvent & event);
++   void OnDepthText(wxCommandEvent & event);
++   void OnPhaseText(wxCommandEvent & event);
++   void OnFreqText(wxCommandEvent & event);
++   void OnOk(wxCommandEvent & event);
++   void OnCancel(wxCommandEvent & event);
++
++ private:
++   DECLARE_EVENT_TABLE()
++
++ public:
++   float freq;
++   float startphase;
++   float fb;
++
++   int depth;
++   int stages;
++   int drywet;
++};
++
++#endif
+diff -ruN audacity-src-0.98.orig/effects/Wahwah.h audacity-src-0.98/effects/Wahwah.h
+--- audacity-src-0.98.orig/effects/Wahwah.h	Tue Jan 22 06:14:15 2002
++++ audacity-src-0.98/effects/Wahwah.h	Sat May 11 22:12:55 2002
+@@ -15,7 +15,7 @@
+ #ifndef __AUDACITY_EFFECT_WAHWAH__
+ #define __AUDACITY_EFFECT_WAHWAH__
+ 
+-#include <wx/button.h>
++#include <wx/gtk/button.h>
+ #include <wx/dialog.h>
+ #include <wx/stattext.h>
+ #include <wx/slider.h>
+diff -ruN audacity-src-0.98.orig/effects/Wahwah.h~ audacity-src-0.98/effects/Wahwah.h~
+--- audacity-src-0.98.orig/effects/Wahwah.h~	Thu Jan  1 00:00:00 1970
++++ audacity-src-0.98/effects/Wahwah.h~	Sat May 11 22:03:34 2002
+@@ -0,0 +1,172 @@
++/**********************************************************************
++
++  Audacity: A Digital Audio Editor
++
++  Wahwah
++
++  Effect programming:
++  Nasca Octavian Paul
++
++  UI programming:
++  Dominic Mazzoni (with the help of wxDesigner)
++
++**********************************************************************/
++
++#ifndef __AUDACITY_EFFECT_WAHWAH__
++#define __AUDACITY_EFFECT_WAHWAH__
++
++#include <wx/gtk/button.h>
++#include <wx/dialog.h>
++#include <wx/stattext.h>
++#include <wx/slider.h>
++#include <wx/textctrl.h>
++#include <wx/sizer.h>
++#include <wx/spinbutt.h>
++#include <wx/spinctrl.h>
++
++class wxString;
++
++#include "Effect.h"
++
++class WaveTrack;
++
++class EffectWahwah:public Effect {
++
++ public:
++   EffectWahwah();
++
++   virtual wxString GetEffectName() {
++      return wxString("Wahwah...");
++   }
++   
++   virtual wxString GetEffectAction() {
++      return wxString("Applying Wahwah");
++   }
++   
++   virtual bool PromptUser();
++   
++   virtual bool Process();
++
++/* Parameters:
++   freq - LFO frequency 
++   startphase - LFO startphase in RADIANS - usefull for stereo WahWah
++   depth - Wah depth
++   freqofs - Wah frequency offset
++   res - Resonance
++
++   !!!!!!!!!!!!! IMPORTANT!!!!!!!!! :
++   depth and freqofs should be from 0(min) to 1(max) !
++   res should be greater than 0 !  */
++
++ private:
++   bool ProcessOne(int count, WaveTrack * t,
++                   sampleCount start, sampleCount len,
++                   float startphase);
++
++   float freq, startphase;
++   float depth, freqofs, res;
++};
++
++// Declare window functions
++
++#define ID_TEXT 10000
++#define ID_STAGES 10001
++#define ID_DRYWET 10002
++#define ID_FREQTEXT 10003
++#define ID_FREQSLIDER 10004
++#define ID_PHASETEXT 10005
++#define ID_PHASESLIDER 10006
++#define ID_DEPTHTEXT 10007
++#define ID_DEPTHSLIDER 10008
++#define ID_RESONANCETEXT 10009
++#define ID_RESONANCESLIDER 10010
++#define ID_FREQOFFTEXT 10011
++#define ID_FREQOFFSLIDER 10012
++
++wxSizer *CreateWahwahDialog(wxWindow * parent, bool call_fit =
++                            TRUE, bool set_sizer = TRUE);
++
++// WDR: class declarations
++
++//----------------------------------------------------------------------------
++// WahwahDialog
++//----------------------------------------------------------------------------
++
++class WahwahDialog:public wxDialog {
++ public:
++   // constructors and destructors
++   WahwahDialog(wxWindow * parent, wxWindowID id, const wxString & title,
++                const wxPoint & pos = wxDefaultPosition,
++                const wxSize & size = wxDefaultSize,
++                long style = wxDEFAULT_DIALOG_STYLE);
++
++   // WDR: method declarations for WahwahDialog
++   wxSlider *GetResonanceSlider() {
++      return (wxSlider *) FindWindow(ID_RESONANCESLIDER);
++   } wxSlider *GetDepthSlider() {
++      return (wxSlider *) FindWindow(ID_DEPTHSLIDER);
++   }
++   wxSlider *GetPhaseSlider() {
++      return (wxSlider *) FindWindow(ID_PHASESLIDER);
++   }
++   wxSlider *GetFreqSlider() {
++      return (wxSlider *) FindWindow(ID_FREQSLIDER);
++   }
++   wxSlider *GetFreqOffSlider() {
++      return (wxSlider *) FindWindow(ID_FREQOFFSLIDER);
++   }
++   wxTextCtrl *GetResonanceText() {
++      return (wxTextCtrl *) FindWindow(ID_RESONANCETEXT);
++   }
++   wxTextCtrl *GetDepthText() {
++      return (wxTextCtrl *) FindWindow(ID_DEPTHTEXT);
++   }
++   wxTextCtrl *GetPhaseText() {
++      return (wxTextCtrl *) FindWindow(ID_PHASETEXT);
++   }
++   wxTextCtrl *GetFreqText() {
++      return (wxTextCtrl *) FindWindow(ID_FREQTEXT);
++   }
++   wxTextCtrl *GetFreqOffText() {
++      return (wxTextCtrl *) FindWindow(ID_FREQOFFTEXT);
++   }
++   wxSlider *GetDryWet() {
++      return (wxSlider *) FindWindow(ID_DRYWET);
++   }
++   wxSpinCtrl *GetStages() {
++      return (wxSpinCtrl *) FindWindow(ID_STAGES);
++   }
++   virtual bool Validate();
++   virtual bool TransferDataToWindow();
++   virtual bool TransferDataFromWindow();
++
++ private:
++   // WDR: member variable declarations for WahwahDialog
++
++ private:
++   // WDR: handler declarations for WahwahDialog
++   void OnResonanceSlider(wxCommandEvent & event);
++   void OnDepthSlider(wxCommandEvent & event);
++   void OnPhaseSlider(wxCommandEvent & event);
++   void OnFreqSlider(wxCommandEvent & event);
++   void OnFreqOffSlider(wxCommandEvent & event);
++   void OnResonanceText(wxCommandEvent & event);
++   void OnDepthText(wxCommandEvent & event);
++   void OnPhaseText(wxCommandEvent & event);
++   void OnFreqText(wxCommandEvent & event);
++   void OnFreqOffText(wxCommandEvent & event);
++   void OnOk(wxCommandEvent & event);
++   void OnCancel(wxCommandEvent & event);
++
++ private:
++   DECLARE_EVENT_TABLE()
++
++ public:
++   float freq;
++   float freqoff;
++   float startphase;
++   float res;
++   float depth;
++};
++
++#endif
+diff -ruN audacity-src-0.98.orig/effects/checkbox.h audacity-src-0.98/effects/checkbox.h
+--- audacity-src-0.98.orig/effects/checkbox.h	Thu Jan  1 00:00:00 1970
++++ audacity-src-0.98/effects/checkbox.h	Sat May 11 22:00:06 2002
+@@ -0,0 +1,54 @@
++///////////////////////////////////////////////////////////////////////////////
++// Name:        wx/checkbox.h
++// Purpose:     wxCheckBox class interface
++// Author:      Vadim Zeitlin
++// Modified by:
++// Created:     07.09.00
++// RCS-ID:      $Id$
++// Copyright:   (c) wxWindows team
++// Licence:     wxWindows licence
++///////////////////////////////////////////////////////////////////////////////
++
++#ifndef _WX_CHECKBOX_H_BASE_
++#define _WX_CHECKBOX_H_BASE_
++
++#if wxUSE_CHECKBOX
++
++#include "wx/control.h"
++
++WXDLLEXPORT_DATA(extern const wxChar*) wxCheckBoxNameStr;
++
++// ----------------------------------------------------------------------------
++// wxCheckBox: a control which shows a label and a box which may be checked
++// ----------------------------------------------------------------------------
++
++class WXDLLEXPORT wxCheckBoxBase : public wxControl
++{
++public:
++    // set/get the checked status of the listbox
++    virtual void SetValue(bool value) = 0;
++    virtual bool GetValue() const = 0;
++
++    bool IsChecked() const { return GetValue(); }
++};
++
++#if defined(__WXUNIVERSAL__)
++    #include "wx/univ/checkbox.h"
++#elif defined(__WXMSW__)
++    #include "wx/msw/checkbox.h"
++#elif defined(__WXMOTIF__)
++    #include "wx/motif/checkbox.h"
++#elif defined(__WXGTK__)
++    #include "wx/gtk/checkbox.h"
++#elif defined(__WXMAC__)
++    #include "wx/mac/checkbox.h"
++#elif defined(__WXPM__)
++    #include "wx/os2/checkbox.h"
++#elif defined(__WXSTUBS__)
++    #include "wx/stubs/checkbox.h"
++#endif
++
++#endif // wxUSE_CHECKBOX
++
++#endif
++    // _WX_CHECKBOX_H_BASE_
