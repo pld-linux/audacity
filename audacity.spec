@@ -42,9 +42,9 @@ let you apply plug-in effects to any part of a sound.
 
 %description -l pl
 Audacity to program obs³uguj±cy ró¿ne formaty plików audio. Obs³uguje
-WAV, AIFF, AU, IRCAM, MP3, and Ogg Vorbis. Program ten umo¿liwia
-wykonywanie podstawowych czynno¶ci edycyjnych jak kasowanie,
-wstawianie i miksowanie ¶cie¿ki d¼wiêkowej. Umo¿liwia takze
+WAV, AIFF, AU, IRCAM, MP3, oraz Ogg Vorbis. Program ten umo¿liwia
+wykonywanie podstawowych czynno¶ci edycyjnych takich jak kasowanie,
+wstawianie i miksowanie ¶cie¿ki d¼wiêkowej. Umo¿liwia tak¿e
 wykonywanie dowolnych innych operacji poprzez system wtyczek.
 
 %description -l ru
