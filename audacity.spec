@@ -1,3 +1,7 @@
+#
+# Conditional build:
+# _with_gtk1	- use wxGTK instead of wxGTK2
+#
 Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl):	Audacity - narzêdzie do obróbki plików d¼wiêkowych
 Name:		audacity
@@ -16,15 +20,15 @@ Patch3:		%{name}-opt.patch
 URL:		http://audacity.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	expat-devel
-# to old ?
-#BuildRequires:	flac-devel
+BuildRequires:	fftw-devel >= 2.1.4
+BuildRequires:	flac-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libsndfile-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvorbis-devel >= 1:1.0
-BuildRequires:	mad-devel
-BuildRequires:	wxGTK2-devel >= 2.4.0
-BuildRequires:	fftw-devel >= 2.1.4
+BuildRequires:	mad-devel >= 0.14.2b-4
+%{?_with_gtk1:BuildRequires:	wxGTK-devel >= 2.4.0}
+%{!?_with_gtk1:BuildRequires:	wxGTK2-devel >= 2.4.0}
 Requires:	lame-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -45,13 +49,13 @@ Obs³uguje .wav, .mp3 oraz ogg/vorbis.
 
 %build
 %{__autoconf}
-export WX_CONFIG=/usr/bin/wxgtk2-2.4-config
+export WX_CONFIG="`which wxgtk%{!?_with_gtk1:2}-2.4-config`"
 %configure \
 	--with-help \
 	--with-id3tag=system \
 	--with-libmad=system \
 	--with-libsndfile=system \
-	--without-libflac \
+	--with-libflac=system \
 	--with-vorbis=system
 
 %{__make} \
