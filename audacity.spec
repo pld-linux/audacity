@@ -12,6 +12,7 @@ License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-src-%{version}.tgz
+# Source0-md5:	ec00d14cb2d7b3a28aab7e6aa098acf3
 Source1:	%{name}.desktop
 Source2:	%{name}-icon.png
 Patch0:		%{name}-system-expat.patch
