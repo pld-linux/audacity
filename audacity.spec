@@ -95,8 +95,6 @@ install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
-install audacity-1.2-help.htb $RPM_BUILD_ROOT%{_datadir}/%{name}
-
 %find_lang %{name}
 
 %clean
