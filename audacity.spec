@@ -25,7 +25,6 @@ BuildRequires:	wxGTK-devel >= 2.3.2-10
 Requires:	lame-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_prefix		/usr/X11R6
 
 %description
 Audacity is a program that manipulates digital audio waveforms.
