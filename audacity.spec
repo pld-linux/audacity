@@ -78,7 +78,7 @@ export WX_CONFIG="`which wxgtk%{!?_with_gtk1:2}-2.4-config`"
 	--with-libsamplerate=system \
 	--with-libsndfile=system \
 	--with-libflac=system \
-	--with-vorbis=system \
+	--with-vorbis=system
 
 %{__make} \
 	CCC="%{__cxx} -fno-rtti" \
