@@ -4,6 +4,7 @@
 #
 Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl):	Audacity - narzкdzie do obrуbki plikуw dјwiкkowych
+Summary(ru):	Кроссплатформенный звуковой редактор
 Name:		audacity
 Version:	1.1.3
 Release:	1
@@ -33,12 +34,25 @@ Requires:	lame-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Audacity is a program that manipulates digital audio waveforms.
-Supports wav, mp3 and ogg/vorbis.
+Audacity is a program that lets you manipulate digital audio
+waveforms. It imports many sound file formats, including WAV, AIFF,
+AU, IRCAM, MP3, and Ogg Vorbis. It supports all common editing
+operations such as Cut, Copy, and Paste, plus it will mix tracks and
+let you apply plug-in effects to any part of a sound.
 
 %description -l pl
-Audacity to program obsіuguj±cy rуїne formaty dzwiкku cyfrowego.
-Obsіuguje .wav, .mp3 oraz ogg/vorbis.
+Audacity to program obsіuguj±cy rуїne formaty plikуw audio. Obsіuguje
+WAV, AIFF, AU, IRCAM, MP3, and Ogg Vorbis. Program ten umoїliwia
+wykonywanie podstawowych czynno¶ci edycyjnych jak kasowanie,
+wstawianie i miksowanie ¶cieїki dјwiкkowej. Umoїliwia takze
+wykonywanie dowolnych innych operacji poprzez system wtyczek.
+
+%description -l ru
+Audacity - это звуковой редактор, позволяющий работать с файлами в
+форматах WAV, AIFF, AU, IRCAM, MP3 и Ogg Vorbis. В нем реализованы все
+основные операции, такие как удаление, копирование, вставка,
+микширование треков и применение эффектов, оформленных в виде
+плагинов, к любой части звукового файла.
 
 %prep
 %setup -q -n %{name}-src-%{version}
