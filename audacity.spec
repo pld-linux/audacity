@@ -1,6 +1,6 @@
 #
 # Conditional build:
-# _with_gtk1	- use wxGTK instead of wxGTK2
+%bcond_with gtk1	# use wxGTK instead of wxGTK2
 #
 Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl):	Audacity - narzкdzie do obrуbki plikуw dЉwiкkowych
@@ -32,9 +32,9 @@ BuildRequires:	libsamplerate-devel
 BuildRequires:	libsndfile-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvorbis-devel >= 1:1.0
-#BuildRequires:	libid3tag-devel
-%{?_with_gtk1:BuildRequires:	wxGTK-devel >= 2.4.0}
-%{!?_with_gtk1:BuildRequires:	wxGTK2-devel >= 2.4.0}
+BuildRequires:	libid3tag-devel
+%{?with_gtk1:BuildRequires:	wxGTK-devel >= 2.4.0}
+%{?without_gtk1:BuildRequires:	wxGTK2-devel >= 2.4.0}
 BuildRequires:	zip
 Requires:	lame-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -62,9 +62,9 @@ Audacity - это звуковой редактор, позвол€ющий работать с файлами в
 
 %prep
 %setup -q -n %{name}-src-%{version}-%{_pre}
-#%%patch0 -p1
+%patch0 -p1
 %patch1 -p1
-#%%patch2 -p1
+%patch2 -p1
 %patch3 -p1
 
 %build
@@ -72,6 +72,7 @@ Audacity - это звуковой редактор, позвол€ющий работать с файлами в
 export WX_CONFIG="`which wxgtk%{!?_with_gtk1:2}-2.4-config`"
 %configure \
 	--with-help \
+	--with-id3tag=local \
 	--with-libmad=system \
 	--with-libsamplerate=system \
 	--with-libsndfile=system \
