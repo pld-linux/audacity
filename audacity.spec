@@ -2,7 +2,7 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl):	Audacity - manipulacja plikami audio
 Name:		audacity
 Version:	0.98
-Release:	1
+Release:	2
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Multimedia
