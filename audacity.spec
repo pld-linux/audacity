@@ -31,7 +31,7 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	mad-devel >= 0.14.2b-4
 BuildRequires:	libid3tag-devel
-BuildRequires:  zip
+BuildRequires:	zip
 BuildRequires:	gettext-devel
 %{?_with_gtk1:BuildRequires:	wxGTK-devel >= 2.4.0}
 %{!?_with_gtk1:BuildRequires:	wxGTK2-devel >= 2.4.0}
