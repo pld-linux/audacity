@@ -1,28 +1,27 @@
 Summary:	Audacity - manipulate digital audio waveforms
-Summary(pl):	Audacity - manipulacja plikami audio
+Summary(pl):	Audacity - narzêdzie do obróbki plików d¼wiêkowych
 Name:		audacity
-Version:	0.98
-Release:	4
+Version:	1.0.0
+Release:	1
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Multimedia
-Source0:	http://prdownloads.sourceforge.net/%{name}/%{name}-src-%{version}.tgz
+Source0:	ftp://ftp.sourceforge.net/pub/sourceforge/%{name}/%{name}-src-%{version}.tgz
 Source1:	%{name}.desktop
 Source2:	%{name}-icon.png
 Patch0:		%{name}-dynamic_id3lib.patch
 Patch1:		%{name}-helpfile_location.patch
 Patch2:		%{name}-not_require_lame-libs-devel.patch
-Patch3:		%{name}-wxGTK-2.3.2.patch
 URL:		http://audacity.sourceforge.net/
-Requires:	lame-libs
-BuildRequires:	wxGTK-devel >= 2.3.2-10
-BuildRequires:	mad-devel
-BuildRequires:	libstdc++-devel
-BuildRequires:	libvorbis-devel >= 1:1.0
-BuildRequires:	libpng-devel
-BuildRequires:	libjpeg-devel
-BuildRequires:	libtiff-devel
 BuildRequires:	id3lib-devel
+BuildRequires:	libjpeg-devel
+BuildRequires:	libpng-devel
+BuildRequires:	libstdc++-devel
+BuildRequires:	libtiff-devel
+BuildRequires:	libvorbis-devel >= 1:1.0
+BuildRequires:	mad-devel
+BuildRequires:	wxGTK-devel >= 2.3.2-10
+Requires:	lame-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
@@ -40,13 +39,14 @@ Obs³uguje .wav, .mp3 oraz ogg/vorbis.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 %{__autoconf}
 %configure \
-	--with-vorbis \
-	--with-libmad
+	--with-id3 \
+	--with-libmad \
+	--with-vorbis
+
 %{__make} CCC="g++ -fno-exceptions -fno-rtti"
 
 %install
@@ -64,8 +64,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README.txt LICENSE.txt
+%doc README.txt
 %attr(755,root,root) %{_bindir}/audacity
-%{_datadir}/%{name}/*
+%{_datadir}/%{name}
 %{_applnkdir}/*/*
 %{_pixmapsdir}/*

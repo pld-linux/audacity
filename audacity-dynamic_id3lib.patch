@@ -1,33 +1,21 @@
-diff -urN audacity-src-0.98.orig/configure.in audacity-src-0.98/configure.in
---- audacity-src-0.98.orig/configure.in	Tue Jan 22 07:14:15 2002
-+++ audacity-src-0.98/configure.in	Sat Feb  2 15:08:27 2002
-@@ -54,11 +54,12 @@
- 		[enable ogg vorbis support (libraries must be installed) [default=no]])],
- 	use_vorbis=$withval,
+--- audacity-src-1.0.0/configure.in.orig	Wed Jun  5 09:51:19 2002
++++ audacity-src-1.0.0/configure.in	Wed Jul 24 21:05:39 2002
+@@ -56,7 +56,7 @@
  	use_vorbis="no")
--AC_ARG_WITH(id3,
--	[AC_HELP_STRING([--with-id3],
--		[compile with id3lib (the source is included here) [default=yes]])],
--	use_id3lib=$withval,
--	use_id3lib="yes")
-+dnl AC_ARG_WITH(id3,
-+dnl	[AC_HELP_STRING([--with-id3],
-+dnl		[compile with id3lib (the source is included here) [default=yes]])],
-+dnl	use_id3lib=$withval,
-+dnl	use_id3lib="yes")
-+use_id3lib="yes"
+ AC_ARG_WITH(id3,
+ 	[AC_HELP_STRING([--with-id3],
+-		[compile with id3lib (the source is included here) [default=no]])],
++		[compile with id3lib (libraries must be installed) [default=no]])],
+ 	use_id3lib=$withval,
+ 	use_id3lib="no")
  AC_ARG_WITH(help,
- 	[AC_HELP_STRING([--with-help],
- 		[Make the help file "audacity-help.htb" [default=yes]])],
-@@ -161,9 +162,9 @@
+@@ -161,9 +161,7 @@
  fi
  
  if [[ $use_id3lib = "yes" ]] ; then
 -	EXTRAOBJS="$EXTRAOBJS id3lib/src/.libs/libid3.a"
 -	MAKEALL="$MAKEALL id3lib/src/.libs/libid3.a"
 -	CFLAGS="$CFLAGS -Iid3lib/include"
-+	dnl EXTRAOBJS="$EXTRAOBJS id3lib/src/.libs/libid3.a"
-+	dnl MAKEALL="$MAKEALL id3lib/src/.libs/libid3.a"
 +	LIBS="$LIBS -lid3"
  		
  	AC_DEFINE(USE_ID3LIB, 1,
