@@ -6,14 +6,13 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl):	Audacity - narzкdzie do obrуbki plikуw dЉwiкkowych
 Summary(ru):	 россплатформенный звуковой редактор
 Name:		audacity
-Version:	1.2.0
-%define		_pre pre3
-Release:	0.%{_pre}.2
+Version:	1.2.2
+Release:	1
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
-Source0:	http://dl.sourceforge.net/audacity/%{name}-src-%{version}-%{_pre}.tar.bz2
-# Source0-md5:	a7efddd64e2ce3e380614796d689e11f
+Source0:	http://dl.sourceforge.net/audacity/%{name}-src-%{version}.tar.gz
+# Source0-md5:	68d60659ad936792f6d7d746a40a7179
 Source1:	%{name}.desktop
 Source2:	%{name}-icon.png
 Patch0:		%{name}-system-expat.patch
@@ -62,7 +61,7 @@ Audacity - это звуковой редактор, позвол€ющий работать с файлами в
 плагинов, к любой части звукового файла.
 
 %prep
-%setup -q -n %{name}-src-%{version}-%{_pre}
+%setup -q -n %{name}-src-%{version}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
