@@ -67,6 +67,7 @@ Audacity - это звуковой редактор, позвол€ющий работать с файлами в
 
 %build
 cp -f /usr/share/automake/config.sub .
+cp -f /usr/share/automake/config.sub lib-src/soundtouch/config
 %{__autoconf}
 export WX_CONFIG="`which wxgtk%{!?_with_gtk1:2}-2.4-config`"
 %configure \
