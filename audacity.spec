@@ -2,7 +2,7 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl):	Audacity - manipulacja plikami audio
 Name:		audacity
 Version:	0.98
-Release:	2
+Release:	3
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Multimedia
@@ -15,13 +15,14 @@ Patch2:		%{name}-not_require_lame-libs-devel.patch
 Patch3:		%{name}-wxGTK-2.3.2.patch
 URL:		http://audacity.sourceforge.net/
 Requires:	lame-libs
-BuildRequires:	wxGTK-devel >= 2.3.2-7
+BuildRequires:	wxGTK-devel >= 2.3.2-10
 BuildRequires:	mad-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvorbis-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libtiff-devel
+BuildRequires:	id3lib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
