@@ -22,21 +22,22 @@ Patch2:		%{name}-not_require_lame-libs-devel.patch
 Patch3:		%{name}-opt.patch
 URL:		http://audacity.sourceforge.net/
 BuildRequires:	autoconf
-#BuildRequires:	expat-devel
+BuildRequires:	expat-devel
 BuildRequires:	fftw-devel >= 2.1.4
 BuildRequires:	flac-devel
 BuildRequires:	gettext-devel
+BuildRequires:	libid3tag-devel >= 0.15.0b-2
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmad-devel >= 0.14.2b-4
 BuildRequires:	libsamplerate-devel
 BuildRequires:	libsndfile-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvorbis-devel >= 1:1.0
-BuildRequires:	libid3tag-devel
 %{?with_gtk1:BuildRequires:	wxGTK-devel >= 2.4.0}
 %{?without_gtk1:BuildRequires:	wxGTK2-devel >= 2.4.0}
 BuildRequires:	zip
 Requires:	lame-libs
+Requires:	libid3tag >= 0.15.0b-2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -72,7 +73,7 @@ Audacity - это звуковой редактор, позвол€ющий работать с файлами в
 export WX_CONFIG="`which wxgtk%{!?_with_gtk1:2}-2.4-config`"
 %configure \
 	--with-help \
-	--with-id3tag=local \
+	--with-id3tag=system \
 	--with-libmad=system \
 	--with-libsamplerate=system \
 	--with-libsndfile=system \
