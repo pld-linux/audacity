@@ -13,6 +13,7 @@ Patch0:		%{name}-dynamic_id3lib.patch
 Patch1:		%{name}-helpfile_location.patch
 Patch2:		%{name}-not_require_lame-libs-devel.patch
 URL:		http://audacity.sourceforge.net/
+BuildRequires:	autoconf
 BuildRequires:	id3lib-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
