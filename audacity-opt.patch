@@ -29,8 +29,8 @@ diff -aurN audacity-src-1.2.0-pre2.orig/lib-src/portaudio/pa_unix_oss/Makefile a
  
  CC = gcc
  
--override CFLAGS += -g -O -ansi -I../pa_common
-+override CFLAGS += $(OPTFLAGS) -ansi -I../pa_common
+-override CFLAGS += -g -O -I../pa_common
++override CFLAGS += $(OPTFLAGS) -I../pa_common
  PASRC = ../pa_common/pa_lib.c pa_unix_oss.c pa_unix.c
  PAINC = ../pa_common/portaudio.h
  PAOBJ = ../pa_common/pa_lib.o pa_unix_oss.o pa_unix.o
