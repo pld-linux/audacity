@@ -6,4 +6,5 @@ Exec=audacity
 Icon=audacity-icon.png
 Terminal=0
 Type=Application
+Categories=Application;AudioVideo;
 # vi: encoding=utf-8
