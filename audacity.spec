@@ -2,17 +2,19 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl):	Audacity - narzêdzie do obróbki plików d¼wiêkowych
 Name:		audacity
 Version:	1.0.0
-Release:	1
+Release:	2
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Multimedia
 Source0:	ftp://ftp.sourceforge.net/pub/sourceforge/%{name}/%{name}-src-%{version}.tgz
+# Source0-md5:	6711813f16c3d64e63209cb355191af6
 Source1:	%{name}.desktop
 Source2:	%{name}-icon.png
 Patch0:		%{name}-dynamic_id3lib.patch
 Patch1:		%{name}-helpfile_location.patch
 Patch2:		%{name}-not_require_lame-libs-devel.patch
 URL:		http://audacity.sourceforge.net/
+BuildRequires:	autoconf
 BuildRequires:	id3lib-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
