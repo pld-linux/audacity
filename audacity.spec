@@ -1,13 +1,13 @@
 #
 # Conditional build:
-%bcond_with gtk1	# use wxGTK instead of wxGTK2
+%bcond_with	gtk1	# use wxGTK instead of wxGTK2
 #
 Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl):	Audacity - narzкdzie do obrуbki plikуw dјwiкkowych
 Summary(ru):	Кроссплатформенный звуковой редактор
 Name:		audacity
 Version:	1.2.2
-Release:	1
+Release:	2
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
