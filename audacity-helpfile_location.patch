@@ -1,14 +1,11 @@
-diff -urN audacity-src-0.98.orig/Help.cpp audacity-src-0.98/Help.cpp
---- audacity-src-0.98.orig/Help.cpp	Tue Jan 22 07:14:15 2002
-+++ audacity-src-0.98/Help.cpp	Sat Feb  2 15:27:05 2002
-@@ -106,9 +106,7 @@
-       paths.Add(wxGetCwd() + wxFILE_SEP_PATH + "audacity-help.htb");
+--- audacity-src-1.1.1-3/src/Help.cpp.orig	Mon Nov 11 07:58:21 2002
++++ audacity-src-1.1.1-3/src/Help.cpp	Sat Jan 25 01:08:40 2003
+@@ -81,7 +81,7 @@
+       if (helpFiles.GetCount() > 0)
+          defaultLoc = helpFiles[0];
+       else
+-         defaultLoc = INSTALL_PREFIX "/share/doc/audacity/audacity-help.htb";
++         defaultLoc = INSTALL_PREFIX "/share/audacity/audacity-help.htb";
  
-       #ifdef __WXGTK__
--      paths.Add("/usr/local/share/doc/audacity/audacity-help.htb");
--      paths.Add("/usr/share/doc/audacity/audacity-help.htb");
--      paths.Add("/usr/share/audacity/audacity-help.htb"); // for debian
-+      paths.Add("/usr/X11R6/share/audacity/audacity-help.htb");
-       #endif
- 
-       #ifdef __WXMSW__
+       wxString helpFilePath =
+           gPrefs->Read("/Help/HelpFilePath", defaultLoc);
