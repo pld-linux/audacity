@@ -42,7 +42,7 @@ Obs³uguje .wav, .mp3 oraz ogg/vorbis.
 %patch3 -p1
 
 %build
-autoconf
+%{__autoconf}
 %configure \
 	--with-vorbis \
 	--with-libmad
