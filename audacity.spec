@@ -12,6 +12,7 @@ Source2:	%{name}-icon.png
 Patch0:		%{name}-dynamic_id3lib.patch
 Patch1:		%{name}-helpfile_location.patch
 Patch2:		%{name}-not_require_lame-libs-devel.patch
+Patch3:		%{name}-wxGTK-2.3.2.patch
 URL:		http://audacity.sourceforge.net/
 Requires:	lame-libs
 BuildRequires:	wxGTK-devel
@@ -38,13 +39,14 @@ Obs³uguje .wav, .mp3 oraz ogg/vorbis.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 autoconf
 %configure \
 	--with-vorbis \
 	--with-libmad
-%{__make}
+%{__make} CCC="g++ -fno-exceptions -fno-rtti"
 
 %install
 rm -rf $RPM_BUILD_ROOT
