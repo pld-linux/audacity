@@ -20,6 +20,7 @@ Patch1:		%{name}-not_require_lame-libs-devel.patch
 Patch2:		%{name}-opt.patch
 URL:		http://audacity.sourceforge.net/
 BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	expat-devel
 BuildRequires:	fftw-devel >= 2.1.4
 BuildRequires:	flac-devel
@@ -31,6 +32,7 @@ BuildRequires:	libsamplerate-devel
 BuildRequires:	libsndfile-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvorbis-devel >= 1:1.0
+BuildRequires:	which
 %{?with_gtk1:BuildRequires:	wxGTK-devel >= 2.4.0}
 %{?!with_gtk1:BuildRequires:	wxGTK2-devel >= 2.4.0}
 BuildRequires:	zip
