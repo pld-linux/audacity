@@ -7,7 +7,7 @@ Summary(pl):	Audacity - narzкdzie do obrуbki plikуw dјwiкkowych
 Summary(ru):	Кроссплатформенный звуковой редактор
 Name:		audacity
 Version:	1.2.3
-Release:	2
+Release:	3
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
