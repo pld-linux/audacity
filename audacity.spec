@@ -15,7 +15,7 @@ Patch2:		%{name}-not_require_lame-libs-devel.patch
 Patch3:		%{name}-wxGTK-2.3.2.patch
 URL:		http://audacity.sourceforge.net/
 Requires:	lame-libs
-BuildRequires:	wxGTK-devel
+BuildRequires:	wxGTK-devel >= 2.3.2-7
 BuildRequires:	mad-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvorbis-devel
