@@ -7,7 +7,7 @@ Summary(pl):	Audacity - narzкdzie do obrуbki plikуw dјwiкkowych
 Summary(ru):	Кроссплатформенный звуковой редактор
 Name:		audacity
 Version:	1.1.3
-Release:	1
+Release:	2
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
@@ -24,6 +24,7 @@ BuildRequires:	expat-devel
 BuildRequires:	fftw-devel >= 2.1.4
 BuildRequires:	flac-devel
 BuildRequires:	libjpeg-devel
+BuildRequires:	libsamplerate-devel
 BuildRequires:	libsndfile-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvorbis-devel >= 1:1.0
@@ -68,6 +69,7 @@ export WX_CONFIG="`which wxgtk%{!?_with_gtk1:2}-2.4-config`"
 	--with-help \
 	--with-id3tag=system \
 	--with-libmad=system \
+	--with-libsamplerate=system \
 	--with-libsndfile=system \
 	--with-libflac=system \
 	--with-vorbis=system
