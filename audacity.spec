@@ -24,17 +24,17 @@ BuildRequires:	autoconf
 BuildRequires:	expat-devel
 BuildRequires:	fftw-devel >= 2.1.4
 BuildRequires:	flac-devel
+BuildRequires:	gettext-devel
 BuildRequires:	libjpeg-devel
+BuildRequires:	libmad-devel >= 0.14.2b-4
 BuildRequires:	libsamplerate-devel
 BuildRequires:	libsndfile-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvorbis-devel >= 1:1.0
-BuildRequires:	mad-devel >= 0.14.2b-4
 BuildRequires:	libid3tag-devel
-BuildRequires:	zip
-BuildRequires:	gettext-devel
 %{?_with_gtk1:BuildRequires:	wxGTK-devel >= 2.4.0}
 %{!?_with_gtk1:BuildRequires:	wxGTK2-devel >= 2.4.0}
+BuildRequires:	zip
 Requires:	lame-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
