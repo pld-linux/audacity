@@ -6,11 +6,6 @@ Release:	1
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Multimedia
-Group(de):	X11/Applikationen/Multimedia
-Group(es):	X11/Aplicaciones/Multimedia
-Group(fr):	X11/Applications/Multimédia
-Group(pl):	X11/Aplikacje/Multimedia
-Group(pt):	X11/Aplicações/Multimedia
 Source0:	http://prdownloads.sourceforge.net/%{name}/%{name}-src-%{version}.tgz
 Source1:	%{name}.desktop
 Source2:	%{name}-icon.png
