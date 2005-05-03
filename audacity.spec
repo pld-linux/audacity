@@ -3,7 +3,7 @@ Summary(pl):	Audacity - narzкdzie do obrуbki plikуw dЉwiкkowych
 Summary(ru):	 россплатформенный звуковой редактор
 Name:		audacity
 Version:	1.2.3
-Release:	4
+Release:	5
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
@@ -15,6 +15,7 @@ Patch0:		%{name}-system-expat.patch
 Patch1:		%{name}-not_require_lame-libs-devel.patch
 Patch2:		%{name}-opt.patch
 Patch3:		%{name}-wx.patch
+Patch4:		%{name}-types.patch
 URL:		http://audacity.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -63,6 +64,7 @@ Audacity - это звуковой редактор, позвол€ющий работать с файлами в
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 cp -f /usr/share/automake/config.sub .
@@ -79,7 +81,6 @@ export WX_CONFIG="`which wx-gtk2-ansi-config`"
 	--with-vorbis=system
 
 %{__make} \
-	CCC="%{__cxx} -fno-rtti" \
 	OPTFLAGS="%{rpmcflags}"
 
 %install
