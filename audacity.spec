@@ -1,13 +1,9 @@
-#
-# Conditional build:
-%bcond_with	gtk1	# use wxGTK instead of wxGTK2
-#
 Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl):	Audacity - narzкdzie do obrуbki plikуw dЉwiкkowych
 Summary(ru):	 россплатформенный звуковой редактор
 Name:		audacity
 Version:	1.2.3
-Release:	3
+Release:	4
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
@@ -18,6 +14,7 @@ Source2:	%{name}-icon.png
 Patch0:		%{name}-system-expat.patch
 Patch1:		%{name}-not_require_lame-libs-devel.patch
 Patch2:		%{name}-opt.patch
+Patch3:		%{name}-wx.patch
 URL:		http://audacity.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -33,8 +30,7 @@ BuildRequires:	libsndfile-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	which
-%{?with_gtk1:BuildRequires:	wxGTK-devel >= 2.4.0}
-%{?!with_gtk1:BuildRequires:	wxGTK2-devel >= 2.4.0}
+BuildRequires:	wxGTK2-devel >= 2.6.0
 BuildRequires:	zip
 Requires:	lame-libs
 Requires:	libid3tag >= 0.15.0b-2
@@ -66,12 +62,13 @@ Audacity - это звуковой редактор, позвол€ющий работать с файлами в
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 cp -f /usr/share/automake/config.sub .
 cp -f /usr/share/automake/config.sub lib-src/soundtouch/config
 %{__autoconf}
-export WX_CONFIG="`which wxgtk%{!?_with_gtk1:2}-2.4-config`"
+export WX_CONFIG="`which wx-gtk2-ansi-config`"
 %configure \
 	--with-help \
 	--with-id3tag=system \
