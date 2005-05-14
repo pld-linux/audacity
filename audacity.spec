@@ -3,7 +3,7 @@ Summary(pl):	Audacity - narzкdzie do obrуbki plikуw dјwiкkowych
 Summary(ru):	Кроссплатформенный звуковой редактор
 Name:		audacity
 Version:	1.2.3
-Release:	5
+Release:	6
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
@@ -93,6 +93,8 @@ install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
+
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{zh,zh_CN}
 
 %find_lang %{name}
 
