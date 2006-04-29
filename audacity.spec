@@ -2,20 +2,19 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl):	Audacity - narzкdzie do obrуbki plikуw dЉwiкkowych
 Summary(ru):	 россплатформенный звуковой редактор
 Name:		audacity
-Version:	1.2.3
-Release:	6
+Version:	1.2.4b
+Release:	1
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
 Source0:	http://dl.sourceforge.net/audacity/%{name}-src-%{version}.tar.gz
-# Source0-md5:	dbfc1b401420aa694753d35acb5a8a28
+# Source0-md5:	37df5b6119302f7ab77ca16d25311756
 Source1:	%{name}.desktop
 Source2:	%{name}-icon.png
 Patch0:		%{name}-system-expat.patch
 Patch1:		%{name}-not_require_lame-libs-devel.patch
 Patch2:		%{name}-opt.patch
-Patch3:		%{name}-wx.patch
-Patch4:		%{name}-types.patch
+Patch3:		%{name}-types.patch
 URL:		http://audacity.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -64,7 +63,6 @@ Audacity - это звуковой редактор, позвол€ющий работать с файлами в
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 
 %build
 cp -f /usr/share/automake/config.sub .
