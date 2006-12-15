@@ -11,7 +11,7 @@ Source0:	http://dl.sourceforge.net/audacity/%{name}-src-%{version}.tar.gz
 # Source0-md5:	bf63673140254f1283dfd55b61ff2422
 Source1:	%{name}.desktop
 Source2:	%{name}-icon.png
-# Patch0:		%{name}-not_require_lame-libs-devel.patch
+Patch0:		%{name}-not_require_lame-libs-devel.patch
 URL:		http://audacity.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
