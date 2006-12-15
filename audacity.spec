@@ -58,7 +58,7 @@ Audacity - это звуковой редактор, позвол€ющий работать с файлами в
 
 %prep
 %setup -q -n %{name}-src-%{version}-beta
-# %patch0 -p1
+%patch0 -p1
 
 %build
 %{__aclocal}
