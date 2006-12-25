@@ -4,13 +4,12 @@
 #	Installed (but unpackaged) file(s) found:
 #	   /usr/share/doc/audacity/LICENSE.txt
 #	   /usr/share/doc/audacity/README.txt
-#	   /usr/share/mime/packages/audacity.xml
 Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl):	Audacity - narzкdzie do obrуbki plikуw dЉwiкkowych
 Summary(ru):	 россплатформенный звуковой редактор
 Name:		audacity
 Version:	1.3.2
-Release:	1
+Release:	2
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
@@ -37,10 +36,11 @@ BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	pkgconfig
 BuildRequires:	speex-devel
 BuildRequires:	which
-BuildRequires:	wxGTK2-devel >= 2.8.0
+BuildRequires:	wxGTK2-unicode-devel >= 2.8.0
 BuildRequires:	zip
 Requires:	lame-libs
 Requires:	libid3tag >= 0.15.0b-2
+Requires(post,postun):	shared-mime-info
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -73,7 +73,7 @@ Audacity - это звуковой редактор, позвол€ющий работать с файлами в
 %{__aclocal}
 %{__autoconf}
 
-export WX_CONFIG="`which wx-gtk2-ansi-config`"
+export WX_CONFIG="`which wx-gtk2-unicode-config`"
 %configure \
 	--with-help \
 	--with-id3tag=system \
@@ -103,6 +103,12 @@ mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{zh,zh_CN}
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+%update_mime_database
+
+%postun
+%update_mime_database
+
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc README.txt
@@ -111,3 +117,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*.1*
 %{_desktopdir}/*.desktop
 %{_pixmapsdir}/*
+%{_datadir}/mime/packages/audacity.xml
