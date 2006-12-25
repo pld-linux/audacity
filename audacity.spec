@@ -1,3 +1,10 @@
+# TODO:
+#	use system soundtouch, nyquist
+#	don't use local libresample
+#	Installed (but unpackaged) file(s) found:
+#	   /usr/share/doc/audacity/LICENSE.txt
+#	   /usr/share/doc/audacity/README.txt
+#	   /usr/share/mime/packages/audacity.xml
 Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl):	Audacity - narzкdzie do obrуbki plikуw dЉwiкkowych
 Summary(ru):	 россплатформенный звуковой редактор
@@ -12,6 +19,7 @@ Source0:	http://dl.sourceforge.net/audacity/%{name}-src-%{version}.tar.gz
 Source1:	%{name}.desktop
 Source2:	%{name}-icon.png
 Patch0:		%{name}-not_require_lame-libs-devel.patch
+Patch1:		%{name}-wx28.patch
 URL:		http://audacity.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -29,7 +37,7 @@ BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	pkgconfig
 BuildRequires:	speex-devel
 BuildRequires:	which
-BuildRequires:	wxGTK2-devel >= 2.6.0
+BuildRequires:	wxGTK2-devel >= 2.8.0
 BuildRequires:	zip
 Requires:	lame-libs
 Requires:	libid3tag >= 0.15.0b-2
@@ -59,6 +67,7 @@ Audacity - это звуковой редактор, позвол€ющий работать с файлами в
 %prep
 %setup -q -n %{name}-src-%{version}-beta
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__aclocal}
