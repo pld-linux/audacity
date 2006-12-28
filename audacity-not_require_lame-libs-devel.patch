@@ -42,11 +42,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/af.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:255
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Slegs libmp3lame.so|libmp3lame.so|Gedeelte objeklêers (*.so)|*.so|"
-+"Slegs libmp3lame.so.0|libmp3lame.so|Gedeelte objeklêers (*.so)|*.so|"
++"Slegs libmp3lame.so.0|libmp3lame.so.0|Gedeelte objeklêers (*.so)|*.so|"
  "Uitgebreide biblioteke (*.so)|*.so*|Alle lêers (*)|*"
  
  #: ../src/Legacy.cpp:338
@@ -72,7 +72,7 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/ar.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
  
@@ -108,7 +108,7 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/bg.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Само libmp3lame.so|libmp3lame.so|Първични споделени обектни файлове (*.so)|*."
@@ -149,8 +149,8 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/ca.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
 -msgid "Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
 -msgstr "Nom�s libmp3lame.so|libmp3lame.so|Fitxers d'objectes primaris compartits (*.so)|*.so|Llibreries exteses (*.so*)|*.so*|Tots els fitxers (*)|*"
-+msgid "Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
-+msgstr "Nom�s libmp3lame.so.0|libmp3lame.so|Fitxers d'objectes primaris compartits (*.so)|*.so|Llibreries exteses (*.so*)|*.so*|Tots els fitxers (*)|*"
++msgid "Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
++msgstr "Nom�s libmp3lame.so.0|libmp3lame.so.0|Fitxers d'objectes primaris compartits (*.so)|*.so|Llibreries exteses (*.so*)|*.so*|Tots els fitxers (*)|*"
  
  #: ../src/Menus.cpp:3621
  msgid "Open CleanSpeech Preset File:"
@@ -189,11 +189,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/cs.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Pouze libmp3lame.so|libmp3lame.so|Soubory primárně sdílených objektů (*.so)|"
-+"Pouze libmp3lame.so.0|libmp3lame.so|Soubory primárně sdílených objektů (*.so)|"
++"Pouze libmp3lame.so.0|libmp3lame.so.0|Soubory primárně sdílených objektů (*.so)|"
  "*.so|Rozšířené knihovny (*.so*)|*.so*|Všechny soubory (*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -229,11 +229,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/da.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Kun libmp3lame.so|libmp3lame.so|Prim�re delte objektfiler (*.so)|*.so|"
-+"Kun libmp3lame.so.0|libmp3lame.so|Prim�re delte objektfiler (*.so)|*.so|"
++"Kun libmp3lame.so.0|libmp3lame.so.0|Prim�re delte objektfiler (*.so)|*.so|"
  "Udvidede biblioteker (*.so*)|*.so*|Alle filer (*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -273,8 +273,8 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/de.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:267
 -msgid "Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
 -msgstr "Nur libmp3lame.so|libmp3lame.so|Shared Object Dateien (*.so)|*.so| Extended Libraries (*.so*)|*.so*|Alle Dateien (*)|*"
-+msgid "Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
-+msgstr "Nur libmp3lame.so.0|libmp3lame.so|Shared Object Dateien (*.so)|*.so| Extended Libraries (*.so*)|*.so*|Alle Dateien (*)|*"
++msgid "Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
++msgstr "Nur libmp3lame.so.0|libmp3lame.so.0|Shared Object Dateien (*.so)|*.so| Extended Libraries (*.so*)|*.so*|Alle Dateien (*)|*"
  
  #: ../src/Menus.cpp:4098
  msgid "Open CleanSpeech Preset File:"
@@ -312,11 +312,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/el.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Μόνο libmp3lame.so|libmp3lame.so|Primary Shared Object αρχεία (*.so)|*.so|"
-+"Μόνο libmp3lame.so.0|libmp3lame.so|Primary Shared Object αρχεία (*.so)|*.so|"
++"Μόνο libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object αρχεία (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|Όλα τα αρχεία (*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -352,11 +352,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/es.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Sólo libmp3lame.so|libmp3lame.so|Primary Shared Object (*.so)|*.so|Extended "
-+"Sólo libmp3lame.so.0|libmp3lame.so|Primary Shared Object (*.so)|*.so|Extended "
++"Sólo libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object (*.so)|*.so|Extended "
  "Libraries (*.so*)|*.so*|Todos los Archivos (*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -392,11 +392,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/eu.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Soilik libmp3lame.so|libmp3lame.so|Objektu partekatuen lehen mailako "
-+"Soilik libmp3lame.so.0|libmp3lame.so|Objektu partekatuen lehen mailako "
++"Soilik libmp3lame.so.0|libmp3lame.so.0|Objektu partekatuen lehen mailako "
  "fitxategiak (*.so)|*.so|Fitxategi hedatuak (*.so*)|*.so*|Fitxategi guztiak "
  "(*)|*"
  
@@ -432,11 +432,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/fi.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Vain libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Vain libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Vain libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|Kaikki tiedostot (*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -471,11 +471,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/fr.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Seulement libmp3lame.so|libmp3lame.so|Fichiers Primary Shared Object (*.so)|"
-+"Seulement libmp3lame.so.0|libmp3lame.so|Fichiers Primary Shared Object (*.so)|"
++"Seulement libmp3lame.so.0|libmp3lame.so.0|Fichiers Primary Shared Object (*.so)|"
  "*.so|Libraries �tendues (*.so*)|*.so*|Tous fichiers (*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -511,11 +511,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/ga.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"libmp3lame.so|libmp3lame.so|Comhaid Oibiacht Phr�omh�il Chomhroinnte amh�in "
-+"libmp3lame.so.0|libmp3lame.so|Comhaid Oibiacht Phr�omh�il Chomhroinnte amh�in "
++"libmp3lame.so.0|libmp3lame.so.0|Comhaid Oibiacht Phr�omh�il Chomhroinnte amh�in "
  "(*.so)|*.so|Leabharlanna Breisithe (*.so*)|*.so*|Gach Comhad (*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -551,11 +551,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/hu.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Csak libmp3lame.so|libmp3lame.so|Els�dlegesen Megosztott Objektum f�jlok (*."
-+"Csak libmp3lame.so.0|libmp3lame.so|Els�dlegesen Megosztott Objektum f�jlok (*."
++"Csak libmp3lame.so.0|libmp3lame.so.0|Els�dlegesen Megosztott Objektum f�jlok (*."
  "so)|*.so|B�v�tett K�nyvt�rak (*.so*)|*.so*|Minden F�jl (*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -591,11 +591,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/it.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Solo libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Solo libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Solo libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Librerie estese (*.so*)|*.so*|All Files (*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -629,11 +629,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/ja.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -669,11 +669,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/lt.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Tik libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Tik libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Tik libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|Visi Failai (*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -709,11 +709,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/mk.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Само libmp3lame.so|libmp3lame.so|примарно деливи објекти (*.so)|*.so|"
-+"Само libmp3lame.so.0|libmp3lame.so|примарно деливи објекти (*.so)|*.so|"
++"Само libmp3lame.so.0|libmp3lame.so.0|примарно деливи објекти (*.so)|*.so|"
  "зајакнати библиотеки (*.so*)|*.so*|сите датотеки (*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -749,11 +749,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/nb.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Bare libmp3lame.so|libmp3lame.so|Prim�re delte objektfiler (*.so)|*.so|"
-+"Bare libmp3lame.so.0|libmp3lame.so|Prim�re delte objektfiler (*.so)|*.so|"
++"Bare libmp3lame.so.0|libmp3lame.so.0|Prim�re delte objektfiler (*.so)|*.so|"
  "Utvidede bibliotek(*.so*)|*.so*|Alle filer (*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -790,11 +790,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/nl.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Enkel libmp3lame.so|libmp3lame.so|Shared Object bestanden (*.so)|*.so|"
-+"Enkel libmp3lame.so.0|libmp3lame.so|Shared Object bestanden (*.so)|*.so|"
++"Enkel libmp3lame.so.0|libmp3lame.so.0|Shared Object bestanden (*.so)|*.so|"
  "Uitgebreide bibliotheken (*.so)|*.so*|Alle Bestanden (*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -830,11 +830,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/pl.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Tylko libmp3lame.so|libmp3lame.so|Podstawowe biblioteki wsp�dzielone (*.so)|"
-+"Tylko libmp3lame.so.0|libmp3lame.so|Podstawowe biblioteki wsp�dzielone (*.so)|"
++"Tylko libmp3lame.so.0|libmp3lame.so.0|Podstawowe biblioteki wsp�dzielone (*.so)|"
  "*.so|Biblioteki rozszerzaj�ce (*.so*)|*.so*|All Files (*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -870,11 +870,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/pt.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Apenas libmp3lame.so|libmp3lame.so|Arquivos Primary Shared Object (*.so)|*."
-+"Apenas libmp3lame.so.0|libmp3lame.so|Arquivos Primary Shared Object (*.so)|*."
++"Apenas libmp3lame.so.0|libmp3lame.so.0|Arquivos Primary Shared Object (*.so)|*."
  "so|Arquivos Extended Libraries (*.so*)|*.so*|Todos os arquivos (*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -913,11 +913,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/ru.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:271
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Только libmp3lame.so|libmp3lame.so|Первичные динамически загружаемые "
-+"Только libmp3lame.so.0|libmp3lame.so|Первичные динамически загружаемые "
++"Только libmp3lame.so.0|libmp3lame.so.0|Первичные динамически загружаемые "
  "библиотеки (*.so)|*.so|Расширенные библиотеки (*.so*)|*.so*|Все файлы (*)|*"
  
  #: ../src/Menus.cpp:4120
@@ -952,8 +952,8 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/sl.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:255
 -msgid "Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
 -msgstr "Samo libmp3lame.so|libmp3lame.so|Deljene razredne datoteke (*.so)|*.so|Raz�irjene knji�nice (*.so*)|*.so*|Vse datoteke (*)|*"
-+msgid "Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
-+msgstr "Samo libmp3lame.so.0|libmp3lame.so|Deljene razredne datoteke (*.so)|*.so|Raz�irjene knji�nice (*.so*)|*.so*|Vse datoteke (*)|*"
++msgid "Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
++msgstr "Samo libmp3lame.so.0|libmp3lame.so.0|Deljene razredne datoteke (*.so)|*.so|Raz�irjene knji�nice (*.so*)|*.so*|Vse datoteke (*)|*"
  
  #: ../src/Legacy.cpp:338
  msgid "Opening Audacity Project"
@@ -989,11 +989,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/sv.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -1030,8 +1030,8 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/tr.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:255
 -msgid "Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
 -msgstr "Sadece libmp3lame.so|libmp3lame.so|Birincil Paylaşılan Nesne dosyaları (*.so)|*.so|Genişletilmiş Kitaplıklar (*.so*)|*.so*|All Files (*)|*"
-+msgid "Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
-+msgstr "Sadece libmp3lame.so.0|libmp3lame.so|Birincil Paylaşılan Nesne dosyaları (*.so)|*.so|Genişletilmiş Kitaplıklar (*.so*)|*.so*|All Files (*)|*"
++msgid "Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
++msgstr "Sadece libmp3lame.so.0|libmp3lame.so.0|Birincil Paylaşılan Nesne dosyaları (*.so)|*.so|Genişletilmiş Kitaplıklar (*.so*)|*.so*|All Files (*)|*"
  
  #: ../src/Legacy.cpp:338
  msgid "Opening Audacity Project"
@@ -1067,11 +1067,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/uk.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"Лише libmp3lame.so|libmp3lame.so|Первинні спільні бібліотеки (*.so)|*.so|"
-+"Лише libmp3lame.so.0|libmp3lame.so|Первинні спільні бібліотеки (*.so)|*.so|"
++"Лише libmp3lame.so.0|libmp3lame.so.0|Первинні спільні бібліотеки (*.so)|*.so|"
  "Розширені бібліотеки (*.so*)|*.so*|Усі файли (*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -1106,11 +1106,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/zh.po audacity-src-1.3.2-beta/loca
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"仅限libmp3lame.so|libmp3lame.so|主要的共享目标文件(*.so)|*.so|扩展库(*.so*)|"
-+"仅限libmp3lame.so.0|libmp3lame.so|主要的共享目标文件(*.so)|*.so|扩展库(*.so*)|"
++"仅限libmp3lame.so.0|libmp3lame.so.0|主要的共享目标文件(*.so)|*.so|扩展库(*.so*)|"
  "*.so*|全部文件(*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -1145,11 +1145,11 @@ diff -urN audacity-src-1.3.2-beta.orig/locale/zh_TW.po audacity-src-1.3.2-beta/l
  #: ../src/export/ExportMP3.cpp:253
  msgid ""
 -"Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
-+"Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|"
++"Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|"
  "Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
 -"僅限libmp3lame.so|libmp3lame.so|主要的共享目標檔案(*.so)|*.so|\"\"擴充資料庫"
-+"僅限libmp3lame.so.0|libmp3lame.so|主要的共享目標檔案(*.so)|*.so|\"\"擴充資料庫"
++"僅限libmp3lame.so.0|libmp3lame.so.0|主要的共享目標檔案(*.so)|*.so|\"\"擴充資料庫"
  "(*.so*)|*.so*|全部檔案(*)|*"
  
  #: ../src/Menus.cpp:3621
@@ -1167,7 +1167,7 @@ diff -urN audacity-src-1.3.2-beta.orig/src/export/ExportMP3.cpp audacity-src-1.3
           wxString GetLibraryTypeString()
           {
 -            return wxString(_("Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"));
-+            return wxString(_("Only libmp3lame.so.0|libmp3lame.so|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"));
++            return wxString(_("Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"));
           }
           
           wxString GetLibraryMessage()
