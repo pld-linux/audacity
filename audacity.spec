@@ -1,6 +1,6 @@
 # TODO:
-#       it constantly tries to open /usr/bin/Portable Settings/*
-#       internal portaudio crashes when only OSS is available on startup
+#	it constantly tries to open /usr/bin/Portable Settings/*
+#	internal portaudio crashes when only OSS is available on startup
 #	use system nyquist?
 #	Installed (but unpackaged) file(s) found:
 #	   /usr/share/doc/audacity/LICENSE.txt
@@ -41,6 +41,7 @@ BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	pkgconfig
 BuildRequires:	soundtouch-devel >= 1.3.0
 BuildRequires:	speex-devel
+BuildRequires:	twolame-devel
 BuildRequires:	which
 BuildRequires:	wxGTK2-unicode-devel >= 2.8.0
 BuildRequires:	zip
