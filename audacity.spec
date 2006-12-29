@@ -1,6 +1,7 @@
 # TODO:
-#	use system soundtouch, nyquist
-#	don't use local libresample
+#       it constantly tries to open /usr/bin/Portable Settings/*
+#       internal portaudio crashes when only OSS is available on startup
+#	use system nyquist?
 #	Installed (but unpackaged) file(s) found:
 #	   /usr/share/doc/audacity/LICENSE.txt
 #	   /usr/share/doc/audacity/README.txt
@@ -20,21 +21,25 @@ Source2:	%{name}-icon.png
 Patch0:		%{name}-not_require_lame-libs-devel.patch
 Patch1:		%{name}-wx28.patch
 Patch2:		%{name}-flac.patch
+Patch3:		%{name}-system-libs.patch
+Patch4:		%{name}-opt.patch
 URL:		http://audacity.sourceforge.net/
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
-BuildRequires:	expat-devel
+BuildRequires:	expat-devel >= 1.95
 BuildRequires:	fftw-devel >= 2.1.4
 BuildRequires:	flac-devel >= 1.1.3
 BuildRequires:	gettext-devel
 BuildRequires:	libid3tag-devel >= 0.15.0b-2
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmad-devel >= 0.14.2b-4
-BuildRequires:	libsamplerate-devel
-BuildRequires:	libsndfile-devel
+BuildRequires:	libresample-devel >= 0.1.3
+BuildRequires:	libsamplerate-devel >= 0.1.2
+BuildRequires:	libsndfile-devel >= 1.0.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	pkgconfig
+BuildRequires:	soundtouch-devel >= 1.3.0
 BuildRequires:	speex-devel
 BuildRequires:	which
 BuildRequires:	wxGTK2-unicode-devel >= 2.8.0
@@ -70,8 +75,13 @@ Audacity - это звуковой редактор, позвол€ющий работать с файлами в
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
+cd lib-src/portmixer
+%{__autoconf}
+cd ../..
 %{__aclocal}
 %{__autoconf}
 
