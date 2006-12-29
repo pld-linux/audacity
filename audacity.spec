@@ -19,12 +19,13 @@ Source1:	%{name}.desktop
 Source2:	%{name}-icon.png
 Patch0:		%{name}-not_require_lame-libs-devel.patch
 Patch1:		%{name}-wx28.patch
+Patch2:		%{name}-flac.patch
 URL:		http://audacity.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	expat-devel
 BuildRequires:	fftw-devel >= 2.1.4
-BuildRequires:	flac-devel
+BuildRequires:	flac-devel >= 1.1.3
 BuildRequires:	gettext-devel
 BuildRequires:	libid3tag-devel >= 0.15.0b-2
 BuildRequires:	libjpeg-devel
@@ -68,6 +69,7 @@ Audacity - это звуковой редактор, позвол€ющий работать с файлами в
 %setup -q -n %{name}-src-%{version}-beta
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__aclocal}
