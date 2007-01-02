@@ -1,5 +1,6 @@
 # TODO:
 #	internal portaudio crashes when only OSS is available on startup
+%bcond_with	libresample	# using libresample (default libsamplerate)
 Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl):	Audacity - narzêdzie do obróbki plików d¼wiêkowych
 Summary(ru):	Êðîññïëàòôîðìåííûé çâóêîâîé ðåäàêòîð
@@ -28,8 +29,8 @@ BuildRequires:	gettext-devel
 BuildRequires:	libid3tag-devel >= 0.15.0b-2
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmad-devel >= 0.14.2b-4
-BuildRequires:	libresample-devel >= 0.1.3
-BuildRequires:	libsamplerate-devel >= 0.1.2
+%{?with_libresample:BuildRequires:	libresample-devel >= 0.1.3}
+%{!?with_libresample:BuildRequires:	libsamplerate-devel >= 0.1.2}
 BuildRequires:	libsndfile-devel >= 1.0.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvorbis-devel >= 1:1.0
@@ -83,10 +84,15 @@ cd ../..
 
 export WX_CONFIG="`which wx-gtk2-unicode-config`"
 %configure \
+%if %{with libresample}
+	--with-libresample=system \
+%else
+	--with-libresample=no \
+	--with-libsamplerate=system \
+%endif
 	--with-help \
 	--with-id3tag=system \
 	--with-libmad=system \
-	--with-libsamplerate=system \
 	--with-libsndfile=system \
 	--with-libflac=system \
 	--with-vorbis=system
