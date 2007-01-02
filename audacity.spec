@@ -1,10 +1,5 @@
 # TODO:
-#	it constantly tries to open /usr/bin/Portable Settings/*
 #	internal portaudio crashes when only OSS is available on startup
-#	use system nyquist?
-#	Installed (but unpackaged) file(s) found:
-#	   /usr/share/doc/audacity/LICENSE.txt
-#	   /usr/share/doc/audacity/README.txt
 Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl):	Audacity - narzкdzie do obrуbki plikуw dјwiкkowych
 Summary(ru):	Кроссплатформенный звуковой редактор
@@ -110,6 +105,7 @@ install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{zh,zh_CN}
+rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}/
 
 %find_lang %{name}
 
