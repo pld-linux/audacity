@@ -1,0 +1,47 @@
+diff -aurN audacity-src-1.2.0-pre2.orig/configure.in audacity-src-1.2.0-pre2/configure.in
+--- audacity-src-1.2.0-pre2.orig/configure.in	2003-09-29 08:51:27.000000000 +0200
++++ audacity-src-1.2.0-pre2/configure.in	2003-10-16 20:27:11.645349856 +0200
+@@ -88,9 +88,7 @@
+ dnl Required sublibraries
+ dnl
+ 
+-BUILDLIBS="$BUILDLIBS expat/expat.a"
+-EXTRAOBJS="$EXTRAOBJS ../lib-src/expat/expat.a"
+-CXXFLAGS="$CXXFLAGS -I../lib-src/expat"
++LIBS="$LIBS -lexpat"
+ 
+ dnl TODO enable/disable allegro
+ BUILDLIBS="$BUILDLIBS allegro/allegro.a"
+@@ -656,7 +654,7 @@
+ esac
+ 
+ AC_CONFIG_FILES([Makefile src/Makefile lib-src/Makefile \
+-					  lib-src/allegro/Makefile lib-src/expat/Makefile \
++					  lib-src/allegro/Makefile \
+ 					  lib-src/libnyquist/Makefile \
+ 					  locale/Makefile tests/Makefile])
+ 
+diff -aurN audacity-src-1.2.0-pre2.orig/src/commands/CommandManager.h audacity-src-1.2.0-pre2/src/commands/CommandManager.h
+--- audacity-src-1.2.0-pre2.orig/src/commands/CommandManager.h	2003-09-29 08:51:27.000000000 +0200
++++ audacity-src-1.2.0-pre2/src/commands/CommandManager.h	2003-10-16 20:27:11.650349096 +0200
+@@ -43,6 +43,7 @@
+ #include <wx/hashmap.h>
+ 
+ #include "../xml/XMLTagHandler.h"
++#include <expat.h>
+ 
+ class CommandFunctor
+ {
+diff -aurN audacity-src-1.2.0-pre2.orig/src/xml/XMLFileReader.h audacity-src-1.2.0-pre2/src/xml/XMLFileReader.h
+--- audacity-src-1.2.0-pre2.orig/src/xml/XMLFileReader.h	2003-09-29 08:51:27.000000000 +0200
++++ audacity-src-1.2.0-pre2/src/xml/XMLFileReader.h	2003-10-16 20:27:52.144193096 +0200
+@@ -8,7 +8,8 @@
+ 
+ **********************************************************************/
+ 
+-#include "xmlparse/xmlparse.h"
++/*#include "xmlparse/xmlparse.h"*/
++#include <expat.h>
+ 
+ #include "XMLTagHandler.h"
+ 

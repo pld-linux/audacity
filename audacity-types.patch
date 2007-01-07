@@ -1,0 +1,11 @@
+--- audacity-src-1.2.3/src/effects/ToneGen.cpp.orig	2004-11-18 07:17:30.000000000 +0100
++++ audacity-src-1.2.3/src/effects/ToneGen.cpp	2005-05-03 16:39:11.000000000 +0200
+@@ -280,7 +280,7 @@
+    item2->Add(item3, 0, wxALIGN_CENTRE | wxALL, 5);
+ 
+    wxChoice *item4 = new wxChoice(parent, ID_WAVEFORM, wxDefaultPosition,
+-                                  wxSize(80, -1), 0, NULL);
++                                  wxSize(80, -1), 0, NULL, 0);
+    item2->Add(item4, 0, wxALIGN_CENTRE | wxALL, 5);
+ 
+    item0->Add(item2, 1, wxALIGN_CENTRE | wxALL, 5);
