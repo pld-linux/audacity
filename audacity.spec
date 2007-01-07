@@ -1,6 +1,9 @@
 # TODO:
 #	internal portaudio crashes when only OSS is available on startup
+#
+# Conditional build:
 %bcond_with	libresample	# using libresample (default libsamplerate)
+#
 Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl):	Audacity - narzкdzie do obrуbki plikуw dјwiкkowych
 Summary(ru):	Кроссплатформенный звуковой редактор
