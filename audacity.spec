@@ -9,7 +9,7 @@ Summary(pl):	Audacity - narzкdzie do obrуbki plikуw dЉwiкkowych
 Summary(ru):	 россплатформенный звуковой редактор
 Name:		audacity
 Version:	1.3.2
-Release:	2
+Release:	3
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
@@ -18,7 +18,6 @@ Source0:	http://dl.sourceforge.net/audacity/%{name}-src-%{version}.tar.gz
 Source1:	%{name}.desktop
 Source2:	%{name}-icon.png
 Patch0:		%{name}-not_require_lame-libs-devel.patch
-Patch1:		%{name}-wx28.patch
 Patch2:		%{name}-flac.patch
 Patch3:		%{name}-system-libs.patch
 Patch4:		%{name}-opt.patch
@@ -42,7 +41,7 @@ BuildRequires:	soundtouch-devel >= 1.3.0
 BuildRequires:	speex-devel
 BuildRequires:	twolame-devel
 BuildRequires:	which
-BuildRequires:	wxGTK2-unicode-devel >= 2.8.0
+BuildRequires:	wxGTK2-unicode-devel >= 2.6.0
 BuildRequires:	zip
 Requires:	lame-libs
 Requires:	libid3tag >= 0.15.0b-2
@@ -73,7 +72,6 @@ Audacity - это звуковой редактор, позвол€ющий работать с файлами в
 %prep
 %setup -q -n %{name}-src-%{version}-beta
 %patch0 -p1
-%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
@@ -100,7 +98,7 @@ export WX_CONFIG="`which wx-gtk2-unicode-config`"
 	--with-libflac=system \
 	--with-vorbis=system
 
-%{__make}
+%{__make} -j1
 
 %install
 rm -rf $RPM_BUILD_ROOT
