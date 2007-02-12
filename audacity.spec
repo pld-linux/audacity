@@ -5,8 +5,8 @@
 %bcond_with	libresample	# using libresample (default libsamplerate)
 #
 Summary:	Audacity - manipulate digital audio waveforms
-Summary(pl.UTF-8):   Audacity - narzędzie do obróbki plików dźwiękowych
-Summary(ru.UTF-8):   йПНЯЯОКЮРТНПЛЕММШИ ГБСЙНБНИ ПЕДЮЙРНП
+Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
+Summary(ru.UTF-8):	йПНЯЯОКЮРТНПЛЕММШИ ГБСЙНБНИ ПЕДЮЙРНП
 Name:		audacity
 Version:	1.3.2
 Release:	2
