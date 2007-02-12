@@ -5,8 +5,8 @@
 %bcond_with	libresample	# using libresample (default libsamplerate)
 #
 Summary:	Audacity - manipulate digital audio waveforms
-Summary(pl):	Audacity - narzкdzie do obrуbki plikуw dјwiкkowych
-Summary(ru):	Кроссплатформенный звуковой редактор
+Summary(pl.UTF-8):   Audacity - narzД™dzie do obrГіbki plikГіw dЕєwiД™kowych
+Summary(ru.UTF-8):   Р№РџРќРЇРЇРћРљР®Р РўРќРџР›Р•РњРњРЁР Р“Р‘РЎР™РќР‘РќР РџР•Р”Р®Р™Р РќРџ
 Name:		audacity
 Version:	1.3.2
 Release:	2
@@ -56,19 +56,19 @@ AU, IRCAM, MP3, and Ogg Vorbis. It supports all common editing
 operations such as Cut, Copy, and Paste, plus it will mix tracks and
 let you apply plug-in effects to any part of a sound.
 
-%description -l pl
-Audacity to program obsіuguj±cy rуїne formaty plikуw audio. Obsіuguje
-WAV, AIFF, AU, IRCAM, MP3, oraz Ogg Vorbis. Program ten umoїliwia
-wykonywanie podstawowych czynno¶ci edycyjnych takich jak kasowanie,
-wstawianie i miksowanie ¶cieїki dјwiкkowej. Umoїliwia takїe
+%description -l pl.UTF-8
+Audacity to program obsЕ‚ugujД…cy rГіЕјne formaty plikГіw audio. ObsЕ‚uguje
+WAV, AIFF, AU, IRCAM, MP3, oraz Ogg Vorbis. Program ten umoЕјliwia
+wykonywanie podstawowych czynnoЕ›ci edycyjnych takich jak kasowanie,
+wstawianie i miksowanie Е›cieЕјki dЕєwiД™kowej. UmoЕјliwia takЕјe
 wykonywanie dowolnych innych operacji poprzez system wtyczek.
 
-%description -l ru
-Audacity - это звуковой редактор, позволяющий работать с файлами в
-форматах WAV, AIFF, AU, IRCAM, MP3 и Ogg Vorbis. В нем реализованы все
-основные операции, такие как удаление, копирование, вставка,
-микширование треков и применение эффектов, оформленных в виде
-плагинов, к любой части звукового файла.
+%description -l ru.UTF-8
+Audacity - Р©Р Рќ Р“Р‘РЎР™РќР‘РќР РџР•Р”Р®Р™Р РќРџ, РћРќР“Р‘РќРљРЄР§Р«РҐР РџР®РђРќР Р®Р Р­ РЇ РўР®РРљР®Р›РҐ Р‘
+РўРќРџР›Р®Р Р®РЈ WAV, AIFF, AU, IRCAM, MP3 РҐ Ogg Vorbis. Р± РњР•Р› РџР•Р®РљРҐР“РќР‘Р®РњРЁ Р‘РЇР•
+РќРЇРњРќР‘РњРЁР• РќРћР•РџР®Р–РҐРҐ, Р Р®Р™РҐР• Р™Р®Р™ РЎР”Р®РљР•РњРҐР•, Р™РќРћРҐРџРќР‘Р®РњРҐР•, Р‘РЇР Р®Р‘Р™Р®,
+Р›РҐР™Р¬РҐРџРќР‘Р®РњРҐР• Р РџР•Р™РќР‘ РҐ РћРџРҐР›Р•РњР•РњРҐР• Р©РўРўР•Р™Р РќР‘, РќРўРќРџР›РљР•РњРњРЁРЈ Р‘ Р‘РҐР”Р•
+РћРљР®Р¦РҐРњРќР‘, Р™ РљР§РђРќР Р’Р®РЇР РҐ Р“Р‘РЎР™РќР‘РќР¦Рќ РўР®РРљР®.
 
 %prep
 %setup -q -n %{name}-src-%{version}-beta
