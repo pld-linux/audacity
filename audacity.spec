@@ -6,7 +6,7 @@
 #
 Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
-Summary(ru.UTF-8):	йПНЯЯОКЮРТНПЛЕММШИ ГБСЙНБНИ ПЕДЮЙРНП
+Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
 Version:	1.3.2
 Release:	2
@@ -64,11 +64,11 @@ wstawianie i miksowanie ścieżki dźwiękowej. Umożliwia także
 wykonywanie dowolnych innych operacji poprzez system wtyczek.
 
 %description -l ru.UTF-8
-Audacity - ЩРН ГБСЙНБНИ ПЕДЮЙРНП, ОНГБНКЪЧЫХИ ПЮАНРЮРЭ Я ТЮИКЮЛХ Б
-ТНПЛЮРЮУ WAV, AIFF, AU, IRCAM, MP3 Х Ogg Vorbis. б МЕЛ ПЕЮКХГНБЮМШ БЯЕ
-НЯМНБМШЕ НОЕПЮЖХХ, РЮЙХЕ ЙЮЙ СДЮКЕМХЕ, ЙНОХПНБЮМХЕ, БЯРЮБЙЮ,
-ЛХЙЬХПНБЮМХЕ РПЕЙНБ Х ОПХЛЕМЕМХЕ ЩТТЕЙРНБ, НТНПЛКЕММШУ Б БХДЕ
-ОКЮЦХМНБ, Й КЧАНИ ВЮЯРХ ГБСЙНБНЦН ТЮИКЮ.
+Audacity - это звуковой редактор, позволяющий работать с файлами в
+форматах WAV, AIFF, AU, IRCAM, MP3 и Ogg Vorbis. В нем реализованы все
+основные операции, такие как удаление, копирование, вставка,
+микширование треков и применение эффектов, оформленных в виде
+плагинов, к любой части звукового файла.
 
 %prep
 %setup -q -n %{name}-src-%{version}-beta
