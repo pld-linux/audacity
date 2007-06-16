@@ -11,29 +11,29 @@ diff -ruN locale-orig/af.po locale/af.po
  #: ../src/export/ExportMP3.cpp:255
 -msgid "Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
 -msgstr "Slegs libmp3lame.so|libmp3lame.so|Gedeelte objeklêers (*.so)|*.so|Uitgebreide biblioteke (*.so)|*.so*|Alle lêers (*)|*"
-+msgid "Only libmp3lame.so.0.0|libmp3lame.so.0.0|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
-+msgstr "Slegs libmp3lame.so.0.0|libmp3lame.so.0.0|Gedeelte objeklêers (*.so)|*.so|Uitgebreide biblioteke (*.so)|*.so*|Alle lêers (*)|*"
++msgid "Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
++msgstr "Slegs libmp3lame.so.0|libmp3lame.so.0|Gedeelte objeklêers (*.so)|*.so|Uitgebreide biblioteke (*.so)|*.so*|Alle lêers (*)|*"
  
  #. i18n-hint: This message is used on Unix/Linux
  #: ../src/export/ExportMP3.cpp:261
  msgid "Audacity does not export MP3 files directly, but instead uses the \n"
  "freely available LAME library to handle MP3 file encoding.  You must \n"
 -"obtain libmp3lame.so separately, either by downloading it or building \n"
-+"obtain libmp3lame.so.0.0 separately, either by downloading it or building \n"
++"obtain libmp3lame.so.0 separately, either by downloading it or building \n"
  "it from the sources, and then locate the file for Audacity.  You only \n"
  "need to do this once.\n"
  "\n"
 -"Would you like to locate libmp3lame.so now?"
-+"Would you like to locate libmp3lame.so.0.0 now?"
++"Would you like to locate libmp3lame.so.0 now?"
  msgstr "Audacity voer nie MP3-lêers direk uit nie, maar gebruik die vrylik\n"
 -"beskikbare LAME-biblioteek vir MP3-enkodering. U moet \"libmp3lame.so\"\n"
-+"beskikbare LAME-biblioteek vir MP3-enkodering. U moet \"libmp3lame.so.0.0\"\n"
++"beskikbare LAME-biblioteek vir MP3-enkodering. U moet \"libmp3lame.so.0\"\n"
  "afsonderlik bekom deur dit af te laai of te bou vanaf bronlêers.\n"
  "Wys dit dan aan Audacity uit.\n"
  "Hierdie hoef slegs een keer gedoen te word.\n"
  "\n"
 -"Wil u libmp3lame.so nou uitwys?"
-+"Wil u libmp3lame.so.0.0 nou uitwys?"
++"Wil u libmp3lame.so.0 nou uitwys?"
  
  #: export/ExportMP3.cpp:536
  msgid "Only libmp3lame.dylib|libmp3lame.dylib|Dynamic Libraries (*.dylib)|*.dylib|All Files (*)|*"
@@ -45,7 +45,7 @@ diff -ruN locale-orig/ar.po locale/ar.po
  
  #: ../src/export/ExportMP3.cpp:255
 -msgid "Only libmp3lame.so|libmp3lame.so|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
-+msgid "Only libmp3lame.so.0.0|libmp3lame.so.0.0|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
++msgid "Only libmp3lame.so.0|libmp3lame.so.0|Primary Shared Object files (*.so)|*.so|Extended Libraries (*.so*)|*.so*|All Files (*)|*"
  msgstr ""
  
  #  i18n-hint: This message is used on Unix/Linux
@@ -54,12 +54,12 @@ diff -ruN locale-orig/ar.po locale/ar.po
  msgid "Audacity does not export MP3 files directly, but instead uses the \n"
  "freely available LAME library to handle MP3 file encoding.  You must \n"
 -"obtain libmp3lame.so separately, either by downloading it or building \n"
-+"obtain libmp3lame.so.0.0 separately, either by downloading it or building \n"
++"obtain libmp3lame.so.0 separately, either by downloading it or building \n"
  "it from the sources, and then locate the file for Audacity.  You only \n"
  "need to do this once.\n"
  "\n"
 -"Would you like to locate libmp3lame.so now?"
-+"Would you like to locate libmp3lame.so.0.0 now?"
++"Would you like to locate libmp3lame.so.0 now?"
  msgstr ""
  
  #: export/ExportMP3.cpp:536
