@@ -18,6 +18,7 @@ Source0:	http://dl.sourceforge.net/audacity/%{name}-src-%{version}.tar.gz
 Source1:	%{name}.desktop
 Source2:	%{name}-icon.png
 Patch0:		%{name}-not_require_lame-libs-devel.patch
+Patch1:		%{name}-not_require_lame-libs-devel-generated_part.patch
 Patch2:		%{name}-flac.patch
 Patch3:		%{name}-system-libs.patch
 Patch4:		%{name}-opt.patch
@@ -72,6 +73,7 @@ Audacity - это звуковой редактор, позволяющий ра
 %prep
 %setup -q -n %{name}-src-%{version}-beta
 %patch0 -p1
+%patch1 -p0
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
