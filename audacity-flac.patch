@@ -53,11 +53,11 @@
     encoder->set_sample_rate(int(rate + 0.5));
  
 @@ -72,7 +71,7 @@
-     	format=int16Sample;
-    	encoder->set_bits_per_sample(16);
-    }
+    encoder->set_rice_parameter_search_dist(flacLevels[levelPref].rice_parameter_search_dist);
+    encoder->set_max_lpc_order(flacLevels[levelPref].max_lpc_order);
+ 
 -   encoder->init();
 +   encoder->init(OSFILENAME(fName));
-    
+ 
     int numWaveTracks;
     WaveTrack **waveTracks;

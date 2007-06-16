@@ -27,31 +27,6 @@
     AC_CHECK_FILE(${srcdir}/lib-src/twolame/libtwolame/twolame.h,
                   twolame_h_found="yes",
                   twolame_h_found="no")
-@@ -88,11 +98,19 @@
- 
-    dnl see if soundtouch is installed on the system
- 
--   dnl ... TODO: I don't know if stock, unmodified soundtouch is
--   dnl suitable for audacity, so I don't allow it
--
--   LIBSOUNDTOUCH_SYSTEM_AVAILABLE="no"
--
-+   PKG_CHECK_MODULES(SOUNDTOUCH, soundtouch-1.0,
-+		     soundtouch_available_system="yes",
-+		     soundtouch_available_system="no")
-+
-+   if test "x$soundtouch_available_system" = "xyes" ; then
-+      LIBSOUNDTOUCH_SYSTEM_AVAILABLE="yes"
-+      LIBSOUNDTOUCH_SYSTEM_LIBS="$SOUNDTOUCH_LIBS"
-+      LIBSOUNDTOUCH_SYSTEM_CXXFLAGS="$SOUNDTOUCH_CFLAGS"
-+      AC_MSG_NOTICE([SoundTouch libraries are available as system libraries])
-+   else
-+      LIBID3TAG_SYSTEM_AVAILABLE="no"
-+      AC_MSG_NOTICE([SoundTouch libraries are NOT available as system libraries])
-+   fi
-    dnl see if libresample is available locally
- 
-    AC_CHECK_FILE(${srcdir}/lib-src/soundtouch/include/SoundTouch.h,
 @@ -133,7 +151,22 @@
  
     dnl ... but libresample isn't generally installed as a system library...
