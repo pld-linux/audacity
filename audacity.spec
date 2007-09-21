@@ -9,7 +9,7 @@ Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
 Version:	1.3.3
-Release:	2
+Release:	3
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
@@ -27,7 +27,7 @@ BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
 BuildRequires:	expat-devel >= 1.95
 BuildRequires:	fftw-devel >= 2.1.4
-BuildRequires:	flac-c++-devel >= 1.1.3
+BuildRequires:	flac-c++-devel >= 1.2.0
 BuildRequires:	gettext-devel
 BuildRequires:	libid3tag-devel >= 0.15.0b-2
 BuildRequires:	libjpeg-devel
