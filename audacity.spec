@@ -1,5 +1,6 @@
 # TODO:
-#	internal portaudio crashes when only OSS is available on startup
+#	- internal portaudio crashes when only OSS is available on startup
+#	- use system vamp
 #
 # Conditional build:
 %bcond_with	libresample	# using libresample (default libsamplerate)
