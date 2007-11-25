@@ -8,20 +8,18 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
-Version:	1.3.3
-Release:	3
+Version:	1.3.4
+Release:	1
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
-Source0:	http://dl.sourceforge.net/audacity/%{name}-src-%{version}.tar.gz
-# Source0-md5:	72a9e3239f3b5af63030a1e1b07e40e7
+Source0:	http://dl.sourceforge.net/audacity/%{name}-src-%{version}.tar.bz2
+# Source0-md5:	6c4ada9085f916b5ae1675eaa4754442
 Source1:	%{name}.desktop
 Source2:	%{name}-icon.png
 Patch0:		%{name}-not_require_lame-libs-devel.patch
-Patch1:		%{name}-not_require_lame-libs-devel-generated_part.patch
-Patch2:		%{name}-flac.patch
-Patch3:		%{name}-system-libs.patch
-Patch4:		%{name}-opt.patch
+Patch1:		%{name}-system-libs.patch
+Patch2:		%{name}-opt.patch
 URL:		http://audacity.sourceforge.net/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
@@ -73,10 +71,10 @@ Audacity - это звуковой редактор, позволяющий ра
 %prep
 %setup -q -n %{name}-src-%{version}-beta
 %patch0 -p1
-%patch1 -p0
+%patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
+
+sed -i 's/libmp3lame.so/libmp3lame.so.0/g' locale/*.po
 
 %build
 cd lib-src/portmixer
