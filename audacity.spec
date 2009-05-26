@@ -9,18 +9,17 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
-Version:	1.3.4
-Release:	2
+Version:	1.3.6
+Release:	1
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
 Source0:	http://dl.sourceforge.net/audacity/%{name}-src-%{version}.tar.bz2
-# Source0-md5:	6c4ada9085f916b5ae1675eaa4754442
+# Source0-md5:	a59d30bcedd017c5b3ac7bcecf7a1628
 Source1:	%{name}.desktop
 Source2:	%{name}-icon.png
-Patch0:		%{name}-not_require_lame-libs-devel.patch
-Patch1:		%{name}-system-libs.patch
-Patch2:		%{name}-opt.patch
+Patch0:		%{name}-system-libs.patch
+Patch1:		%{name}-opt.patch
 URL:		http://audacity.sourceforge.net/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
@@ -70,18 +69,20 @@ Audacity - это звуковой редактор, позволяющий ра
 плагинов, к любой части звукового файла.
 
 %prep
-%setup -q -n %{name}-src-%{version}-beta
+%setup -q -n %{name}-src-%{version}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 sed -i 's/libmp3lame.so/libmp3lame.so.0/g' locale/*.po
 
 %build
 cd lib-src/portmixer
 %{__autoconf}
+cd ../portsmf
+%{__aclocal} -I autotools/m4
+%{__autoconf}
 cd ../..
-%{__aclocal}
+%{__aclocal} -I m4
 %{__autoconf}
 
 export WX_CONFIG="`which wx-gtk2-unicode-config`"
