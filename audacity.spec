@@ -9,14 +9,13 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
-Version:	1.3.7
+Version:	1.3.8
 Release:	1
 License:	GPL
 Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
-#Source0:	http://dl.sourceforge.net/audacity/%{name}-minisrc-%{version}.tar.bz2
-Source0:	http://dl.sourceforge.net/sourceforge/audacity/%{name}-minsrc-%{version}.tar.bz2
-# Source0-md5:	7dcbcd8ed417413fd824d446001058d9
+Source0:	http://audacity.googlecode.com/files/%{name}-minsrc-%{version}.tar.bz2
+# Source0-md5:	88b3c68663a06f146fe822b91608e8f1
 Source1:	%{name}.desktop
 Source2:	%{name}-icon.png
 Patch0:		%{name}-system-libs.patch
