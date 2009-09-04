@@ -1,0 +1,3 @@
+- updated to final 1.0.0 (latest stable version)
+- updated dynamic_id3lib patch, removed outdated wxGTK-2.3.2 patch
+- added missing dir (%{_datadir}/audacity), removed LICENSE.txt (it's just GPL)
