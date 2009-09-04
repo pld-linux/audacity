@@ -9,15 +9,17 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
-Version:	1.3.8
+Version:	1.3.9
 Release:	1
 License:	GPL
-Vendor:		Dominic Mazzoni <dominic@minorninth.com>
 Group:		X11/Applications/Sound
 Source0:	http://audacity.googlecode.com/files/%{name}-minsrc-%{version}.tar.bz2
-# Source0-md5:	88b3c68663a06f146fe822b91608e8f1
-Source1:	%{name}.desktop
-Source2:	%{name}-icon.png
+# Source0-md5:	0f2bc8971c6e2c4d39457c28aea16b5c
+# Link from http://manual.audacityteam.org/index.php?title=Main_Page
+Source1:	http://manual.audacityteam.org/help.zip
+# Source1-md5:	95cd5f0f73116512e577592faa4fcb02
+Source2:	%{name}.desktop
+Source3:	%{name}-icon.png
 Patch0:		%{name}-system-libs.patch
 Patch1:		%{name}-opt.patch
 URL:		http://audacity.sourceforge.net/
@@ -42,9 +44,9 @@ BuildRequires:	twolame-devel
 BuildRequires:	which
 BuildRequires:	wxGTK2-unicode-devel >= 2.8.0
 BuildRequires:	zip
+Requires(post,postun):	shared-mime-info
 Requires:	lame-libs
 Requires:	libid3tag >= 0.15.0b-2
-Requires(post,postun):	shared-mime-info
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -85,7 +87,7 @@ cd ../..
 %{__aclocal} -I m4
 %{__autoconf}
 
-export WX_CONFIG="`which wx-gtk2-unicode-config`"
+export WX_CONFIG=$(which wx-gtk2-unicode-config)
 %configure \
 %if %{with libresample}
 	--with-libresample=system \
@@ -110,8 +112,9 @@ install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 	DESTDIR=$RPM_BUILD_ROOT \
 	INSTALL_PATH=$RPM_BUILD_ROOT
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
-install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
+cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
+cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
+%{__unzip} -qq -a %{SOURCE1} -d $RPM_BUILD_ROOT%{_datadir}/%{name}/help
 
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{zh,zh_CN}
 rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}/
@@ -132,8 +135,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README.txt
 %attr(755,root,root) %{_bindir}/audacity
-%{_datadir}/%{name}
+%dir %{_datadir}/%{name}
+%{_datadir}/%{name}/*.xpm
+%{_datadir}/%{name}/nyquist
+%{_datadir}/%{name}/plug-ins
+%doc %{_datadir}/%{name}/help
 %{_mandir}/man1/*.1*
 %{_desktopdir}/*.desktop
-%{_pixmapsdir}/*
+%{_pixmapsdir}/*.png
 %{_datadir}/mime/packages/audacity.xml
