@@ -9,12 +9,12 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
-Version:	1.3.9
+Version:	1.3.11
 Release:	1
 License:	GPL
 Group:		X11/Applications/Sound
 Source0:	http://audacity.googlecode.com/files/%{name}-minsrc-%{version}.tar.bz2
-# Source0-md5:	0f2bc8971c6e2c4d39457c28aea16b5c
+# Source0-md5:	670937c483fb5273ceff9e38a82db55f
 # Link from http://manual.audacityteam.org/index.php?title=Main_Page
 Source1:	http://manual.audacityteam.org/help.zip
 # Source1-md5:	95cd5f0f73116512e577592faa4fcb02
@@ -71,7 +71,7 @@ Audacity - это звуковой редактор, позволяющий ра
 плагинов, к любой части звукового файла.
 
 %prep
-%setup -q -n %{name}-src-%{version}
+%setup -q -n %{name}-src-%{version}-beta
 %patch0 -p1
 %patch1 -p1
 
@@ -136,7 +136,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.txt
 %attr(755,root,root) %{_bindir}/audacity
 %dir %{_datadir}/%{name}
-%{_datadir}/%{name}/*.xpm
 %{_datadir}/%{name}/nyquist
 %{_datadir}/%{name}/plug-ins
 %doc %{_datadir}/%{name}/help
