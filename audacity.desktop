@@ -6,5 +6,5 @@ Exec=audacity
 Icon=audacity-icon
 Terminal=false
 Type=Application
-Categories=GTK;Audio;
+Categories=GTK;AudioVideo;Audio;AudioVideoEditing;
 # vi: encoding=utf-8

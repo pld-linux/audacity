@@ -10,7 +10,7 @@ Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
 Version:	1.3.11
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Sound
 Source0:	http://audacity.googlecode.com/files/%{name}-minsrc-%{version}.tar.bz2
