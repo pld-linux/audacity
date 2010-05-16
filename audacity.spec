@@ -9,19 +9,20 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
-Version:	1.3.11
-Release:	2
+Version:	1.3.12
+Release:	1
 License:	GPL
 Group:		X11/Applications/Sound
-Source0:	http://audacity.googlecode.com/files/%{name}-minsrc-%{version}.tar.bz2
-# Source0-md5:	670937c483fb5273ceff9e38a82db55f
+Source0:	http://audacity.googlecode.com/files/%{name}-minsrc-%{version}-beta.tar.bz2
+# Source0-md5:	76996fec67181ca82ba191e012518b57
 # Link from http://manual.audacityteam.org/index.php?title=Main_Page
 Source1:	http://manual.audacityteam.org/help.zip
-# Source1-md5:	95cd5f0f73116512e577592faa4fcb02
+# Source1-md5:	2043778cfd3c7df9b3774526e123d6d8
 Source2:	%{name}.desktop
 Source3:	%{name}-icon.png
 Patch0:		%{name}-system-libs.patch
 Patch1:		%{name}-opt.patch
+Patch2:		%{name}-no-macos.patch
 URL:		http://audacity.sourceforge.net/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
@@ -74,6 +75,7 @@ Audacity - это звуковой редактор, позволяющий ра
 %setup -q -n %{name}-src-%{version}-beta
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 sed -i 's/libmp3lame.so/libmp3lame.so.0/g' locale/*.po
 
@@ -143,3 +145,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/*.desktop
 %{_pixmapsdir}/*.png
 %{_datadir}/mime/packages/audacity.xml
+%{_iconsdir}/hicolor/16x16/apps/audacity.png
+%{_iconsdir}/hicolor/22x22/apps/audacity.png
+%{_iconsdir}/hicolor/24x24/apps/audacity.png
+%{_iconsdir}/hicolor/32x32/apps/audacity.png
+%{_iconsdir}/hicolor/48x48/apps/audacity.png
+%{_iconsdir}/hicolor/scalable/apps/audacity.svg
