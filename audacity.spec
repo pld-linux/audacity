@@ -145,9 +145,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/*.desktop
 %{_pixmapsdir}/*.png
 %{_datadir}/mime/packages/audacity.xml
-%{_iconsdir}/hicolor/16x16/apps/audacity.png
-%{_iconsdir}/hicolor/22x22/apps/audacity.png
-%{_iconsdir}/hicolor/24x24/apps/audacity.png
-%{_iconsdir}/hicolor/32x32/apps/audacity.png
-%{_iconsdir}/hicolor/48x48/apps/audacity.png
+%{_iconsdir}/hicolor/*/apps/audacity.png
 %{_iconsdir}/hicolor/scalable/apps/audacity.svg
