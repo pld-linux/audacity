@@ -42,9 +42,9 @@ BuildRequires:	pkgconfig
 BuildRequires:	soundtouch-devel >= 1.3.0
 BuildRequires:	speex-devel
 BuildRequires:	twolame-devel
+BuildRequires:	unzip
 BuildRequires:	which
 BuildRequires:	wxGTK2-unicode-devel >= 2.8.0
-BuildRequires:	zip
 Requires(post,postun):	shared-mime-info
 Requires:	lame-libs
 Requires:	libid3tag >= 0.15.0b-2
