@@ -1,10 +1,11 @@
 # TODO:
-#	- internal portaudio crashes when only OSS is available on startup
-#	- use system vamp
+# - internal portaudio crashes when only OSS is available on startup
+# - use system vamp
+# - use system ffmpeg
 #
 # Conditional build:
 %bcond_with	libresample	# using libresample (default libsamplerate)
-#
+
 Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
@@ -122,6 +123,12 @@ mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{zh,zh_CN}
 rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}/
 rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/ca@valencia
 
+rm $RPM_BUILD_ROOT%{_iconsdir}/hicolor/scalable/apps/audacity.svg
+rm $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity.xpm
+rm $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity16.xpm
+rm $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity32.xpm
+rm $RPM_BUILD_ROOT%{_datadir}/pixmaps/gnome-mime-application-x-audacity-project.xpm
+
 %find_lang %{name}
 
 %clean
@@ -146,4 +153,3 @@ rm -rf $RPM_BUILD_ROOT
 %{_pixmapsdir}/*.png
 %{_datadir}/mime/packages/audacity.xml
 %{_iconsdir}/hicolor/*/apps/audacity.png
-%{_iconsdir}/hicolor/scalable/apps/audacity.svg
