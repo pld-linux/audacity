@@ -123,7 +123,6 @@ cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{zh,zh_CN}
 %{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}
 
-%{__rm} $RPM_BUILD_ROOT%{_iconsdir}/hicolor/scalable/apps/audacity.svg
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity.xpm
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity16.xpm
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity32.xpm
@@ -153,3 +152,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_pixmapsdir}/audacity-icon.png
 %{_datadir}/mime/packages/audacity.xml
 %{_iconsdir}/hicolor/*/apps/audacity.png
+%{_iconsdir}/hicolor/*/apps/audacity.svg
