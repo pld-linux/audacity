@@ -6,14 +6,14 @@
 #
 # Conditional build:
 %bcond_with	libresample	# using libresample (default libsamplerate)
-
+#
 Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
 Version:	1.3.12
 Release:	1
-License:	GPL
+License:	GPL v2
 Group:		X11/Applications/Sound
 Source0:	http://audacity.googlecode.com/files/%{name}-minsrc-%{version}-beta.tar.bz2
 # Source0-md5:	76996fec67181ca82ba191e012518b57
@@ -29,7 +29,6 @@ URL:		http://audacity.sourceforge.net/
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
 BuildRequires:	expat-devel >= 1.95
-BuildRequires:	fftw-devel >= 2.1.4
 BuildRequires:	flac-c++-devel >= 1.2.0
 BuildRequires:	gettext-devel
 BuildRequires:	libid3tag-devel >= 0.15.0b-2
@@ -48,8 +47,15 @@ BuildRequires:	unzip
 BuildRequires:	which
 BuildRequires:	wxGTK2-unicode-devel >= 2.8.0
 Requires(post,postun):	shared-mime-info
+Requires:	flac-c++ >= 1.2.0
 Requires:	lame-libs
 Requires:	libid3tag >= 0.15.0b-2
+Requires:	libmad >= 0.14.2b-4
+%{?with_libresample:Requires:	libresample >= 0.1.3}
+%{!?with_libresample:Requires:	libsamplerate >= 0.1.2}
+Requires:	libsndfile >= 1.0.0
+Requires:	soundtouch >= 1.3.0
+Requires:	twolame-libs >= 0.3.9
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
