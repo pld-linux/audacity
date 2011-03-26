@@ -1,7 +1,8 @@
 # TODO:
 # - internal portaudio crashes when only OSS is available on startup
-# - use system vamp
-# - use system ffmpeg
+# - use system vamp (vamp-hostsdk >= 2.0)
+# - use system ffmpeg (libavcodec >= 51.53, libavformat >= 52.12)
+# - use system sbsms (>= 1.6.0)
 #
 # Conditional build:
 %bcond_with	libresample	# using libresample (default libsamplerate)
@@ -25,7 +26,7 @@ Patch0:		%{name}-system-libs.patch
 Patch1:		%{name}-opt.patch
 Patch2:		%{name}-no-macos.patch
 URL:		http://audacity.sourceforge.net/
-BuildRequires:	autoconf >= 2.50
+BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
 BuildRequires:	expat-devel >= 1.95
 BuildRequires:	fftw-devel >= 2.1.4
@@ -42,7 +43,7 @@ BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	pkgconfig
 BuildRequires:	soundtouch-devel >= 1.3.0
 BuildRequires:	speex-devel
-BuildRequires:	twolame-devel
+BuildRequires:	twolame-devel >= 0.3.9
 BuildRequires:	unzip
 BuildRequires:	which
 BuildRequires:	wxGTK2-unicode-devel >= 2.8.0
@@ -120,14 +121,13 @@ cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 %{__unzip} -qq -a %{SOURCE1} -d $RPM_BUILD_ROOT%{_datadir}/%{name}/help
 
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{zh,zh_CN}
-rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}/
-rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/ca@valencia
+%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}
 
-rm $RPM_BUILD_ROOT%{_iconsdir}/hicolor/scalable/apps/audacity.svg
-rm $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity.xpm
-rm $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity16.xpm
-rm $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity32.xpm
-rm $RPM_BUILD_ROOT%{_datadir}/pixmaps/gnome-mime-application-x-audacity-project.xpm
+%{__rm} $RPM_BUILD_ROOT%{_iconsdir}/hicolor/scalable/apps/audacity.svg
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity.xpm
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity16.xpm
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity32.xpm
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/pixmaps/gnome-mime-application-x-audacity-project.xpm
 
 %find_lang %{name}
 
@@ -148,8 +148,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/nyquist
 %{_datadir}/%{name}/plug-ins
 %doc %{_datadir}/%{name}/help
-%{_mandir}/man1/*.1*
-%{_desktopdir}/*.desktop
-%{_pixmapsdir}/*.png
+%{_mandir}/man1/audacity.1*
+%{_desktopdir}/audacity.desktop
+%{_pixmapsdir}/audacity-icon.png
 %{_datadir}/mime/packages/audacity.xml
 %{_iconsdir}/hicolor/*/apps/audacity.png
