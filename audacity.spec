@@ -15,6 +15,7 @@ Version:	1.3.12
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Sound
+#Source0Download: http://code.google.com/p/audacity/downloads/list
 Source0:	http://audacity.googlecode.com/files/%{name}-minsrc-%{version}-beta.tar.bz2
 # Source0-md5:	76996fec67181ca82ba191e012518b57
 # Link from http://manual.audacityteam.org/index.php?title=Main_Page
