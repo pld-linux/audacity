@@ -1,8 +1,9 @@
 # TODO:
 # - internal portaudio crashes when only OSS is available on startup
-# - use system vamp (vamp-hostsdk >= 2.0)
+# - use system portaudio (>= 19, but relies on local changes)
+# - use system portSMF?
 # - use system ffmpeg (libavcodec >= 51.53, libavformat >= 52.12)
-# - use system sbsms (>= 1.6.0)
+# - use system sbsms (>= 1.6.0, but relies on local changes)
 #
 # Conditional build:
 %bcond_with	libresample	# using libresample (default libsamplerate)
@@ -11,13 +12,13 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
-Version:	1.3.12
+Version:	1.3.13
 Release:	1
 License:	GPL v2
 Group:		X11/Applications/Sound
 #Source0Download: http://code.google.com/p/audacity/downloads/list
 Source0:	http://audacity.googlecode.com/files/%{name}-minsrc-%{version}-beta.tar.bz2
-# Source0-md5:	76996fec67181ca82ba191e012518b57
+# Source0-md5:	57be7fadb8c8dd17b8462c7ac1561d03
 # Link from http://manual.audacityteam.org/index.php?title=Main_Page
 Source1:	http://manual.audacityteam.org/help.zip
 # Source1-md5:	2043778cfd3c7df9b3774526e123d6d8
@@ -26,25 +27,31 @@ Source3:	%{name}-icon.png
 Patch0:		%{name}-system-libs.patch
 Patch1:		%{name}-opt.patch
 Patch2:		%{name}-no-macos.patch
+# modified from http://audioscience.com/internet/download/drivers/released/v4/06/portaudio_asihpi_406.patch
+Patch3:		portaudio_asihpi_406.patch
 URL:		http://audacity.sourceforge.net/
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
 BuildRequires:	expat-devel >= 1.95
 BuildRequires:	flac-c++-devel >= 1.2.0
 BuildRequires:	gettext-devel
+BuildRequires:	hpklinux-devel >= 4.06
 BuildRequires:	libid3tag-devel >= 0.15.0b-2
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmad-devel >= 0.14.2b-4
 %{?with_libresample:BuildRequires:	libresample-devel >= 0.1.3}
 %{!?with_libresample:BuildRequires:	libsamplerate-devel >= 0.1.2}
+#BuildRequires:	libsbsms-devel >= 1.6.0
 BuildRequires:	libsndfile-devel >= 1.0.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvorbis-devel >= 1:1.0
+#BuildRequires:	portaudio-devel >= 19
 BuildRequires:	pkgconfig
 BuildRequires:	soundtouch-devel >= 1.3.0
 BuildRequires:	speex-devel
 BuildRequires:	twolame-devel >= 0.3.9
 BuildRequires:	unzip
+BuildRequires:	vamp-devel >= 2.0
 BuildRequires:	which
 BuildRequires:	wxGTK2-unicode-devel >= 2.8.0
 Requires(post,postun):	shared-mime-info
@@ -85,6 +92,9 @@ Audacity - это звуковой редактор, позволяющий ра
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+cd lib-src/portaudio-v19
+%patch3 -p0
+cd ../..
 
 sed -i 's/libmp3lame.so/libmp3lame.so.0/g' locale/*.po
 
@@ -111,6 +121,7 @@ export WX_CONFIG=$(which wx-gtk2-unicode-config)
 	--with-libmad=system \
 	--with-libsndfile=system \
 	--with-libflac=system \
+	--with-sbsms=local \
 	--with-vorbis=system
 
 %{__make}
@@ -153,6 +164,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/nyquist
 %{_datadir}/%{name}/plug-ins
+%{_datadir}/%{name}/EQDefaultCurves.xml
 %doc %{_datadir}/%{name}/help
 %{_mandir}/man1/audacity.1*
 %{_desktopdir}/audacity.desktop
