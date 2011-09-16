@@ -29,10 +29,12 @@ Patch1:		%{name}-opt.patch
 Patch2:		%{name}-no-macos.patch
 # modified from http://audioscience.com/internet/download/drivers/released/v4/06/portaudio_asihpi_406.patch
 Patch3:		portaudio_asihpi_406.patch
+Patch4:		%{name}-ffmpeg.patch
 URL:		http://audacity.sourceforge.net/
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
 BuildRequires:	expat-devel >= 1.95
+BuildRequires:	ffmpeg-devel >= 0.8.0
 BuildRequires:	flac-c++-devel >= 1.2.0
 BuildRequires:	gettext-devel
 BuildRequires:	hpklinux-devel >= 4.06
@@ -95,6 +97,7 @@ Audacity - это звуковой редактор, позволяющий ра
 cd lib-src/portaudio-v19
 %patch3 -p0
 cd ../..
+%patch4 -p1
 
 sed -i 's/libmp3lame.so/libmp3lame.so.0/g' locale/*.po
 
