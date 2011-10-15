@@ -268,7 +268,7 @@ Index: src/hostapi/asihpi/pa_linux_asihpi.c
                  hpiDevice->adapterType = type;
                  hpiDevice->adapterVersion = version;
                  hpiDevice->adapterSerialNumber = serial;
-@@ -746,10 +737,9 @@
+@@ -746,25 +737,24 @@
      PA_UNLESS_( hpiHostApi->allocations = PaUtil_CreateAllocationGroup(), paInsufficientMemory );
  
      hpiHostApi->hostApiIndex = hostApiIndex;
@@ -280,7 +280,12 @@ Index: src/hostapi/asihpi/pa_linux_asihpi.c
      {
          /* the V19 development docs say that if an implementation
           * detects that it cannot be used, it should return a NULL
-@@ -761,10 +751,10 @@
+          * interface and paNoError */
+         PA_DEBUG(( "Could not open HPI interface\n" ));
+         result = paNoError;
+-        *hostApi = NULL;
++        hpiHostApi = NULL;
+         goto error;
      }
      else
      {
