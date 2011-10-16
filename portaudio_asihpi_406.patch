@@ -268,7 +268,7 @@ Index: src/hostapi/asihpi/pa_linux_asihpi.c
                  hpiDevice->adapterType = type;
                  hpiDevice->adapterVersion = version;
                  hpiDevice->adapterSerialNumber = serial;
-@@ -746,25 +737,24 @@
+@@ -746,25 +737,25 @@
      PA_UNLESS_( hpiHostApi->allocations = PaUtil_CreateAllocationGroup(), paInsufficientMemory );
  
      hpiHostApi->hostApiIndex = hostApiIndex;
@@ -283,8 +283,8 @@ Index: src/hostapi/asihpi/pa_linux_asihpi.c
           * interface and paNoError */
          PA_DEBUG(( "Could not open HPI interface\n" ));
          result = paNoError;
--        *hostApi = NULL;
-+        hpiHostApi = NULL;
+         *hostApi = NULL;
++	(&hpiHostApi->baseHostApiRep)->info.deviceCount = 0;
          goto error;
      }
      else
