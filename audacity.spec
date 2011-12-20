@@ -12,16 +12,16 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
-Version:	1.3.13
-Release:	2
-License:	GPL v2
+Version:	1.3.14
+Release:	1
+License:	GPL v2+
 Group:		X11/Applications/Sound
 #Source0Download: http://code.google.com/p/audacity/downloads/list
 Source0:	http://audacity.googlecode.com/files/%{name}-minsrc-%{version}-beta.tar.bz2
-# Source0-md5:	57be7fadb8c8dd17b8462c7ac1561d03
+# Source0-md5:	e7754757e7c3b543db9aa32180b0fb6f
 # Link from http://manual.audacityteam.org/index.php?title=Main_Page
 Source1:	http://manual.audacityteam.org/help.zip
-# Source1-md5:	2043778cfd3c7df9b3774526e123d6d8
+# Source1-md5:	0b5c73fb1013f87c3e771d817aa5e9f9
 Source2:	%{name}.desktop
 Source3:	%{name}-icon.png
 Patch0:		%{name}-system-libs.patch
@@ -99,7 +99,7 @@ cd lib-src/portaudio-v19
 cd ../..
 %patch4 -p1
 
-sed -i 's/libmp3lame.so/libmp3lame.so.0/g' locale/*.po
+%{__sed} -i 's/libmp3lame.so/libmp3lame.so.0/g' locale/*.po
 
 %build
 cd lib-src/portmixer
