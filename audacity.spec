@@ -13,7 +13,7 @@ Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
 Version:	1.3.14
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Sound
 #Source0Download: http://code.google.com/p/audacity/downloads/list
@@ -140,6 +140,9 @@ install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
 cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 %{__unzip} -qq -a %{SOURCE1} -d $RPM_BUILD_ROOT%{_datadir}/%{name}/help
+
+# unsupported
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/sr_RS
 
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{zh,zh_CN}
 %{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}
