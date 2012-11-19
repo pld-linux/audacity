@@ -7,6 +7,7 @@
 #
 # Conditional build:
 %bcond_with	libresample	# using libresample (default libsamplerate)
+%bcond_with	ffmpeg		# build with ffmpeg support (currently audacity does not support ffmpeg 1.0)
 #
 Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
@@ -33,7 +34,7 @@ URL:		http://audacity.sourceforge.net/
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
 BuildRequires:	expat-devel >= 1.95
-BuildRequires:	ffmpeg-devel >= 0.8.0
+%{?with_ffmpeg:BuildRequires:	ffmpeg-devel >= 0.8.0}
 BuildRequires:	flac-c++-devel >= 1.2.0
 BuildRequires:	gettext-devel
 BuildRequires:	hpklinux-devel >= 4.06
@@ -117,6 +118,7 @@ export WX_CONFIG=$(which wx-gtk2-unicode-config)
 	--with-libresample=no \
 	--with-libsamplerate=system \
 %endif
+	--with%{!?with_ffmpeg:out}-ffmpeg \
 	--with-help \
 	--with-id3tag=system \
 	--with-libmad=system \
