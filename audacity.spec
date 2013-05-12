@@ -13,16 +13,16 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
-Version:	2.0.2
-Release:	2
+Version:	2.0.3
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Sound
 #Source0Download: http://code.google.com/p/audacity/downloads/list
-Source0:	http://audacity.googlecode.com/files/%{name}-minsrc-%{version}.tar.bz2
-# Source0-md5:	c838bc4485b0af104a7f6d9c6955a284
+Source0:	http://audacity.googlecode.com/files/%{name}-minsrc-%{version}.tar.xz
+# Source0-md5:	648cce8a9ce86eebfc53921172ee9d89
 # Link from http://manual.audacityteam.org/index.php?title=Main_Page
 Source1:	http://audacity.googlecode.com/files/%{name}-manual-%{version}.zip
-# Source1-md5:	2c80017f602dd6239ec3b6b0c25e68df
+# Source1-md5:	e11a2b16ec3234b4fdab0a4d396b9def
 Source2:	%{name}.desktop
 Source3:	%{name}-icon.png
 Patch0:		%{name}-system-libs.patch
@@ -145,7 +145,6 @@ cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 %{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/sr_RS*
 
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{zh,zh_CN}
-%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}
 
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity.xpm
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity16.xpm
