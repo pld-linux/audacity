@@ -18,23 +18,21 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
-Version:	2.0.3
+Version:	2.0.5
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Sound
 #Source0Download: http://code.google.com/p/audacity/downloads/list
 Source0:	http://audacity.googlecode.com/files/%{name}-minsrc-%{version}.tar.xz
-# Source0-md5:	648cce8a9ce86eebfc53921172ee9d89
+# Source0-md5:	657f71a5a214fe84731ed9842e09fa04
 # Link from http://manual.audacityteam.org/index.php?title=Main_Page
 Source1:	http://audacity.googlecode.com/files/%{name}-manual-%{version}.zip
-# Source1-md5:	e11a2b16ec3234b4fdab0a4d396b9def
+# Source1-md5:	9f0b9db3f37aa4b9455a4b4e2046e1e4
 Source2:	%{name}.desktop
 Source3:	%{name}-icon.png
 Patch0:		%{name}-system-libs.patch
 Patch1:		%{name}-opt.patch
 Patch2:		%{name}-no-macos.patch
-# modified from http://audioscience.com/internet/download/drivers/released/v4/06/portaudio_asihpi_406.patch
-Patch3:		portaudio_asihpi_406.patch
 URL:		http://audacity.sourceforge.net/
 BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf >= 2.59
@@ -105,9 +103,6 @@ Audacity - это звуковой редактор, позволяющий ра
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-cd lib-src/portaudio-v19
-%patch3 -p0
-cd ../..
 
 %{__sed} -i 's/libmp3lame.so/libmp3lame.so.0/g' locale/*.po
 
@@ -117,6 +112,7 @@ cd lib-src/portmixer
 cd ../portsmf
 %{__aclocal} -I autotools/m4
 %{__autoconf}
+%{__automake}
 cd ../..
 %{__aclocal} -I m4
 %{__autoconf}
