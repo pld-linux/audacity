@@ -33,6 +33,7 @@ Source3:	%{name}-icon.png
 Patch0:		%{name}-system-libs.patch
 Patch1:		%{name}-opt.patch
 Patch2:		%{name}-no-macos.patch
+Patch3:		%{name}-wx.patch
 URL:		http://audacity.sourceforge.net/
 BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf >= 2.59
@@ -103,11 +104,15 @@ Audacity - это звуковой редактор, позволяющий ра
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %{__sed} -i 's/libmp3lame.so/libmp3lame.so.0/g' locale/*.po
 
 %build
 cd lib-src/portmixer
+%{__autoconf}
+cd ../lib-widget-extra
+%{__aclocal} -I m4
 %{__autoconf}
 cd ../portsmf
 %{__aclocal} -I autotools/m4
