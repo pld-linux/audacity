@@ -262,3 +262,118 @@
  
     int allowableWidth = GetTrackInfoWidth() - 2; // 2 to allow for left/right borders
     int textWidth, textHeight;
+--- audacity-src-2.0.5/src/UploadDialog.cpp.org	2014-01-15 21:26:09.207158042 +0100
++++ audacity-src-2.0.5/src/UploadDialog.cpp	2014-01-15 21:36:01.093744587 +0100
+@@ -113,12 +113,12 @@
+     icons->Add(*mp3Icon);
+     icons->Add(*upIcon);
+     
+-    wxFlexGridSizer *topSizer = new wxFlexGridSizer(2, 1);  
++    wxFlexGridSizer *topSizer = new wxFlexGridSizer(2, 1, wxSize(5, 5));  
+     wxStaticBoxSizer *connectionBox = new wxStaticBoxSizer(new wxStaticBox(this, -1, wxT("FTP Connection"), wxDefaultPosition, wxDefaultSize, 0, wxT("")), wxVERTICAL);   
+     wxStaticBoxSizer *fileBox = new wxStaticBoxSizer(new wxStaticBox(this, -1, wxT("File Manager"), wxDefaultPosition, wxDefaultSize, 0, wxT("")), wxVERTICAL);
+     wxStaticBoxSizer *siteBox = new wxStaticBoxSizer(new wxStaticBox(this, -1, wxT("Site Manager"), wxDefaultPosition, wxDefaultSize, 0, wxT("")), wxVERTICAL);
+ 
+-    wxFlexGridSizer *connectionSizer = new wxFlexGridSizer(2, 4);
++    wxFlexGridSizer *connectionSizer = new wxFlexGridSizer(2, 4, wxSize(5, 5));
+     wxBoxSizer *leftSizer = new wxBoxSizer(wxVERTICAL);
+     wxBoxSizer *rightSizer = new wxBoxSizer(wxVERTICAL);
+     wxBoxSizer *fileButtonSizer = new wxBoxSizer(wxHORIZONTAL);
+--- audacity-src-2.0.5/src/commands/ScriptCommandRelay.cpp~	2013-10-19 09:31:52.000000000 +0200
++++ audacity-src-2.0.5/src/commands/ScriptCommandRelay.cpp	2014-01-15 21:38:44.739235286 +0100
+@@ -57,7 +57,7 @@
+    wxASSERT(cmd != NULL);
+    AppCommandEvent ev;
+    ev.SetCommand(cmd);
+-   project->AddPendingEvent(ev);
++   project->GetEventHandler()->AddPendingEvent(ev);
+ }
+ 
+ /// This is the function which actually obeys one command.  Rather than applying
+--- audacity-src-2.0.5/src/effects/BassTreble.cpp~	2014-01-15 21:52:07.000000000 +0100
++++ audacity-src-2.0.5/src/effects/BassTreble.cpp	2014-01-15 21:54:22.387472634 +0100
+@@ -35,6 +35,7 @@
+ #include <wx/checkbox.h>
+ #include <wx/slider.h>
+ #include <wx/sizer.h>
++#include <wx/textctrl.h>
+ 
+ // Used to communicate the type of the filter.
+ static const int bassType = 0; //Low Shelf
+--- audacity-src-2.0.5/src/effects/Compressor.cpp~	2013-10-19 09:31:50.000000000 +0200
++++ audacity-src-2.0.5/src/effects/Compressor.cpp	2014-01-15 21:56:28.328381464 +0100
+@@ -39,6 +39,7 @@
+ #include <wx/brush.h>
+ #include <wx/image.h>
+ #include <wx/dcmemory.h>
++#include <wx/dcclient.h>
+ 
+ #include "Compressor.h"
+ #include "../ShuttleGui.h"
+--- audacity-src-2.0.5/src/import/ImportRaw.cpp~	2013-10-19 09:31:52.000000000 +0200
++++ audacity-src-2.0.5/src/import/ImportRaw.cpp	2014-01-15 22:08:33.731103084 +0100
+@@ -324,7 +324,7 @@
+ 
+       if (sf_format_check(&info)) {
+          mEncodingSubtype[mNumEncodings] = subtype;
+-         encodings.Add(LAT1CTOWX(sf_encoding_index_name(i)));
++         encodings.Add(sf_encoding_index_name(i));
+ 
+          if ((mEncoding & SF_FORMAT_SUBMASK) == subtype)
+             selection = mNumEncodings;
+--- audacity-src-2.0.5/src/ondemand/ODManager.cpp~	2013-10-19 09:31:48.000000000 +0200
++++ audacity-src-2.0.5/src/ondemand/ODManager.cpp	2014-01-15 22:09:57.850563760 +0100
+@@ -311,7 +311,7 @@
+          AudacityProject::AllProjectsDeleteLock();
+          AudacityProject* proj = GetActiveProject();
+          if(proj)
+-            proj->AddPendingEvent( event );
++            proj->GetEventHandler()->AddPendingEvent( event );
+          AudacityProject::AllProjectsDeleteUnlock();
+       }
+       mTerminateMutex.Lock();
+--- audacity-src-2.0.5/src/ondemand/ODTask.cpp~	2013-10-19 09:31:48.000000000 +0200
++++ audacity-src-2.0.5/src/ondemand/ODTask.cpp	2014-01-15 22:10:33.568417325 +0100
+@@ -158,7 +158,7 @@
+          if(IsTaskAssociatedWithProject(gAudacityProjects[i]))
+          {
+             //this assumes tasks are only associated with one project.  
+-            gAudacityProjects[i]->AddPendingEvent( event );
++            gAudacityProjects[i]->GetEventHandler()->AddPendingEvent( event );
+             //mark the changes so that the project can be resaved.
+             gAudacityProjects[i]->GetUndoManager()->SetODChangesFlag();
+             break;
+--- audacity-src-2.0.5/src/prefs/KeyConfigPrefs.cpp~	2013-10-19 09:31:49.000000000 +0200
++++ audacity-src-2.0.5/src/prefs/KeyConfigPrefs.cpp	2014-01-15 22:11:54.407771374 +0100
+@@ -992,7 +992,7 @@
+       nevent.SetDirection(!e.ShiftDown());
+       nevent.SetEventObject(t);
+       nevent.SetCurrentFocus(t);
+-      t->GetParent()->ProcessEvent(nevent);
++      t->GetParent()->GetEventHandler()->ProcessEvent(nevent);
+ 
+       return;
+    }
+--- audacity-src-2.0.5/src/toolbars/ToolsToolBar.cpp.org	2014-01-15 22:28:18.141940638 +0100
++++ audacity-src-2.0.5/src/toolbars/ToolsToolBar.cpp	2014-01-15 22:28:19.835329870 +0100
+@@ -61,16 +61,16 @@
+ // These MUST be in the same order as the ids above.
+ static const wxChar * MessageOfTool[numTools] = {
+    wxTRANSLATE((wxChar *)"Click and drag to select audio"),
+-   wxTRANSLATE("Click and drag to edit the amplitude envelope"),
+-   wxTRANSLATE("Click and drag to edit the samples"),
++   wxTRANSLATE((wxChar *)"Click and drag to edit the amplitude envelope"),
++   wxTRANSLATE((wxChar *)"Click and drag to edit the samples"),
+ #if defined( __WXMAC__ )
+    wxTRANSLATE("Click to Zoom In, Shift-Click to Zoom Out"),
+ #elif defined( __WXMSW__ )
+    wxTRANSLATE("Drag to Zoom Into Region, Right-Click to Zoom Out"),
+ #elif defined( __WXGTK__ )
+-   wxTRANSLATE("Left=Zoom In, Right=Zoom Out, Middle=Normal"),
++   wxTRANSLATE((wxChar *)"Left=Zoom In, Right=Zoom Out, Middle=Normal"),
+ #endif
+-   wxTRANSLATE("Click and drag to move a track in time"),
++   wxTRANSLATE((wxChar *)"Click and drag to move a track in time"),
+    wxT("") // multi-mode tool
+ };
+ 
