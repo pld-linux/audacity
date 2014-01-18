@@ -27,12 +27,12 @@
  
  wxString 
 -FileSelector(const wxChar *message = wxFileSelectorPromptStr,
-+FileSelector(const wxChar *message = (wxChar *)wxFileSelectorPromptStr,
++FileSelector(const wxChar *message = (const wxChar *)wxFileSelectorPromptStr,
               const wxChar *default_path = NULL,
               const wxChar *default_filename = NULL,
               const wxChar *default_extension = NULL,
 -             const wxChar *wildcard = wxFileSelectorDefaultWildcardStr,
-+             const wxChar *wildcard = (wxChar *)wxFileSelectorDefaultWildcardStr,
++             const wxChar *wildcard = (const wxChar *)wxFileSelectorDefaultWildcardStr,
               int flags = 0,
               wxWindow *parent = NULL,
               wxString label = wxEmptyString,
@@ -97,7 +97,7 @@
        errStr += _("You will not be able to play or record audio.\n\n");
        wxString paErrStr = LAT1CTOWX(Pa_GetErrorText(err));
 -      if (paErrStr)
-+      if (!paErrStr.IsEmpty())
++      if (paErrStr != wxEmptyString)
           errStr += _("Error: ")+paErrStr;
        // XXX: we are in libaudacity, popping up dialogs not allowed!  A
        // long-term solution will probably involve exceptions
@@ -124,17 +124,6 @@
     return;
  }
  
---- audacity-src-2.0.5/src/LyricsWindow.cpp~	2013-10-19 09:31:49.000000000 +0200
-+++ audacity-src-2.0.5/src/LyricsWindow.cpp	2014-01-15 19:51:24.312324357 +0100
-@@ -72,7 +72,7 @@
-       #else
-          wxIcon ic(wxICON(AudacityLogo48x48));
-       #endif
--      SetIcon(ic);
-+      SetIcon((const wxIcon&)ic);
-    #endif
- 
-    wxPoint panelPos(0, 0);
 --- audacity-src-2.0.5/src/Menus.cpp~	2013-10-19 09:31:48.000000000 +0200
 +++ audacity-src-2.0.5/src/Menus.cpp	2014-01-15 19:55:08.146305162 +0100
 @@ -2403,7 +2403,7 @@
@@ -146,17 +135,6 @@
  }
  
  void AudacityProject::OnTrackMute()
---- audacity-src-2.0.5/src/MixerBoard.cpp.org	2014-01-15 19:56:40.262635794 +0100
-+++ audacity-src-2.0.5/src/MixerBoard.cpp	2014-01-15 19:56:59.606597792 +0100
-@@ -1727,7 +1727,7 @@
-       #else
-          wxIcon ic(wxICON(AudacityLogo48x48));
-       #endif
--      SetIcon(ic);
-+      SetIcon((const wxIcon&)ic);
-    #endif
- }
- 
 --- audacity-src-2.0.5/src/PitchName.cpp.org	2014-01-15 19:58:21.012574229 +0100
 +++ audacity-src-2.0.5/src/PitchName.cpp	2014-01-15 20:07:39.509684788 +0100
 @@ -20,6 +20,12 @@
@@ -213,26 +191,15 @@
 +    
 --- audacity-src-2.0.5/src/Project.cpp~	2014-01-15 20:34:38.000000000 +0100
 +++ audacity-src-2.0.5/src/Project.cpp	2014-01-15 20:35:31.352033096 +0100
-@@ -988,7 +988,7 @@
-       wxIcon ic;
-       ic.CopyFromBitmap(theTheme.Bitmap(bmpAudacityLogo48x48));
-    #endif
--   SetIcon(ic);
-+   SetIcon((const wxIcon&)ic);
- #endif
-    mIconized = false;
- 
---- audacity-src-2.0.5/src/Tags.cpp~	2014-01-15 20:37:40.000000000 +0100
-+++ audacity-src-2.0.5/src/Tags.cpp	2014-01-15 20:38:32.374915880 +0100
-@@ -482,7 +482,7 @@
- 
-       while (*attrs) {
-          wxString attr = *attrs++;
--         if (!*(char*)attr)
-+         if (attr.IsEmpty())
-             break;
-          wxString value = *attrs++;
- 
+@@ -1675,7 +1675,7 @@
+       wxCommandEvent e(EVT_CAPTURE_KEY);
+       e.SetEventObject(&event);
+    
+-      if (w->ProcessEvent(e)) {
++      if (w->ProcessWindowEvent(e)) {
+          return false;
+       }
+    }
 --- audacity-src-2.0.5/src/TrackPanel.cpp.org	2014-01-15 20:40:41.349305322 +0100
 +++ audacity-src-2.0.5/src/TrackPanel.cpp	2014-01-15 20:44:35.530549708 +0100
 @@ -5097,7 +5097,7 @@
@@ -269,13 +236,13 @@
      icons->Add(*upIcon);
      
 -    wxFlexGridSizer *topSizer = new wxFlexGridSizer(2, 1);  
-+    wxFlexGridSizer *topSizer = new wxFlexGridSizer(2, 1, wxSize(5, 5));  
++    wxFlexGridSizer *topSizer = new wxFlexGridSizer(2, 1, 0);  
      wxStaticBoxSizer *connectionBox = new wxStaticBoxSizer(new wxStaticBox(this, -1, wxT("FTP Connection"), wxDefaultPosition, wxDefaultSize, 0, wxT("")), wxVERTICAL);   
      wxStaticBoxSizer *fileBox = new wxStaticBoxSizer(new wxStaticBox(this, -1, wxT("File Manager"), wxDefaultPosition, wxDefaultSize, 0, wxT("")), wxVERTICAL);
      wxStaticBoxSizer *siteBox = new wxStaticBoxSizer(new wxStaticBox(this, -1, wxT("Site Manager"), wxDefaultPosition, wxDefaultSize, 0, wxT("")), wxVERTICAL);
  
 -    wxFlexGridSizer *connectionSizer = new wxFlexGridSizer(2, 4);
-+    wxFlexGridSizer *connectionSizer = new wxFlexGridSizer(2, 4, wxSize(5, 5));
++    wxFlexGridSizer *connectionSizer = new wxFlexGridSizer(2, 4, 0);
      wxBoxSizer *leftSizer = new wxBoxSizer(wxVERTICAL);
      wxBoxSizer *rightSizer = new wxBoxSizer(wxVERTICAL);
      wxBoxSizer *fileButtonSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -317,7 +284,7 @@
        if (sf_format_check(&info)) {
           mEncodingSubtype[mNumEncodings] = subtype;
 -         encodings.Add(LAT1CTOWX(sf_encoding_index_name(i)));
-+         encodings.Add(sf_encoding_index_name(i));
++         encodings.Add(wxString (sf_encoding_index_name(i).wc_str(), wxConvISO8859_1));
  
           if ((mEncoding & SF_FORMAT_SUBMASK) == subtype)
              selection = mNumEncodings;
@@ -354,26 +321,335 @@
  
        return;
     }
---- audacity-src-2.0.5/src/toolbars/ToolsToolBar.cpp.org	2014-01-15 22:28:18.141940638 +0100
-+++ audacity-src-2.0.5/src/toolbars/ToolsToolBar.cpp	2014-01-15 22:28:19.835329870 +0100
-@@ -61,16 +61,16 @@
+
+--- audacity-src-2.0.5/src/Tags.cpp~	2013-10-19 09:31:52.000000000 +0200
++++ audacity-src-2.0.5/src/Tags.cpp	2014-01-18 21:43:27.834969194 +0100
+@@ -482,7 +482,7 @@
+ 
+       while (*attrs) {
+          wxString attr = *attrs++;
+-         if (!*attr)
++         if (attr.IsEmpty())
+             break;
+          wxString value = *attrs++;
+ 
+--- audacity-src-2.0.5/src/toolbars/DeviceToolBar.cpp~	2013-10-19 09:31:49.000000000 +0200
++++ audacity-src-2.0.5/src/toolbars/DeviceToolBar.cpp	2014-01-18 21:53:51.332343784 +0100
+@@ -70,10 +70,6 @@
+ void DeviceToolBar::Create(wxWindow *parent)
+ {
+    ToolBar::Create(parent);
+-
+-   // Simulate a size event to set initial meter placement/size
+-   wxSizeEvent dummy;
+-   OnSize(dummy);
+ }
+ 
+ void DeviceToolBar::RecreateTipWindows()
+--- audacity-src-2.0.5/src/toolbars/ToolsToolBar.cpp~	2013-10-19 09:31:49.000000000 +0200
++++ audacity-src-2.0.5/src/toolbars/ToolsToolBar.cpp	2014-01-18 21:55:38.645899664 +0100
+@@ -59,7 +59,7 @@
+ 
+ // Strings to convert a tool number into a status message
  // These MUST be in the same order as the ids above.
- static const wxChar * MessageOfTool[numTools] = {
-    wxTRANSLATE((wxChar *)"Click and drag to select audio"),
--   wxTRANSLATE("Click and drag to edit the amplitude envelope"),
--   wxTRANSLATE("Click and drag to edit the samples"),
-+   wxTRANSLATE((wxChar *)"Click and drag to edit the amplitude envelope"),
-+   wxTRANSLATE((wxChar *)"Click and drag to edit the samples"),
- #if defined( __WXMAC__ )
-    wxTRANSLATE("Click to Zoom In, Shift-Click to Zoom Out"),
- #elif defined( __WXMSW__ )
-    wxTRANSLATE("Drag to Zoom Into Region, Right-Click to Zoom Out"),
- #elif defined( __WXGTK__ )
--   wxTRANSLATE("Left=Zoom In, Right=Zoom Out, Middle=Normal"),
-+   wxTRANSLATE((wxChar *)"Left=Zoom In, Right=Zoom Out, Middle=Normal"),
+-static const wxChar * MessageOfTool[numTools] = {
++static const char * MessageOfTool[numTools] = {
+    wxTRANSLATE("Click and drag to select audio"),
+    wxTRANSLATE("Click and drag to edit the amplitude envelope"),
+    wxTRANSLATE("Click and drag to edit the samples"),
+@@ -71,7 +71,7 @@
+    wxTRANSLATE("Left=Zoom In, Right=Zoom Out, Middle=Normal"),
  #endif
--   wxTRANSLATE("Click and drag to move a track in time"),
-+   wxTRANSLATE((wxChar *)"Click and drag to move a track in time"),
-    wxT("") // multi-mode tool
+    wxTRANSLATE("Click and drag to move a track in time"),
+-   wxT("") // multi-mode tool
++   "" // multi-mode tool
  };
+ 
+ ////////////////////////////////////////////////////////////
+--- audacity-src-2.0.5/src/widgets/ImageRoll.h~	2013-10-19 09:31:50.000000000 +0200
++++ audacity-src-2.0.5/src/widgets/ImageRoll.h	2014-01-18 21:59:51.830959923 +0100
+@@ -15,6 +15,7 @@
+ #include <wx/defs.h>
+ #include <wx/dynarray.h>
+ #include <wx/panel.h>
++#include <wx/dc.h>
+ 
+ WX_DECLARE_OBJARRAY(wxBitmap, BitmapArray);
+ WX_DECLARE_OBJARRAY(wxImage, ImageArray);
+@@ -48,7 +49,7 @@
+  protected:
+ 
+    void DrawBitmap(wxDC &dc, wxBitmap &bitmap,
+-                   int x, int y, int logicalFunc = wxCOPY);
++                   int x, int y, wxRasterOperationMode logicalFunc = wxCOPY);
+ 
+    void Init(RollType type, const wxImage &src, wxColour magicColor);
+ 
+--- audacity-src-2.0.5/src/widgets/ImageRoll.cpp~	2013-10-19 09:31:50.000000000 +0200
++++ audacity-src-2.0.5/src/widgets/ImageRoll.cpp	2014-01-18 22:00:44.529374296 +0100
+@@ -100,6 +100,7 @@
+ #include <wx/bitmap.h>
+ #include <wx/dcmemory.h>
+ #include <wx/image.h>
++#include <wx/dcclient.h>
+ 
+ WX_DEFINE_OBJARRAY(BitmapArray);
+ WX_DEFINE_OBJARRAY(ImageArray);
+@@ -299,7 +300,7 @@
+ }
+ 
+ void ImageRoll::DrawBitmap(wxDC &dc, wxBitmap &bitmap,
+-                           int x, int y, int logicalFunc)
++                           int x, int y, wxRasterOperationMode logicalFunc)
+ {
+    if (logicalFunc == wxCOPY)
+       dc.DrawBitmap(bitmap, x, y);
+--- audacity-src-2.0.5/src/widgets/ASlider.cpp~	2013-10-19 09:31:50.000000000 +0200
++++ audacity-src-2.0.5/src/widgets/ASlider.cpp	2014-01-18 22:02:45.678817685 +0100
+@@ -1191,7 +1191,7 @@
+                nevent.SetDirection( !event.ShiftDown() );
+                nevent.SetEventObject( mParent );
+                nevent.SetCurrentFocus( mParent );
+-               mParent->GetParent()->ProcessEvent( nevent );
++               mParent->GetParent()->ProcessWindowEvent( nevent );
+             }
+             break;
+ 
+@@ -1203,7 +1203,7 @@
+                if (def && def->IsEnabled()) {
+                   wxCommandEvent cevent(wxEVT_COMMAND_BUTTON_CLICKED,
+                         def->GetId());
+-                  mParent->ProcessEvent(cevent);
++                  mParent->ProcessWindowEvent(cevent);
+                }
+             }
+ 
+@@ -1228,7 +1228,7 @@
+    int intValue = (int)( ( mCurrentValue - mMinValue ) * 1000.0f /
+                          ( mMaxValue - mMinValue ) );
+    e.SetInt( intValue );
+-   mParent->ProcessEvent( e );
++   mParent->ProcessWindowEvent( e );
+ }
+ 
+ int LWSlider::ValueToPosition(float val)
+--- audacity-src-2.0.5/src/widgets/ExpandingToolBar.cpp~	2013-10-19 09:31:50.000000000 +0200
++++ audacity-src-2.0.5/src/widgets/ExpandingToolBar.cpp	2014-01-18 22:11:30.136223627 +0100
+@@ -77,6 +77,7 @@
+ #include <wx/dragimag.h>
+ #include <wx/arrimpl.cpp>
+ #include <wx/dialog.h>
++#include <wx/dcclient.h>
+ 
+ #include "ExpandingToolBar.h"
+ #include "AButton.h"
+--- audacity-src-2.0.5/src/widgets/Grabber.cpp~	2013-10-19 09:31:50.000000000 +0200
++++ audacity-src-2.0.5/src/widgets/Grabber.cpp	2014-01-18 22:12:27.131449284 +0100
+@@ -89,7 +89,7 @@
+    e.SetEventObject(parent);
+ 
+    // Queue the event
+-   parent->AddPendingEvent(e);
++   parent->GetEventHandler()->AddPendingEvent(e);
+ }
+ 
+ //
+--- audacity-src-2.0.5/src/widgets/Grid.cpp.org	2014-01-18 22:14:27.708786335 +0100
++++ audacity-src-2.0.5/src/widgets/Grid.cpp	2014-01-18 22:16:29.522831589 +0100
+@@ -26,16 +26,18 @@
+ #include "Grid.h"
+ #include "TimeTextCtrl.h"
+ 
+-TimeEditor::TimeEditor()
++TimeEditor::TimeEditor() :
++   mFormat(wxT("seconds")),
++   mRate(44100),
++   mOld(0.0)
+ {
+-   TimeEditor(wxT("seconds"), 44100);
+ }
+ 
+-TimeEditor::TimeEditor(const wxString &format, double rate)
++TimeEditor::TimeEditor(const wxString &format, double rate) :
++   mFormat(format),
++   mRate(rate),
++   mOld(0.0)
+ {
+-   mFormat = format;
+-   mRate = rate;
+-   mOld = 0.0;
+ }
+ 
+ TimeEditor::~TimeEditor()
+@@ -499,7 +501,7 @@
+             if (def && def->IsEnabled()) {
+                wxCommandEvent cevent(wxEVT_COMMAND_BUTTON_CLICKED,
+                                      def->GetId());
+-               GetParent()->ProcessEvent(cevent);
++               GetParent()->ProcessWindowEvent(cevent);
+             }
+          }
+          else {
+--- audacity-src-2.0.5/src/widgets/Grid.h	2014-01-18 22:24:05.184633440 +0100
++++ audacity-src-2.0.5/src/widgets/Grid.h.org	2014-01-18 22:21:44.749968295 +0100
+@@ -53,6 +53,9 @@
+ 
+    void BeginEdit(int row, int col, wxGrid *grid);
+    bool EndEdit(int row, int col, wxGrid *grid);
++   bool EndEdit(int WXUNUSED(row), int WXUNUSED(col), const wxGrid * WXUNUSED(grid),
++       const wxString& WXUNUSED(oldval), wxString * WXUNUSED(newval)) {return false;};
++   void ApplyEdit(int WXUNUSED(row), int WXUNUSED(col), wxGrid* WXUNUSED(grid)) {};
+ 
+    void Reset();
+ 
+@@ -128,6 +125,9 @@
+ 
+    void BeginEdit(int row, int col, wxGrid *grid);
+    bool EndEdit(int row, int col, wxGrid *grid);
++   bool EndEdit(int WXUNUSED(row), int WXUNUSED(col), const wxGrid * WXUNUSED(grid),
++       const wxString& WXUNUSED(oldval), wxString * WXUNUSED(newval)) {return false;};
++   void ApplyEdit(int WXUNUSED(row), int WXUNUSED(col), wxGrid* WXUNUSED(grid)) {};
+ 
+    void Reset();
+ 
+--- audacity-src-2.0.5/src/widgets/TimeTextCtrl.cpp	2013-10-19 09:31:50.000000000 +0200
++++ audacity-src-2.0.5/src/widgets/TimeTextCtrl.cpp	2014-01-18 22:29:03.714552995 +0100
+@@ -176,6 +176,7 @@
+ #include <wx/stattext.h>
+ #include <wx/tooltip.h>
+ #include <wx/toplevel.h>
++#include <wx/dcclient.h>
+ 
+ #ifdef _DEBUG
+     #ifdef _MSC_VER
+@@ -425,7 +426,7 @@
+ {
+    wxCommandEvent e(EVT_RELEASE_KEYBOARD);
+    e.SetEventObject(this);
+-   GetParent()->GetEventHandler()->ProcessEvent(e);
++   GetParent()->ProcessWindowEvent(e);
+ 
+    if (mBackgroundBitmap)
+       delete mBackgroundBitmap;
+@@ -1044,7 +1045,7 @@
+       e.SetEventType(EVT_RELEASE_KEYBOARD);
+    }
+    e.SetEventObject(this);
+-   GetParent()->GetEventHandler()->ProcessEvent(e);
++   GetParent()->ProcessWindowEvent(e);
+ 
+    Refresh(false);
+ }
+@@ -1160,7 +1161,7 @@
+       nevent.SetDirection(!event.ShiftDown());
+       nevent.SetEventObject(parent);
+       nevent.SetCurrentFocus(parent);
+-      GetParent()->ProcessEvent(nevent);
++      GetParent()->ProcessWindowEvent(nevent);
+    } 
+ 
+    else if (keyCode == WXK_RETURN || keyCode == WXK_NUMPAD_ENTER) {
+@@ -1169,7 +1170,7 @@
+       if (def && def->IsEnabled()) {
+          wxCommandEvent cevent(wxEVT_COMMAND_BUTTON_CLICKED,
+                                def->GetId());
+-         GetParent()->ProcessEvent(cevent);
++         GetParent()->ProcessWindowEvent(cevent);
+       }
+    }
+ 
+@@ -1218,7 +1219,7 @@
+ {
+    wxCommandEvent event(wxEVT_COMMAND_TEXT_UPDATED, GetId());
+    event.SetEventObject(this);
+-   GetEventHandler()->ProcessEvent(event);
++   ProcessWindowEvent(event);
+ 
+ #if wxUSE_ACCESSIBILITY
+    GetAccessible()->NotifyEvent(wxACC_EVENT_OBJECT_NAMECHANGE,
+--- audacity-src-2.0.5/src/xml/XMLWriter.cpp~	2013-10-19 09:31:48.000000000 +0200
++++ audacity-src-2.0.5/src/xml/XMLWriter.cpp	2014-01-18 22:31:17.405663293 +0100
+@@ -246,7 +246,7 @@
+       mHasKids[0] = true;
+    }
+ 
+-   Write(value.c_str());
++   Write(value);
+ }
+ 
+ void XMLWriter::WriteSubTree(const wxChar *value)
+--- audacity-src-2.0.5/src/effects/nyquist/Nyquist.cpp~	2013-10-19 09:31:50.000000000 +0200
++++ audacity-src-2.0.5/src/effects/nyquist/Nyquist.cpp	2014-01-18 22:32:46.528625569 +0100
+@@ -701,7 +701,8 @@
+          // See also http://bugzilla.audacityteam.org/show_bug.cgi?id=642#c9 
+          // for further info about this thread safety question.
+          wxString prevlocale = wxSetlocale(LC_NUMERIC, NULL);
+-         wxSetlocale(LC_NUMERIC, wxT("C"));
++         wxString C(wxT("C"));
++         wxSetlocale(LC_NUMERIC, C);
+ 
+          nyx_init();
+          nyx_set_os_callback(StaticOSCallback, (void *)this);
+--- audacity-src-2.0.5/src/PitchName.cpp~	2014-01-18 22:36:45.000000000 +0100
++++ audacity-src-2.0.5/src/PitchName.cpp	2014-01-18 22:36:48.306661815 +0100
+@@ -20,6 +20,8 @@
+ #include <math.h>
+ #include <stdio.h>
+ 
++#include <wx/string.h>
++
+ #include "PitchName.h"
+ 
+ 
+--- audacity-src-2.0.5/src/LyricsWindow.cpp.org	2014-01-18 22:45:15.566855563 +0100
++++ audacity-src-2.0.5/src/LyricsWindow.cpp	2014-01-19 00:21:21.443062502 +0100
+@@ -68,11 +68,10 @@
+    // loads either the XPM or the windows resource, depending on the platform
+    #if !defined(__WXMAC__) && !defined(__WXX11__)
+       #ifdef __WXMSW__
+-         wxIcon ic(wxICON(AudacityLogo));
++         SetIcon(wxICON(AudacityLogo));
+       #else
+-         wxIcon ic(wxICON(AudacityLogo48x48));
++         SetIcon(wxICON(AudacityLogo48x48));
+       #endif
+-      SetIcon(ic);
+    #endif
+ 
+    wxPoint panelPos(0, 0);
+--- audacity-src-2.0.5/src/MixerBoard.cpp~	2013-10-19 09:31:50.000000000 +0200
++++ audacity-src-2.0.5/src/MixerBoard.cpp	2014-01-19 00:22:04.117814479 +0100
+@@ -1723,11 +1723,10 @@
+    // loads either the XPM or the windows resource, depending on the platform
+    #if !defined(__WXMAC__) && !defined(__WXX11__)
+       #ifdef __WXMSW__
+-         wxIcon ic(wxICON(AudacityLogo));
++         SetIcon(wxICON(AudacityLogo));
+       #else
+-         wxIcon ic(wxICON(AudacityLogo48x48));
++         SetIcon(wxICON(AudacityLogo48x48));
+       #endif
+-      SetIcon(ic);
+    #endif
+ }
+ 
+--- audacity-src-2.0.5/src/Project.cpp~	2014-01-18 22:40:12.000000000 +0100
++++ audacity-src-2.0.5/src/Project.cpp	2014-01-19 00:23:07.386584398 +0100
+@@ -981,14 +981,14 @@
+    // loads either the XPM or the windows resource, depending on the platform
+ #if !defined(__WXMAC__) && !defined(__WXX11__)
+    #if defined(__WXMSW__)
+-      wxIcon ic(wxICON(AudacityLogo));
++      SetIcon(wxICON(AudacityLogo));
+    #elif defined(__WXGTK__)
+-      wxIcon ic(wxICON(AudacityLogoAlpha));
++      SetIcon(wxICON(AudacityLogoAlpha));
+    #else
+       wxIcon ic;
+       ic.CopyFromBitmap(theTheme.Bitmap(bmpAudacityLogo48x48));
++      SetIcon(ic);
+    #endif
+-   SetIcon(ic);
+ #endif
+    mIconized = false;
  
