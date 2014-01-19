@@ -19,7 +19,7 @@ Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
 Version:	2.0.5
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		X11/Applications/Sound
 #Source0Download: http://code.google.com/p/audacity/downloads/list
@@ -65,6 +65,7 @@ BuildRequires:	unzip
 BuildRequires:	vamp-devel >= 2.0
 BuildRequires:	which
 BuildRequires:	wxGTK2-unicode-devel >= 2.8.0
+BuildRequires:	wxX11-devel >= 2.8.0
 Requires(post,postun):	shared-mime-info
 Requires:	flac-c++ >= 1.2.0
 Requires:	lame-libs
