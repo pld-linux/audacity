@@ -1,0 +1,73 @@
+--- a/audacity-2.0.5/lib-src/FileDialog/generic/FileDialogPrivate.cpp	2013-10-19 20:31:33.000000000 +1300
++++ b/audacity-2.0.5/lib-src/FileDialog/generic/FileDialogPrivate.cpp	2014-06-01 20:38:47.890251794 +1200
+@@ -40,7 +40,7 @@
+ #include "wx/settings.h"
+ #include "wx/filefn.h"
+ #include "wx/file.h"        // for wxS_IXXX constants only
+-#include "wx/filedlg.h"     // wxOPEN, wxSAVE...
++#include "wx/filedlg.h"     // wxFD_OPEN, wxFD_SAVE...
+ #include "wx/generic/filedlgg.h"
+ #include "wx/generic/dirctrlg.h" // for wxFileIconsTable
+ 
+@@ -991,9 +991,9 @@
+    }
+    
+    if (m_dialogStyle == 0)
+-      m_dialogStyle = wxOPEN;
+-   if ((m_dialogStyle & wxMULTIPLE ) && !(m_dialogStyle & wxOPEN))
+-      m_dialogStyle |= wxOPEN;
++      m_dialogStyle = wxFD_OPEN;
++   if ((m_dialogStyle & wxMULTIPLE ) && !(m_dialogStyle & wxFD_OPEN))
++      m_dialogStyle |= wxFD_OPEN;
+    
+    if ((m_dir.empty()) || (m_dir == wxT(".")))
+    {
+@@ -1368,7 +1368,7 @@
+    }
+ #endif // __UNIX__
+    
+-   if (!(m_dialogStyle & wxSAVE))
++   if (!(m_dialogStyle & wxFD_SAVE))
+    {
+       if ((filename.Find(wxT('*')) != wxNOT_FOUND) ||
+           (filename.Find(wxT('?')) != wxNOT_FOUND))
+@@ -1413,14 +1413,14 @@
+    // VZ: the logic of testing for !wxFileExists() only for the open file
+    //     dialog is not entirely clear to me, why don't we allow saving to a
+    //     file without extension as well?
+-   if ( !(m_dialogStyle & wxOPEN) || !wxFileExists(filename) )
++   if ( !(m_dialogStyle & wxFD_OPEN) || !wxFileExists(filename) )
+    {
+       filename = AppendExtension(filename, m_filterExtension);
+    }
+    
+    // check that the file [doesn't] exist if necessary
+-   if ( (m_dialogStyle & wxSAVE) &&
+-       (m_dialogStyle & wxOVERWRITE_PROMPT) &&
++   if ( (m_dialogStyle & wxFD_SAVE) &&
++       (m_dialogStyle & wxFD_OVERWRITE_PROMPT) &&
+        wxFileExists( filename ) )
+    {
+       wxString msg;
+@@ -1429,8 +1429,8 @@
+       if (wxMessageBox(msg, _("Confirm"), wxYES_NO) != wxYES)
+          return;
+    }
+-   else if ( (m_dialogStyle & wxOPEN) &&
+-            (m_dialogStyle & wxFILE_MUST_EXIST) &&
++   else if ( (m_dialogStyle & wxFD_OPEN) &&
++            (m_dialogStyle & wxFD_FILE_MUST_EXIST) &&
+             !wxFileExists(filename) )
+    {
+       wxMessageBox(_("Please choose an existing file."), _("Error"),
+--- a/audacity-2.0.5/lib-src/FileDialog/win/FileDialogPrivate.cpp	2013-10-19 20:31:33.000000000 +1300
++++ b/audacity-2.0.5/lib-src/FileDialog/win/FileDialogPrivate.cpp	2014-06-01 20:36:58.222264699 +1200
+@@ -731,7 +731,7 @@
+    of.nMaxFile  = wxMAXPATH;
+    
+    // we must set the default extension because otherwise Windows would check
+-   // for the existing of a wrong file with wxOVERWRITE_PROMPT (i.e. if the
++   // for the existing of a wrong file with wxFD_OVERWRITE_PROMPT (i.e. if the
+    // user types "foo" and the default extension is ".bar" we should force it
+    // to check for "foo.bar" existence and not "foo")
+    wxString defextBuffer; // we need it to be alive until GetSaveFileName()!

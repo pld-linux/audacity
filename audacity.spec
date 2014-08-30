@@ -19,7 +19,7 @@ Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
 Version:	2.0.5
-Release:	3
+Release:	4
 License:	GPL v2+
 Group:		X11/Applications/Sound
 #Source0Download: http://code.google.com/p/audacity/downloads/list
@@ -33,7 +33,9 @@ Source3:	%{name}-icon.png
 Patch0:		%{name}-system-libs.patch
 Patch1:		%{name}-opt.patch
 Patch2:		%{name}-no-macos.patch
-Patch3:		%{name}-wx.patch
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=749659
+Patch3:		wx-fd-constants.patch
+Patch4:		wx30.patch
 URL:		http://audacity.sourceforge.net/
 BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf >= 2.59
@@ -105,7 +107,8 @@ Audacity - это звуковой редактор, позволяющий ра
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
+%patch3 -p2
+%patch4 -p1
 
 %{__sed} -i 's/libmp3lame.so/libmp3lame.so.0/g' locale/*.po
 
@@ -114,6 +117,9 @@ cd lib-src/portmixer
 %{__autoconf}
 cd ../lib-widget-extra
 %{__aclocal} -I m4
+%{__autoconf}
+cd ../FileDialog
+%{__aclocal}
 %{__autoconf}
 cd ../portsmf
 %{__aclocal} -I autotools/m4

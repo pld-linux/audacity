@@ -1,0 +1,1329 @@
+Description: Compile audacity against wxWidgets 3.0
+ Solved compilation issues:
+ (1.) Allow wxWidgets 3.0 in various configure scripts.
+ (2.) The file dialog was derived from an internal wx class that
+ disappeared in wx3.0 (discussed in further detail below).
+ (3.) In several places the types in interfaces changed between
+ wxChar* and wxString. I've tried to modify the code so it works with
+ both interfaces (thanks to implicit conversion; may look a bit weird
+ in some places).
+ (4.) Calls to "wxTheApp->SuspendIdleCallback()" are no longer
+ supported. They were part of a workaround for a clipboard problem,
+ which fortunately doesn't seem to be there any longer in wx3.0, so I
+ deactivated it for wx3.0.
+ (5.) AddPendingEvent() and ProcessEvent() now have the visibility
+ "protected" in wxWindow. It has always been a bad idea to call them
+ directly on a wxWindow object, but now it's explicitly forbidden.
+ Instead, those functions should be called on the object returned by
+ GetEventHandler().
+ (6.) The class wxStandardPaths is now a singleton and has to be
+ treated as such (no more explicit constructor calls).
+ (7.) "wxLogWarning" is a macro now, so the "::" prefix doesn't work
+ on it anymore.
+ (8.) Several int types (which were actually used as enums) are now
+ real enum types (e.g. wxRasterOperationMode, wxMouseButton) and have
+ to be used as such.
+ (9.) Apart from the FD constants (which have been fixed in Olly's
+ patch already) there are some other constants which have received a
+ prefix (e.g. wx* -> wxFONTFAMILY_*, wx* -> wxFONTSTYLE_*, wx* ->
+ wxFONTWEIGHT_*).
+ (10.) Signature changes in constructors of wxFlexGridSizer and wxIcon
+ and wxSizeEvent
+ (11.) Missing includes (missing header files were probably included
+ indirectly in wx2.8 by chance)
+ (12.) When deriving from the abstract class wxGridTableBase,
+ different methods have to be implemented with wx3.0 (EndEdit with new
+ signature and ApplyEdit) than before with wx2.8 (only EndEdit with
+ old signature). Now both versions are implemented in parallel in the
+ classes TimeEditor and ChoiceEditor (one version essentially being a
+ wrapper of the other one).
+ Solved runtime issues:
+ (1.) Segmentation fault: The LadspaEffectDialog receives EVT_TEXT
+ events before it's properly initialized. To prevent this, a
+ workaround was already in place, but was only active on Windows. It
+ looks like this happens now on more platforms (including GTK). As the
+ workaround doesn't do any harm, even if activated unnecessarily, I've
+ simply activated it for all environments.
+ (2.) GTK critical warning "IA__gtk_range_set_range: assertion
+ 'min < max' failed" because of negative numbers as result of window
+ size checking. Added a sanity check that straightens up the numbers
+ in edge cases.
+ (3.) GTK critical warning "IA__gdk_window_get_origin: assertion
+ 'GDK_IS_WINDOW (window)' failed": Received events of type wxSizeEvent
+ on the main project window cause calls to "ClientToScreen" - which is
+ not available until the window is first shown. So the class has to
+ keep track of wxShowEvent events and inhibit those actions until the
+ window is first shown.
+ (4.) The functions wxString::Format and wxString::Printf have become
+ stricter about parameter types that don't match (format string vs.
+ function parameters). So the bugs (that were already present in
+ audacity before) become visible in wx3.0 as error messages. I've
+ fixed all the ones that popped up during my testing, but there might
+ be more of them that I just didn't happen to hit. At some point, all
+ the calls to wxString::Format and wxString::Printf have to be checked
+ systematically.
+Author: Martin Steghöfer <martin@steghoefer.eu>
+Bug-Debian: https://bugs.debian.org/749659
+
+--- a/configure.in
++++ b/configure.in
+@@ -186,13 +186,11 @@
+             [dynamic_loading="$enableval"],
+             [dynamic_loading="yes"])
+ 
+-dnl AC_ARG_WITH(wx-version,
+-dnl            [AS_HELP_STRING([--with-wx-version],
+-dnl                            [select wxWidgets version (if both installed) [2.8,]])],
+-dnl            wx_preference="--version=$withval",
+-dnl            wx_preference="")
+-dnl At the moment we only support wx2.8. If we start supporting 3.0 when it
+-dnl comes out, we'll want it back again.
++AC_ARG_WITH(wx-version,
++           [AS_HELP_STRING([--with-wx-version],
++                           [select wxWidgets version (if both installed) [2.8, 3.0]])],
++           wx_preference="--version=$withval",
++           wx_preference="")
+ 
+ dnl ----------------------------------------------------
+ dnl If user asked for debug, put debug in compiler flags
+@@ -291,19 +289,21 @@
+ wxconfigargs="$static_preference $unicode_preference  $wxconfigargs $wx_preference"
+ wx_version=`${WX_CONFIG} $wxconfigargs --version`
+ 
+-AC_MSG_NOTICE([Checking that the chosen version of wxWidgets is 2.8.x])
++AC_MSG_NOTICE([Checking that the chosen version of wxWidgets is 2.8.x or 3.0.x])
+ 
+ case "${wx_version}" in
+   2.8.*)
+     echo "Great, you're using wxWidgets ${wx_version}!"
+     ;;
++  3.0.*)
++    echo "Great, you're using wxWidgets ${wx_version}!"
++    ;;
+   *)
+   wx_list=`${WX_CONFIG} --list`
+-  AC_MSG_ERROR([Unable to locate a suitable configuration of wxWidgets v2.8.x or higher.
+-The currently available configurations are listed below.  If necessary, either
+-install the package for your distribution or download the latest version of
+-wxWidgets
+-from http://wxwidgets.org.
++  AC_MSG_ERROR([Unable to locate a suitable configuration of wxWidgets v2.8.x
++or v3.0.x. The currently available configurations are listed below. If
++necessary, either install the package for your distribution or download a
++suitable version of wxWidgets from http://wxwidgets.org.
+ ${wx_list}])
+ esac
+ 
+--- a/lib-src/lib-widget-extra/configure.in
++++ b/lib-src/lib-widget-extra/configure.in
+@@ -74,12 +74,11 @@
+             debug_preference="$enableval",
+             debug_preference="no")
+ 
+-dnl AC_ARG_WITH(wx-version,
+-dnl             [AS_HELP_STRING([--with-wx-version],
+-dnl                            [select wxWidgets version (if both installed) [2.8,]])],
+-dnl            wx_preference="--version=$withval",
+-dnl            wx_preference="")
+-dnl Right now only support wx 2.8
++AC_ARG_WITH(wx-version,
++           [AS_HELP_STRING([--with-wx-version],
++                           [select wxWidgets version (if both installed) [2.8, 3.0]])],
++           wx_preference="--version=$withval",
++           wx_preference="")
+ 
+ dnl ----------------------------------------------------
+ dnl If user asked for debug, put debug in compiler flags
+@@ -139,19 +138,21 @@
+ 
+ wx_version=`${WX_CONFIG} $wxconfigargs --version`
+ 
+-AC_MSG_NOTICE([Checking that the chosen version of wxWidgets is 2.8.x])
++AC_MSG_NOTICE([Checking that the chosen version of wxWidgets is 2.8.x or 3.0.x])
+ 
+ case "${wx_version}" in
+   2.8.*)
+     echo "Great, you're using wxWidgets ${wx_version}!"
+     ;;
++  3.0.*)
++    echo "Great, you're using wxWidgets ${wx_version}!"
++    ;;
+   *)
+   wx_list=`${WX_CONFIG} --list`
+-  AC_MSG_ERROR([Unable to locate a suitable configuration of wxWidgets v2.8.x or higher.
+-The currently available configurations are listed below.  If necessary, either
+-install the package for your distribution or download the latest version of
+-wxWidgets
+-from http://wxwidgets.org.
++  AC_MSG_ERROR([Unable to locate a suitable configuration of wxWidgets v2.8.x
++or v3.0.x. The currently available configurations are listed below. If
++necessary, either install the package for your distribution or download a
++suitable version of wxWidgets from http://wxwidgets.org.
+ ${wx_list}])
+ esac
+ 
+--- a/lib-src/FileDialog/configure.ac
++++ b/lib-src/FileDialog/configure.ac
+@@ -47,7 +47,7 @@
+ 
+ AC_ARG_WITH(wx-version,
+             [AC_HELP_STRING([--with-wx-version],
+-                            [override default wxWidgets version [2.6,2.8]])],
++                            [override default wxWidgets version [2.8, 3.0]])],
+             wx_preference="--version=$withval",
+             wx_preference="")
+ 
+@@ -64,45 +64,66 @@
+ fi
+ 
+ dnl Gather wx arguments
++wxconfigargs="$static_preference $unicode_preference $debug_preference $wx_preference"
+ 
+-CPPFLAGS="$CPPFLAGS `$WX_CONFIG $static_preference $unicode_preference $debug_preference $wx_preference --cxxflags`"
++dnl Get wx version
++wx_version=`${WX_CONFIG} $wxconfigargs --version`
+ 
+-dnl OS-specific configuration
++dnl Get wx flags
++CXXFLAGS="$CXXFLAGS `$WX_CONFIG $wxconfigargs --cxxflags`"
++
++dnl OS- and wx-version-specific configuration
+ 
+ AC_CANONICAL_HOST
+ 
+-case "${host_os}" in
+-   darwin*)
+-      dnl Mac OS X configuration
+-      EXTRADEPS="mac/FileDialogPrivate.h"
+-      EXTRAOBJS="mac/FileDialogPrivate.o"
+-   ;;      
+-
+-   cygwin*)
+-      dnl Windows/CygWin configuration
+-      EXTRADEPS="win/FileDialogPrivate.h"
+-      EXTRAOBJS="win/FileDialogPrivate.o"
+-   ;;
+-
+-   *)
+-      dnl Unix configuration
+-      AM_PATH_GTK_2_0(2.4.0,
+-            have_gtk="yes",
+-            have_gtk="no")
+-      if [[ "$have_gtk" = "yes" ]]
+-      then
+-         CPPFLAGS="$CPPFLAGS $GTK_CFLAGS"
+-         EXTRADEPS="gtk/FileDialogPrivate.h gtk/private.h"
+-         EXTRAOBJS="gtk/FileDialogPrivate.o"
+-         HAVE_GTK=1
+-      else
+-         EXTRADEPS="generic/FileDialogPrivate.h"
+-         EXTRAOBJS="generic/FileDialogPrivate.o"
+-         HAVE_GTK=0
+-      fi
+-   ;;
++case "${wx_version}" in
++  2.8.*)
++    case "${host_os}" in
++       darwin*)
++          dnl Mac OS X configuration
++          EXTRADEPS="mac/FileDialogPrivate.h"
++          EXTRAOBJS="mac/FileDialogPrivate.o"
++       ;;
++       cygwin*)
++          dnl Windows/CygWin configuration
++          EXTRADEPS="win/FileDialogPrivate.h"
++          EXTRAOBJS="win/FileDialogPrivate.o"
++       ;;
++       *)
++          dnl Unix configuration
++          AM_PATH_GTK_2_0(2.4.0,
++                have_gtk="yes",
++                have_gtk="no")
++          if [[ "$have_gtk" = "yes" ]]
++          then
++             CPPFLAGS="$CPPFLAGS $GTK_CFLAGS"
++             EXTRADEPS="gtk/FileDialogPrivate.h gtk/private.h"
++             EXTRAOBJS="gtk/FileDialogPrivate.o"
++             HAVE_GTK=1
++          else
++             EXTRADEPS="generic/FileDialogPrivate.h"
++             EXTRAOBJS="generic/FileDialogPrivate.o"
++             HAVE_GTK=0
++          fi
++       ;;
++    esac
++    ;;
++  3.0.*)
++    dnl for wxWidgets >= 3.0 we can compile a generic implementation of our FileDialog
++    EXTRADEPS="wx30/FileDialogPrivate.h"
++    EXTRAOBJS="wx30/FileDialogPrivate.o"
++    HAVE_GTK=0 dnl no need for extra GTK flags, we don't use it directly, we use wx interfaces
++    ;;
++  *)
++  wx_list=`${WX_CONFIG} --list`
++  AC_MSG_ERROR([Unable to locate a suitable configuration of wxWidgets v2.8.x
++or v3.0.x. The currently available configurations are listed below. If
++necessary, either install the package for your distribution or download a
++suitable version of wxWidgets from http://wxwidgets.org.
++${wx_list}])
+ esac
+ 
++
+ #
+ # Write it all out
+ #
+--- a/lib-src/FileDialog/FileDialog.h
++++ b/lib-src/FileDialog/FileDialog.h
+@@ -26,14 +26,18 @@
+ 
+ typedef void (*fdCallback)(void *, int);
+ 
+-#if defined(__WXMAC__)
+-#include "mac/FileDialogPrivate.h"
+-#elif defined(__WXMSW__)
+-#include "win/FileDialogPrivate.h"
+-#elif defined(__WXGTK__) && defined(HAVE_GTK)
+-#include "gtk/FileDialogPrivate.h"
+-#else
+-#include "generic/FileDialogPrivate.h"
++#if wxMAJOR_VERSION == 2 && wxMINOR_VERSION == 8 // wx2.8
++#  if defined(__WXMAC__)
++#    include "mac/FileDialogPrivate.h"
++#  elif defined(__WXMSW__)
++#    include "win/FileDialogPrivate.h"
++#  elif defined(__WXGTK__) && defined(HAVE_GTK)
++#    include "gtk/FileDialogPrivate.h"
++#  else
++#    include "generic/FileDialogPrivate.h"
++#  endif
++#else // wx3.0
++#  include "wx30/FileDialogPrivate.h"
+ #endif
+ 
+ /////////////////////////////////////////////////////////////////////////////
+@@ -55,11 +59,11 @@
+ //----------------------------------------------------------------------------
+ 
+ wxString 
+-FileSelector(const wxChar *message = wxFileSelectorPromptStr,
++FileSelector(const wxChar *message = wxString(wxFileSelectorPromptStr, wxConvUTF8).wc_str(),
+              const wxChar *default_path = NULL,
+              const wxChar *default_filename = NULL,
+              const wxChar *default_extension = NULL,
+-             const wxChar *wildcard = wxFileSelectorDefaultWildcardStr,
++             const wxChar *wildcard = wxString(wxFileSelectorDefaultWildcardStr, wxConvUTF8).wc_str(),
+              int flags = 0,
+              wxWindow *parent = NULL,
+              wxString label = wxEmptyString,
+--- /dev/null
++++ b/lib-src/FileDialog/wx30/FileDialogPrivate.cpp
+@@ -0,0 +1,61 @@
++#include <wx/wxprec.h>
++#ifndef WX_PRECOMP
++#  include <wx/wx.h>
++#endif
++
++#include "../FileDialog.h"
++
++#include <cassert>
++
++#include "wx/event.h"
++#include "wx/filedlg.h"
++#include "wx/window.h"
++
++
++FileDialog::FileDialog(wxWindow *parent,
++        const wxString& message,
++        const wxString& defaultDir,
++        const wxString& defaultFile,
++        const wxString& wildCard,
++        long style,
++        const wxPoint& pos,
++        const wxSize& sz,
++        const wxString& name)
++: wxFileDialog(parent, message, defaultDir, defaultFile, wildCard, style, pos, sz, name)
++{
++}
++
++
++FileDialog::~FileDialog()
++{
++    // intentionally left blank; it's just there to make sure
++    // we have a virtual destructor (in case of subclassing)
++}
++
++
++int FileDialog::ShowModal()
++{
++    assert (SupportsExtraControl());
++    
++    if (!m_buttonlabel.IsEmpty()) {
++        SetExtraControlCreator(&FileDialog::CreateButton);
++    }
++    
++    return wxFileDialog::ShowModal();
++}
++
++
++wxWindow * FileDialog::CreateButton(wxWindow *fileDialogGeneric)
++{
++    FileDialog *fileDialog = (FileDialog *) fileDialogGeneric;
++    wxButton *button = new wxButton(fileDialog, wxID_ANY, fileDialog->m_buttonlabel);
++    fileDialog->Bind(wxEVT_BUTTON, &FileDialog::OnButton, fileDialog, button->GetId());
++    return button;
++}
++
++void FileDialog::OnButton(wxCommandEvent& WXUNUSED(event))
++{
++    ClickButton(GetFilterIndex());
++}
++
++
+--- /dev/null
++++ b/lib-src/FileDialog/wx30/FileDialogPrivate.h
+@@ -0,0 +1,47 @@
++#ifndef __FILEDIALOGWX30H__
++#define __FILEDIALOGWX30H__
++
++
++#include "wx/filedlg.h"
++
++
++class FileDialog : public wxFileDialog
++{
++public: // constructors/destructors
++    FileDialog() { }
++    
++    FileDialog(wxWindow *parent,
++               const wxString& message = wxFileSelectorPromptStr,
++               const wxString& defaultDir = wxEmptyString,
++               const wxString& defaultFile = wxEmptyString,
++               const wxString& wildCard = wxFileSelectorDefaultWildcardStr,
++               long style = wxFD_DEFAULT_STYLE,
++               const wxPoint& pos = wxDefaultPosition,
++               const wxSize& sz = wxDefaultSize,
++               const wxString& name = wxFileDialogNameStr);
++    
++    virtual ~FileDialog();
++    
++public: // public methods
++    virtual void EnableButton(wxString label, fdCallback cb, void *cbdata);
++    
++    virtual void ClickButton(int index);
++    
++    virtual int ShowModal();
++    
++    void OnButton(wxCommandEvent& event);
++    
++private: // private methods
++    static wxWindow * CreateButton(wxWindow *fileDialog);
++    
++private: // attributes
++    wxString m_buttonlabel;
++    
++    fdCallback m_callback;
++    
++    void *m_cbdata;
++};
++
++
++#endif
++
+--- a/src/AudacityApp.cpp
++++ b/src/AudacityApp.cpp
+@@ -1324,7 +1324,7 @@
+          }
+ 
+          if (option < argc - 1 &&
+-             argv[option + 1] &&
++             !wxString(argv[option + 1]).IsEmpty() && // *argv is of type wxChar* in wx28 and wxString in wx30
+              !wxString(wxT("-blocksize")).CmpNoCase(argv[option])) {
+             long theBlockSize;
+             if (wxString(argv[option + 1]).ToLong(&theBlockSize)) {
+--- a/src/AudioIO.cpp
++++ b/src/AudioIO.cpp
+@@ -561,7 +561,7 @@
+       wxString errStr = _("Could not find any audio devices.\n");
+       errStr += _("You will not be able to play or record audio.\n\n");
+       wxString paErrStr = LAT1CTOWX(Pa_GetErrorText(err));
+-      if (paErrStr)
++      if (!paErrStr.IsEmpty())
+          errStr += _("Error: ")+paErrStr;
+       // XXX: we are in libaudacity, popping up dialogs not allowed!  A
+       // long-term solution will probably involve exceptions
+--- a/src/CaptureEvents.cpp
++++ b/src/CaptureEvents.cpp
+@@ -17,7 +17,7 @@
+ #include "Audacity.h"
+ #include "CaptureEvents.h"
+ 
+-#if defined(__WXGTK__) && defined(HAVE_GTK)
++#if defined(__WXGTK__) && defined(HAVE_GTK) && wxMAJOR_VERSION < 3
+ // As of wxGTK 2.8.9, there is a problem in the wxClipboard class that
+ // allows recursive event processing.  This problem has been corrected
+ // by wxWidgets 2.9+.  However, this han't made it into a release yet,
+--- a/src/LyricsWindow.cpp
++++ b/src/LyricsWindow.cpp
+@@ -68,9 +68,9 @@
+    // loads either the XPM or the windows resource, depending on the platform
+    #if !defined(__WXMAC__) && !defined(__WXX11__)
+       #ifdef __WXMSW__
+-         wxIcon ic(wxICON(AudacityLogo));
++         wxIcon ic = wxICON(AudacityLogo);
+       #else
+-         wxIcon ic(wxICON(AudacityLogo48x48));
++         wxIcon ic = wxICON(AudacityLogo48x48);
+       #endif
+       SetIcon(ic);
+    #endif
+--- a/src/Menus.cpp
++++ b/src/Menus.cpp
+@@ -2403,7 +2403,7 @@
+    //       The workaround is to queue a context menu event, allowing the key press
+    //       event to complete.
+    wxContextMenuEvent e(wxEVT_CONTEXT_MENU, GetId());
+-   mTrackPanel->AddPendingEvent(e);
++   mTrackPanel->GetEventHandler()->AddPendingEvent(e);
+ }
+ 
+ void AudacityProject::OnTrackMute()
+--- a/src/MixerBoard.cpp
++++ b/src/MixerBoard.cpp
+@@ -1723,9 +1723,9 @@
+    // loads either the XPM or the windows resource, depending on the platform
+    #if !defined(__WXMAC__) && !defined(__WXX11__)
+       #ifdef __WXMSW__
+-         wxIcon ic(wxICON(AudacityLogo));
++         wxIcon ic = wxICON(AudacityLogo);
+       #else
+-         wxIcon ic(wxICON(AudacityLogo48x48));
++         wxIcon ic = wxICON(AudacityLogo48x48);
+       #endif
+       SetIcon(ic);
+    #endif
+--- a/src/PitchName.cpp
++++ b/src/PitchName.cpp
+@@ -20,6 +20,10 @@
+ #include <math.h>
+ #include <stdio.h>
+ 
++#ifndef WX_PRECOMP
++#  include "wx/wx.h"
++#endif
++
+ #include "PitchName.h"
+ 
+ 
+--- a/src/PlatformCompatibility.cpp
++++ b/src/PlatformCompatibility.cpp
+@@ -20,6 +20,7 @@
+ #include <wx/filename.h>
+ #include <wx/stdpaths.h>
+ #include <wx/app.h>
++#include <wx/version.h>
+ 
+ #include "AudacityApp.h"
+ #include "PlatformCompatibility.h"
+@@ -37,7 +38,11 @@
+    static wxString path;
+ 
+    if (!found) {
++#if wxMAJOR_VERSION < 3
+       wxStandardPaths std;
++#else
++      wxStandardPaths std(wxStandardPaths::Get());
++#endif
+ 
+       path = std.GetExecutablePath();
+ 
+@@ -65,4 +70,4 @@
+ #else
+    return filePath;
+ #endif
+-}
+\ No newline at end of file
++}
+--- a/src/Profiler.cpp
++++ b/src/Profiler.cpp
+@@ -22,6 +22,9 @@
+ 
+ #include "Profiler.h"
+ 
++#include <cstdio>
++#include <cstring>
++
+ ///write to a profile at the end of the test.
+ Profiler::~Profiler()
+ {
+@@ -165,4 +168,3 @@
+    else
+       return 0.0;
+ }
+-    
+\ No newline at end of file
+--- a/src/Project.cpp
++++ b/src/Project.cpp
+@@ -79,7 +79,6 @@
+ #include <wx/string.h>
+ #include <wx/textfile.h>
+ #include <wx/timer.h>
+-#include <wx/generic/filedlgg.h>
+ #include <wx/display.h>
+ 
+ #include <wx/arrimpl.cpp>       // this allows for creation of wxObjArray
+@@ -702,6 +701,7 @@
+    EVT_MOUSE_EVENTS(AudacityProject::OnMouseEvent)
+    EVT_CLOSE(AudacityProject::OnCloseWindow)
+    EVT_SIZE(AudacityProject::OnSize)
++   EVT_SHOW(AudacityProject::OnShow)
+    EVT_MOVE(AudacityProject::OnMove)
+    EVT_ACTIVATE(AudacityProject::OnActivate)
+    EVT_COMMAND_SCROLL_LINEUP(HSBarID, AudacityProject::OnScrollLeftButton)
+@@ -758,7 +758,8 @@
+      mLastEffect(NULL),
+      mLastEffectType(0),
+      mTimerRecordCanceled(false),
+-     mMenuClose(false)
++     mMenuClose(false),
++     mShownOnce(false)
+ {
+    int widths[] = {-2, -1};
+    mStatusBar = CreateStatusBar(2);
+@@ -981,9 +982,9 @@
+    // loads either the XPM or the windows resource, depending on the platform
+ #if !defined(__WXMAC__) && !defined(__WXX11__)
+    #if defined(__WXMSW__)
+-      wxIcon ic(wxICON(AudacityLogo));
++      wxIcon ic = wxICON(AudacityLogo);
+    #elif defined(__WXGTK__)
+-      wxIcon ic(wxICON(AudacityLogoAlpha));
++      wxIcon ic = wxICON(AudacityLogoAlpha);
+    #else
+       wxIcon ic;
+       ic.CopyFromBitmap(theTheme.Bitmap(bmpAudacityLogo48x48));
+@@ -1350,6 +1351,12 @@
+ 
+    int panelWidth, panelHeight;
+    mTrackPanel->GetTracksUsableArea(&panelWidth, &panelHeight);
++   if (panelWidth < 0) {
++      panelWidth = 0;
++   }
++   if (panelHeight < 0) {
++      panelHeight = 0;
++   }
+ 
+    // Add 1/4 of a screen of blank space to the end of the longest track
+    mViewInfo.screen = ((double) panelWidth) / mViewInfo.zoom;
+@@ -1561,9 +1568,26 @@
+ 
+ void AudacityProject::OnSize(wxSizeEvent & event)
+ {
+-   HandleResize();
+-   if (!this->IsMaximized() && !this->IsIconized())
+-      SetNormalizedWindowState(this->GetRect());
++   if (mShownOnce) {
++      HandleResize();
++      if (!this->IsMaximized() && !this->IsIconized())
++         SetNormalizedWindowState(this->GetRect());
++   }
++   event.Skip();
++}
++
++void AudacityProject::OnShow(wxShowEvent & event)
++{
++   // Remember that the window has been shown at least once
++   mShownOnce = true;
++   
++   // Call "OnSize" again (the previous calls to "OnSize" might not
++   // have succeeded because some methods are not available before
++   // the actual creation/showing of the window)
++   wxSizeEvent sizeEvent(GetSize());
++   OnSize(sizeEvent);
++   
++   // Further processing by default handlers
+    event.Skip();
+ }
+ 
+@@ -1675,7 +1699,7 @@
+       wxCommandEvent e(EVT_CAPTURE_KEY);
+       e.SetEventObject(&event);
+    
+-      if (w->ProcessEvent(e)) {
++      if (w->GetEventHandler()->ProcessEvent(e)) {
+          return false;
+       }
+    }
+--- a/src/Sequence.cpp
++++ b/src/Sequence.cpp
+@@ -1035,7 +1035,7 @@
+                Internat::ToString(((wxLongLong)(bb->f->GetLength())).ToDouble(), 0).c_str(), 
+                Internat::ToString(((wxLongLong)mMaxSamples).ToDouble(), 0).c_str());
+          ::wxMessageBox(sMsg, _("Warning - Length in Writing Sequence"), wxICON_EXCLAMATION | wxOK);
+-         ::wxLogWarning(sMsg);
++         wxLogWarning(sMsg);
+          bb->f->SetLength(mMaxSamples);
+       }
+ 
+--- a/src/Tags.cpp
++++ b/src/Tags.cpp
+@@ -482,7 +482,7 @@
+ 
+       while (*attrs) {
+          wxString attr = *attrs++;
+-         if (!*attr)
++         if (attr.IsEmpty())
+             break;
+          wxString value = *attrs++;
+ 
+--- a/src/TrackPanel.cpp
++++ b/src/TrackPanel.cpp
+@@ -5097,7 +5097,7 @@
+       // The activate event is used to make the 
+       // parent window 'come alive' if it didn't have focus.
+       wxActivateEvent e;
+-      GetParent()->ProcessEvent(e);
++      GetParent()->GetEventHandler()->ProcessEvent(e);
+ 
+       // wxTimers seem to be a little unreliable, so this
+       // "primes" it to make sure it keeps going for a while...
+@@ -5534,7 +5534,7 @@
+    int trackKind = pTrack->GetKind();
+    currentTool = selectTool; // the default.
+ 
+-   if( event.ButtonIsDown(3) || event.RightUp()){
++   if( event.ButtonIsDown(wxMOUSE_BTN_RIGHT) || event.RightUp()){
+       currentTool = zoomTool;
+    } else if( trackKind == Track::Time ){
+       currentTool = envelopeTool;
+@@ -8251,7 +8251,7 @@
+    mSliderOffset = 0;
+ 
+    int fontSize = 10;
+-   mFont.Create(fontSize, wxSWISS, wxNORMAL, wxNORMAL);
++   mFont.Create(fontSize, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+ 
+    int allowableWidth = GetTrackInfoWidth() - 2; // 2 to allow for left/right borders
+    int textWidth, textHeight;
+--- a/src/CaptureEvents.h
++++ b/src/CaptureEvents.h
+@@ -17,7 +17,7 @@
+ #ifndef _AUDACITY_CAPTURE_EVENTS_
+ #define _AUDACITY_CAPTURE_EVENTS_
+ 
+-#if defined(__WXGTK__) && defined(HAVE_GTK)
++#if defined(__WXGTK__) && defined(HAVE_GTK) && wxMAJOR_VERSION < 3
+ // As of wxGTK 2.8.9, there is a problem in the wxClipboard class that
+ // allows recursive event processing.  This problem has been corrected
+ // by wxWidgets 2.9+.  However, this han't made it into a release yet,
+--- a/src/LabelTrack.cpp
++++ b/src/LabelTrack.cpp
+@@ -957,7 +957,7 @@
+    
+    // copy data onto clipboard
+    if (wxTheClipboard->Open()) {
+-#if defined(__WXGTK__) && defined(HAVE_GTK)
++#if defined(__WXGTK__) && defined(HAVE_GTK) && wxMAJOR_VERSION < 3
+       CaptureEvents capture;
+ #endif
+       wxTheClipboard->SetData(new wxTextDataObject(data));
+@@ -992,7 +992,7 @@
+ 
+    // copy the data on clipboard
+    if (wxTheClipboard->Open()) {
+-#if defined(__WXGTK__) && defined(HAVE_GTK)
++#if defined(__WXGTK__) && defined(HAVE_GTK) && wxMAJOR_VERSION < 3
+       CaptureEvents capture;
+ #endif
+       wxTheClipboard->SetData(new wxTextDataObject(data));
+@@ -1017,7 +1017,7 @@
+    // if text data is available
+    if (IsTextClipSupported()) {
+       if (wxTheClipboard->Open()) {
+-#if defined(__WXGTK__) && HAVE_GTK
++#if defined(__WXGTK__) && HAVE_GTK && wxMAJOR_VERSION < 3
+          CaptureEvents capture;
+ #endif
+          wxTextDataObject data;
+@@ -1074,7 +1074,7 @@
+ /// @return true if the text data is available in the clipboard, false otherwise
+ bool LabelTrack::IsTextClipSupported()
+ {
+-#if defined(__WXGTK__) && defined(HAVE_GTK)
++#if defined(__WXGTK__) && defined(HAVE_GTK) && wxMAJOR_VERSION < 3
+    CaptureEvents capture;
+ #endif
+ 
+--- a/src/UploadDialog.cpp
++++ b/src/UploadDialog.cpp
+@@ -113,12 +113,12 @@
+     icons->Add(*mp3Icon);
+     icons->Add(*upIcon);
+     
+-    wxFlexGridSizer *topSizer = new wxFlexGridSizer(2, 1);  
++    wxFlexGridSizer *topSizer = new wxFlexGridSizer(2, 1, 0);  
+     wxStaticBoxSizer *connectionBox = new wxStaticBoxSizer(new wxStaticBox(this, -1, wxT("FTP Connection"), wxDefaultPosition, wxDefaultSize, 0, wxT("")), wxVERTICAL);   
+     wxStaticBoxSizer *fileBox = new wxStaticBoxSizer(new wxStaticBox(this, -1, wxT("File Manager"), wxDefaultPosition, wxDefaultSize, 0, wxT("")), wxVERTICAL);
+     wxStaticBoxSizer *siteBox = new wxStaticBoxSizer(new wxStaticBox(this, -1, wxT("Site Manager"), wxDefaultPosition, wxDefaultSize, 0, wxT("")), wxVERTICAL);
+ 
+-    wxFlexGridSizer *connectionSizer = new wxFlexGridSizer(2, 4);
++    wxFlexGridSizer *connectionSizer = new wxFlexGridSizer(2, 4, 0);
+     wxBoxSizer *leftSizer = new wxBoxSizer(wxVERTICAL);
+     wxBoxSizer *rightSizer = new wxBoxSizer(wxVERTICAL);
+     wxBoxSizer *fileButtonSizer = new wxBoxSizer(wxHORIZONTAL);
+--- a/src/commands/ScriptCommandRelay.cpp
++++ b/src/commands/ScriptCommandRelay.cpp
+@@ -57,7 +57,7 @@
+    wxASSERT(cmd != NULL);
+    AppCommandEvent ev;
+    ev.SetCommand(cmd);
+-   project->AddPendingEvent(ev);
++   project->GetEventHandler()->AddPendingEvent(ev);
+ }
+ 
+ /// This is the function which actually obeys one command.  Rather than applying
+--- a/src/effects/BassTreble.cpp
++++ b/src/effects/BassTreble.cpp
+@@ -35,6 +35,7 @@
+ #include <wx/checkbox.h>
+ #include <wx/slider.h>
+ #include <wx/sizer.h>
++#include <wx/textctrl.h>
+ 
+ // Used to communicate the type of the filter.
+ static const int bassType = 0; //Low Shelf
+--- a/src/effects/Compressor.cpp
++++ b/src/effects/Compressor.cpp
+@@ -38,6 +38,7 @@
+ #include <wx/textdlg.h>
+ #include <wx/brush.h>
+ #include <wx/image.h>
++#include <wx/dcclient.h>
+ #include <wx/dcmemory.h>
+ 
+ #include "Compressor.h"
+--- a/src/effects/nyquist/Nyquist.cpp
++++ b/src/effects/nyquist/Nyquist.cpp
+@@ -701,7 +701,7 @@
+          // See also http://bugzilla.audacityteam.org/show_bug.cgi?id=642#c9 
+          // for further info about this thread safety question.
+          wxString prevlocale = wxSetlocale(LC_NUMERIC, NULL);
+-         wxSetlocale(LC_NUMERIC, wxT("C"));
++         wxSetlocale(LC_NUMERIC, wxString(wxT("C")));
+ 
+          nyx_init();
+          nyx_set_os_callback(StaticOSCallback, (void *)this);
+--- a/src/import/ImportRaw.cpp
++++ b/src/import/ImportRaw.cpp
+@@ -324,7 +324,7 @@
+ 
+       if (sf_format_check(&info)) {
+          mEncodingSubtype[mNumEncodings] = subtype;
+-         encodings.Add(LAT1CTOWX(sf_encoding_index_name(i)));
++         encodings.Add(sf_encoding_index_name(i));
+ 
+          if ((mEncoding & SF_FORMAT_SUBMASK) == subtype)
+             selection = mNumEncodings;
+--- a/src/ondemand/ODManager.cpp
++++ b/src/ondemand/ODManager.cpp
+@@ -311,7 +311,7 @@
+          AudacityProject::AllProjectsDeleteLock();
+          AudacityProject* proj = GetActiveProject();
+          if(proj)
+-            proj->AddPendingEvent( event );
++            proj->GetEventHandler()->AddPendingEvent( event );
+          AudacityProject::AllProjectsDeleteUnlock();
+       }
+       mTerminateMutex.Lock();
+--- a/src/ondemand/ODTask.cpp
++++ b/src/ondemand/ODTask.cpp
+@@ -158,7 +158,7 @@
+          if(IsTaskAssociatedWithProject(gAudacityProjects[i]))
+          {
+             //this assumes tasks are only associated with one project.  
+-            gAudacityProjects[i]->AddPendingEvent( event );
++            gAudacityProjects[i]->GetEventHandler()->AddPendingEvent( event );
+             //mark the changes so that the project can be resaved.
+             gAudacityProjects[i]->GetUndoManager()->SetODChangesFlag();
+             break;
+--- a/src/prefs/KeyConfigPrefs.cpp
++++ b/src/prefs/KeyConfigPrefs.cpp
+@@ -992,7 +992,7 @@
+       nevent.SetDirection(!e.ShiftDown());
+       nevent.SetEventObject(t);
+       nevent.SetCurrentFocus(t);
+-      t->GetParent()->ProcessEvent(nevent);
++      t->GetParent()->GetEventHandler()->ProcessEvent(nevent);
+ 
+       return;
+    }
+--- a/src/toolbars/DeviceToolBar.cpp
++++ b/src/toolbars/DeviceToolBar.cpp
+@@ -71,9 +71,7 @@
+ {
+    ToolBar::Create(parent);
+ 
+-   // Simulate a size event to set initial meter placement/size
+-   wxSizeEvent dummy;
+-   OnSize(dummy);
++   Layout();
+ }
+ 
+ void DeviceToolBar::RecreateTipWindows()
+@@ -618,7 +616,7 @@
+                name = _("2 (Stereo) Input Channels");
+             }
+             else {
+-               name = wxString::Format(wxT("%d"), j + 1);
++               name = wxString::Format(wxT("%lld"), j + 1);
+             }
+             mInputChannels->Append(name);
+          }
+--- a/src/toolbars/ToolsToolBar.cpp
++++ b/src/toolbars/ToolsToolBar.cpp
+@@ -59,7 +59,7 @@
+ 
+ // Strings to convert a tool number into a status message
+ // These MUST be in the same order as the ids above.
+-static const wxChar * MessageOfTool[numTools] = {
++static const wxString MessageOfTool[numTools] = {
+    wxTRANSLATE("Click and drag to select audio"),
+    wxTRANSLATE("Click and drag to edit the amplitude envelope"),
+    wxTRANSLATE("Click and drag to edit the samples"),
+--- a/src/widgets/ASlider.cpp
++++ b/src/widgets/ASlider.cpp
+@@ -1191,7 +1191,7 @@
+                nevent.SetDirection( !event.ShiftDown() );
+                nevent.SetEventObject( mParent );
+                nevent.SetCurrentFocus( mParent );
+-               mParent->GetParent()->ProcessEvent( nevent );
++               mParent->GetParent()->GetEventHandler()->ProcessEvent( nevent );
+             }
+             break;
+ 
+@@ -1203,7 +1203,7 @@
+                if (def && def->IsEnabled()) {
+                   wxCommandEvent cevent(wxEVT_COMMAND_BUTTON_CLICKED,
+                         def->GetId());
+-                  mParent->ProcessEvent(cevent);
++                  mParent->GetEventHandler()->ProcessEvent(cevent);
+                }
+             }
+ 
+@@ -1228,7 +1228,7 @@
+    int intValue = (int)( ( mCurrentValue - mMinValue ) * 1000.0f /
+                          ( mMaxValue - mMinValue ) );
+    e.SetInt( intValue );
+-   mParent->ProcessEvent( e );
++   mParent->GetEventHandler()->ProcessEvent( e );
+ }
+ 
+ int LWSlider::ValueToPosition(float val)
+--- a/src/widgets/ExpandingToolBar.cpp
++++ b/src/widgets/ExpandingToolBar.cpp
+@@ -72,6 +72,7 @@
+ #include <wx/window.h>
+ #endif
+ 
++#include <wx/dcclient.h>
+ #include <wx/dcmemory.h>
+ #include <wx/log.h>
+ #include <wx/dragimag.h>
+--- a/src/widgets/Grabber.cpp
++++ b/src/widgets/Grabber.cpp
+@@ -89,7 +89,7 @@
+    e.SetEventObject(parent);
+ 
+    // Queue the event
+-   parent->AddPendingEvent(e);
++   parent->GetEventHandler()->AddPendingEvent(e);
+ }
+ 
+ //
+--- a/src/widgets/Grid.cpp
++++ b/src/widgets/Grid.cpp
+@@ -77,7 +77,8 @@
+ {
+    wxGridTableBase *table = grid->GetTable();
+ 
+-   table->GetValue(row, col).ToDouble(&mOld);
++   mOldString = table->GetValue(row, col);
++   mOldString.ToDouble(&mOld);
+ 
+    GetTimeCtrl()->SetTimeValue(mOld);
+    GetTimeCtrl()->EnableMenu();
+@@ -87,16 +88,32 @@
+ 
+ bool TimeEditor::EndEdit(int row, int col, wxGrid *grid)
+ {
++    wxString newvalue;
++    bool changed = EndEdit(row, col, grid, mOldString, &newvalue);
++    if (changed) {
++        ApplyEdit(row, col, grid);
++    }
++    return changed;
++}
++
++bool TimeEditor::EndEdit(int row, int col, const wxGrid *grid, const wxString &oldval, wxString *newval)
++{
+    double newtime = GetTimeCtrl()->GetTimeValue();
+    bool changed = newtime != mOld;
+ 
+    if (changed) {
+-      grid->GetTable()->SetValue(row, col, wxString::Format(wxT("%g"), newtime));
++      mValueAsString = wxString::Format(wxT("%g"), newtime);
++      *newval = mValueAsString;
+    }
+ 
+    return changed;
+ }
+ 
++void TimeEditor::ApplyEdit(int row, int col, wxGrid *grid)
++{
++   grid->GetTable()->SetValue(row, col, mValueAsString);
++}
++
+ void TimeEditor::Reset()
+ {
+    GetTimeCtrl()->SetTimeValue(mOld);
+@@ -303,8 +320,19 @@
+    Choice()->SetFocus();
+ }
+ 
++bool ChoiceEditor::EndEdit(int row, int col, wxGrid *grid)
++{
++    wxString newvalue;
++    bool changed = EndEdit(row, col, grid, mOld, &newvalue);
++    if (changed) {
++        ApplyEdit(row, col, grid);
++    }
++    return changed;
++}
++
+ bool ChoiceEditor::EndEdit(int row, int col,
+-                           wxGrid* grid)
++                           const wxGrid* grid,
++                           const wxString &oldval, wxString *newval)
+ {
+    int sel = Choice()->GetSelection();
+ 
+@@ -315,12 +343,20 @@
+    }
+ 
+    wxString val = mChoices[sel];
+-   if (val == mOld)
+-      return false;
++   bool changed = val != mOld;
++
++   if (changed)
++   {
++      mValueAsString = val;
++      *newval = val;
++   }
+ 
+-   grid->GetTable()->SetValue(row, col, val);
++   return changed;
++}
+ 
+-   return true;
++void ChoiceEditor::ApplyEdit(int row, int col, wxGrid *grid)
++{
++   grid->GetTable()->SetValue(row, col, mValueAsString);
+ }
+ 
+ void ChoiceEditor::Reset()
+@@ -499,7 +535,7 @@
+             if (def && def->IsEnabled()) {
+                wxCommandEvent cevent(wxEVT_COMMAND_BUTTON_CLICKED,
+                                      def->GetId());
+-               GetParent()->ProcessEvent(cevent);
++               GetParent()->GetEventHandler()->ProcessEvent(cevent);
+             }
+          }
+          else {
+--- a/src/widgets/Grid.h
++++ b/src/widgets/Grid.h
+@@ -52,8 +52,13 @@
+    void SetSize(const wxRect &rect);
+ 
+    void BeginEdit(int row, int col, wxGrid *grid);
++
+    bool EndEdit(int row, int col, wxGrid *grid);
+ 
++   bool EndEdit(int row, int col, const wxGrid *grid, const wxString &oldval, wxString *newval);
++
++   void ApplyEdit(int row, int col, wxGrid *grid);
++
+    void Reset();
+ 
+    wxString GetFormat();
+@@ -65,12 +70,14 @@
+    wxString GetValue() const;
+ 
+    TimeTextCtrl *GetTimeCtrl() const { return (TimeTextCtrl *)m_control; };
+-
++   
+  private:
+ 
+    wxString mFormat;
+    double mRate;
+    double mOld;
++   wxString mOldString;
++   wxString mValueAsString;
+ };
+ 
+ // ----------------------------------------------------------------------------
+@@ -124,8 +131,13 @@
+    void SetSize(const wxRect &rect);
+ 
+    void BeginEdit(int row, int col, wxGrid *grid);
++
+    bool EndEdit(int row, int col, wxGrid *grid);
+ 
++   bool EndEdit(int row, int col, const wxGrid *grid, const wxString &oldval, wxString *newval);
++
++   void ApplyEdit(int row, int col, wxGrid *grid);
++
+    void Reset();
+ 
+    wxGridCellEditor *Clone() const;
+@@ -159,6 +171,7 @@
+ 
+    wxArrayString mChoices;
+    wxString mOld;
++   wxString mValueAsString;
+ };
+ 
+ // ----------------------------------------------------------------------------
+--- a/src/widgets/ImageRoll.cpp
++++ b/src/widgets/ImageRoll.cpp
+@@ -299,7 +299,7 @@
+ }
+ 
+ void ImageRoll::DrawBitmap(wxDC &dc, wxBitmap &bitmap,
+-                           int x, int y, int logicalFunc)
++                           int x, int y, wxRasterOperationMode logicalFunc)
+ {
+    if (logicalFunc == wxCOPY)
+       dc.DrawBitmap(bitmap, x, y);
+@@ -311,7 +311,7 @@
+    }
+ }
+ 
+-void ImageRoll::Draw(wxDC &dc, wxRect rect, int WXUNUSED(logicalFunc))
++void ImageRoll::Draw(wxDC &dc, wxRect rect, wxRasterOperationMode WXUNUSED(logicalFunc))
+ {
+    int width = rect.width;
+    int height = rect.height;
+@@ -434,7 +434,7 @@
+                 mImageRoll.GetMaxSize());
+ }
+ 
+-void ImageRollPanel::SetLogicalFunction(int func)
++void ImageRollPanel::SetLogicalFunction(wxRasterOperationMode func)
+ {
+    mLogicalFunction = func;
+ }
+--- a/src/widgets/ImageRoll.h
++++ b/src/widgets/ImageRoll.h
+@@ -12,9 +12,18 @@
+ #ifndef __AUDACITY_IMAGE_ROLL__
+ #define __AUDACITY_IMAGE_ROLL__
+ 
++#include <wx/dc.h>
++#include <wx/dcclient.h>
+ #include <wx/defs.h>
+ #include <wx/dynarray.h>
+ #include <wx/panel.h>
++#include <wx/version.h>
++
++
++#if wxMAJOR_VERSION < 3
++#  define wxRasterOperationMode int
++#endif
++
+ 
+ WX_DECLARE_OBJARRAY(wxBitmap, BitmapArray);
+ WX_DECLARE_OBJARRAY(wxImage, ImageArray);
+@@ -40,7 +49,7 @@
+    wxSize GetMaxSize() const { return mMaxSize; }
+    
+    void Draw(wxDC &dc, wxRect rect,
+-             int logicalFunc = wxCOPY);
++             wxRasterOperationMode logicalFunc = wxCOPY);
+ 
+    static ImageArray SplitH(const wxImage &src, wxColour magicColor);
+    static ImageArray SplitV(const wxImage &src, wxColour magicColor);
+@@ -48,7 +57,7 @@
+  protected:
+ 
+    void DrawBitmap(wxDC &dc, wxBitmap &bitmap,
+-                   int x, int y, int logicalFunc = wxCOPY);
++                   int x, int y, wxRasterOperationMode logicalFunc = wxCOPY);
+ 
+    void Init(RollType type, const wxImage &src, wxColour magicColor);
+ 
+@@ -72,7 +81,7 @@
+                   const wxSize& size = wxDefaultSize,
+                   long style = wxTAB_TRAVERSAL);
+    
+-   void SetLogicalFunction(int func);
++   void SetLogicalFunction(wxRasterOperationMode func);
+ 
+    void OnPaint(wxPaintEvent &evt);
+    void OnSize(wxSizeEvent &evt);
+@@ -80,7 +89,7 @@
+  protected:
+    ImageRoll mImageRoll;
+ 
+-   int mLogicalFunction;
++   wxRasterOperationMode mLogicalFunction;
+    
+    DECLARE_EVENT_TABLE();
+ 
+--- a/src/widgets/TimeTextCtrl.cpp
++++ b/src/widgets/TimeTextCtrl.cpp
+@@ -168,6 +168,7 @@
+ 
+ #include <math.h>
+ 
++#include <wx/dcclient.h>
+ #include <wx/dcmemory.h>
+ #include <wx/font.h>
+ #include <wx/intl.h>
+@@ -1160,7 +1161,7 @@
+       nevent.SetDirection(!event.ShiftDown());
+       nevent.SetEventObject(parent);
+       nevent.SetCurrentFocus(parent);
+-      GetParent()->ProcessEvent(nevent);
++      GetParent()->GetEventHandler()->ProcessEvent(nevent);
+    } 
+ 
+    else if (keyCode == WXK_RETURN || keyCode == WXK_NUMPAD_ENTER) {
+@@ -1169,7 +1170,7 @@
+       if (def && def->IsEnabled()) {
+          wxCommandEvent cevent(wxEVT_COMMAND_BUTTON_CLICKED,
+                                def->GetId());
+-         GetParent()->ProcessEvent(cevent);
++         GetParent()->GetEventHandler()->ProcessEvent(cevent);
+       }
+    }
+ 
+--- a/src/xml/XMLWriter.cpp
++++ b/src/xml/XMLWriter.cpp
+@@ -246,7 +246,7 @@
+       mHasKids[0] = true;
+    }
+ 
+-   Write(value.c_str());
++   Write(value);
+ }
+ 
+ void XMLWriter::WriteSubTree(const wxChar *value)
+--- a/src/widgets/FileHistory.cpp
++++ b/src/widgets/FileHistory.cpp
+@@ -142,7 +142,7 @@
+    // Stored in reverse order
+    int n = mHistory.GetCount() - 1;
+    for (size_t i = 1; i <= mHistory.GetCount(); i++) {
+-      config.Write(wxString::Format(wxT("file%02d"), i), mHistory[n--]);
++      config.Write(wxString::Format(wxT("file%02lld"), i), mHistory[n--]);
+    }
+ 
+    config.SetPath(wxT(".."));
+--- a/src/effects/ladspa/LoadLadspa.cpp
++++ b/src/effects/ladspa/LoadLadspa.cpp
+@@ -147,7 +147,7 @@
+       data = mainFn(index);
+       while(data) {
+ 
+-         wxString uniqid = wxString::Format(wxT("%08x-%s"), data->UniqueID, LAT1CTOWX(data->Label).c_str());
++         wxString uniqid = wxString::Format(wxT("%08x-%s"), (unsigned int) data->UniqueID, LAT1CTOWX(data->Label).c_str());
+          if (uniq.Index(uniqid) == wxNOT_FOUND) {
+             uniq.Add(uniqid);
+             std::set<wxString> categories;
+--- a/src/import/Import.cpp
++++ b/src/import/Import.cpp
+@@ -288,7 +288,7 @@
+    more to delete.*/
+    i = this->mExtImportItems->Count();
+    do {
+-     name.Printf (wxT("/ExtImportItems/Item%d"), i);
++     name.Printf (wxT("/ExtImportItems/Item%lld"), i);
+      // No item to delete?  Then it's time to finish.
+      if (!gPrefs->Read(name, &val))
+         break;
+--- a/src/effects/ladspa/LadspaEffect.cpp
++++ b/src/effects/ladspa/LadspaEffect.cpp
+@@ -518,16 +518,14 @@
+    this->mData = data;
+    this->inputControls = inputControls;
+    this->sampleRate = sampleRate;
+-   #ifdef __WXMSW__
+-      // On Windows, for some reason, wxWidgets calls OnTextCtrl during creation
+-      // of the text control, and LadspaEffectDialog::OnTextCtrl calls HandleText,
+-      // which assumes all the fields have been initialized.
+-      // This can give us a bad pointer crash, so manipulate inSlider to
+-      // no-op HandleText during creation.
+-      inSlider = true;
+-   #else
+-      inSlider = false;
+-   #endif
++
++   // wxWidgets calls OnTextCtrl during creation
++   // of the text control, and LadspaEffectDialog::OnTextCtrl calls HandleText,
++   // which assumes all the fields have been initialized.
++   // This can give us a bad pointer crash, so manipulate inSlider to
++   // no-op HandleText during creation.
++   inSlider = true;
++   
+    inText = false;
+ 
+    toggles = new wxCheckBox*[mData->PortCount];
+--- a/src/prefs/PrefsDialog.cpp
++++ b/src/prefs/PrefsDialog.cpp
+@@ -185,8 +185,6 @@
+    Fit();
+    wxSize sz = GetSize();
+ 
+-   wxASSERT_MSG(sz.x <= 800 && sz.y <= 600, wxT("Preferences dialog exceeds max size"));
+-
+    if (sz.x > 800) {
+       sz.x = 800;
+    }
+--- a/src/prefs/QualityPrefs.cpp
++++ b/src/prefs/QualityPrefs.cpp
+@@ -162,13 +162,13 @@
+    {
+       S.StartMultiColumn(2, wxEXPAND);
+       {
+-         S.SetStretchyCol(2);
++         S.SetStretchyCol(1); // 2nd column (= index 1) is stretchy
+ 
+          S.TieChoice(_("Sample Rate Con&verter:"),
+                      Resample::GetFastMethodKey(),
+                      Resample::GetFastMethodDefault(),
+                      mConverterNames,
+-                     mConverterLabels),
++                     mConverterLabels);
+          S.SetSizeHints(mConverterNames);
+ 
+          S.TieChoice(_("&Dither:"),
+--- a/src/Project.h
++++ b/src/Project.h
+@@ -253,6 +253,7 @@
+    void OnMouseEvent(wxMouseEvent & event);
+    void OnIconize(wxIconizeEvent &event);
+    void OnSize(wxSizeEvent & event);
++   void OnShow(wxShowEvent & event);
+    void OnMove(wxMoveEvent & event);
+    void OnScroll(wxScrollEvent & event);
+    void OnCloseWindow(wxCloseEvent & event);
+@@ -487,6 +488,8 @@
+    // dialog for missing alias warnings
+    wxDialog            *mAliasMissingWarningDialog;
+ 
++   bool mShownOnce;
++
+  public:
+    ToolManager *mToolManager;
+    bool mShowSplashScreen;
