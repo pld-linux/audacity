@@ -43,7 +43,7 @@ BuildRequires:	automake
 BuildRequires:	expat-devel >= 1.95
 %{?with_ffmpeg:BuildRequires:	ffmpeg-devel >= 0.8.0}
 BuildRequires:	flac-c++-devel >= 1.2.0
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	gtk+2-devel >= 2.0
 BuildRequires:	jack-audio-connection-kit-devel
 BuildRequires:	hpklinux-devel >= 4.06
