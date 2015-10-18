@@ -1,0 +1,11 @@
+--- audacity-minsrc-2.1.1/src/prefs/TracksPrefs.cpp.orig	2015-07-10 19:35:40.000000000 +0200
++++ audacity-minsrc-2.1.1/src/prefs/TracksPrefs.cpp	2015-10-17 20:48:00.933667048 +0200
+@@ -36,7 +36,7 @@
+    // Bugs 1043, 1044
+    // First rewrite legacy preferences
+    gPrefs->Write(wxT("/GUI/DefaultViewModeNew"),
+-      WaveTrack::FindDefaultViewMode());
++      static_cast<int>(WaveTrack::FindDefaultViewMode()));
+ 
+    Populate();
+ }
