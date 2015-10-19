@@ -68,14 +68,15 @@ BuildRequires:	which
 %{?with_gtk3:BuildRequires:	wxGTK3-unicode-devel >= 2.8.0}
 Requires(post,postun):	shared-mime-info
 Requires:	flac-c++ >= 1.3.0
+# dlopened
 Requires:	lame-libs
 Requires:	libid3tag >= 0.15.0b-2
 Requires:	libmad >= 0.14.2b-4
 Requires:	libsndfile >= 1.0.0
-Requires:	lilv
+Requires:	lilv >= 0.16
 Requires:	soundtouch >= 1.3.0
 %{?with_soxr:Requires:	soxr >= 0.0.5}
-Requires:	suil
+Requires:	suil >= 0.8.2
 Requires:	twolame-libs >= 0.3.9
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
