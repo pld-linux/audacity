@@ -72,8 +72,10 @@ Requires:	lame-libs
 Requires:	libid3tag >= 0.15.0b-2
 Requires:	libmad >= 0.14.2b-4
 Requires:	libsndfile >= 1.0.0
+Requires:	lilv
 Requires:	soundtouch >= 1.3.0
 %{?with_soxr:Requires:	soxr >= 0.0.5}
+Requires:	suil
 Requires:	twolame-libs >= 0.3.9
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -183,6 +185,7 @@ cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 # unsupported
 %{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/sr_RS*
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/ca_ES@valencia
 
 %{__mv} $RPM_BUILD_ROOT%{_datadir}/locale/{zh,zh_CN}
 
