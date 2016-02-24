@@ -14,20 +14,19 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
-Version:	2.1.1
-Release:	2
+Version:	2.1.2
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Sound
-#Source0Download: http://www.oldfoss.com/Audacity.html
-Source0:	http://app.oldfoss.com:81/download/Audacity/%{name}-minsrc-%{version}.tar.xz
-# Source0-md5:	9e37b1f5cde38d089a35febb904a9e39
-Source1:	http://app.oldfoss.com:81/download/Audacity/%{name}-manual-%{version}.zip
-# Source1-md5:	a4116a20798b827cd1e06e50c8099aa6
+#Source0Download: http://www.fosshub.com/Audacity.html
+Source0:	%{name}-minsrc-%{version}.tar.xz
+# Source0-md5:	2336353377132971fd8e22fc95fd6b83
+Source1:	%{name}-manual-%{version}.zip
+# Source1-md5:	af51ad9418c780b8237f5a2efe91ba67
 Source2:	%{name}.desktop
 Source3:	%{name}-icon.png
-Patch0:		%{name}-cast.patch
-Patch1:		%{name}-opt.patch
-Patch2:		%{name}-no-macos.patch
+Patch0:		%{name}-opt.patch
+Patch1:		%{name}-no-macos.patch
 URL:		http://audacityteam.org/
 BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf >= 2.59
@@ -119,7 +118,6 @@ Pliki nagłówkowe interfejsów Audacity.
 %setup -q -n %{name}-minsrc-%{version}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 # OPTIONAL_SUBDIRS are not included in tarball; allow autotools to work
 %{__sed} -i '/SUBDIRS += \$(OPTIONAL_SUBDIRS)/d' lib-src/Makefile.am
@@ -186,14 +184,18 @@ cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 # unify locale names
 %{__mv} $RPM_BUILD_ROOT%{_datadir}/locale/{ca_ES@valencia,ca@valencia}
+%{__mv} $RPM_BUILD_ROOT%{_datadir}/locale/{pt_PT,pt}
 %{__mv} $RPM_BUILD_ROOT%{_datadir}/locale/{sr_RS,sr}
 %{__mv} $RPM_BUILD_ROOT%{_datadir}/locale/{sr_RS@latin,sr@latin}
-%{__mv} $RPM_BUILD_ROOT%{_datadir}/locale/{zh,zh_CN}
 
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity.xpm
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity16.xpm
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity32.xpm
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/pixmaps/gnome-mime-application-x-audacity-project.xpm
+
+%{__rm} $RPM_BUILD_ROOT%{_defaultdocdir}/%{name}/README.txt
+%{__rm} $RPM_BUILD_ROOT%{_defaultdocdir}/%{name}/LICENSE.txt
+%{__rmdir} $RPM_BUILD_ROOT%{_defaultdocdir}/%{name}
 
 %find_lang %{name}
 
@@ -208,7 +210,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc README.txt
+%doc README.txt LICENSE.txt
 %attr(755,root,root) %{_bindir}/audacity
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/nyquist
