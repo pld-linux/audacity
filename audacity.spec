@@ -7,26 +7,25 @@
 # - use system libnyquist (if ever; currently it's a part of audacity project)
 #
 # Conditional build:
-%bcond_with	ffmpeg		# build with ffmpeg support (currently audacity does not support ffmpeg 1.0)
-%bcond_with	gtk3		# GTK+ 3.x instead of 2.x
+%bcond_without	ffmpeg		# build without ffmpeg support
+%bcond_with	gtk3		# GTK+ 3.x instead of 2.x (not fully supported)
 #
 Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
-Version:	2.1.3
+Version:	2.4.2
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Sound
 #Source0Download: http://www.fosshub.com/Audacity.html
 Source0:	%{name}-minsrc-%{version}.tar.xz
-# Source0-md5:	c8c8225739bc7eecec9fae68a0ced471
+# Source0-md5:	4a34c1c66f69f1fedc400c71d5155ea8
 Source1:	%{name}-manual-%{version}.zip
-# Source1-md5:	ec45390889e7f1cda26c764bbd6b4979
-Source2:	%{name}.desktop
-Source3:	%{name}-icon.png
+# Source1-md5:	084830de81c157d229089338a594baab
 Patch0:		%{name}-opt.patch
 Patch1:		%{name}-no-macos.patch
+Patch2:		%{name}-desktop.patch
 URL:		http://audacityteam.org/
 BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf >= 2.59
@@ -38,8 +37,8 @@ BuildRequires:	flac-c++-devel >= 1.3.0
 BuildRequires:	gettext-tools >= 0.18
 %{!?with_gtk3:BuildRequires:	gtk+2-devel >= 2.0}
 %{?with_gtk3:BuildRequires:	gtk+3-devel >= 3.0}
-BuildRequires:	jack-audio-connection-kit-devel
 BuildRequires:	hpklinux-devel >= 4.06
+BuildRequires:	jack-audio-connection-kit-devel
 BuildRequires:	lame-libs-devel
 BuildRequires:	libid3tag-devel >= 0.15.0b-2
 BuildRequires:	libjpeg-devel
@@ -52,8 +51,9 @@ BuildRequires:	libtool >= 2:2
 BuildRequires:	libvorbis-devel >= 1:1.0
 BuildRequires:	lilv-devel >= 0.16
 BuildRequires:	lv2-devel
-#BuildRequires:	portaudio-devel >= 19
+BuildRequires:	nasm
 BuildRequires:	pkgconfig
+#BuildRequires:	portaudio-devel >= 19
 BuildRequires:	soundtouch-devel >= 1.3.0
 BuildRequires:	soxr-devel >= 0.0.5
 BuildRequires:	speex-devel
@@ -63,8 +63,8 @@ BuildRequires:	udev-devel
 BuildRequires:	unzip
 BuildRequires:	vamp-devel >= 2.0
 BuildRequires:	which
-%{!?with_gtk3:BuildRequires:	wxGTK2-unicode-devel >= 2.8.0}
-%{?with_gtk3:BuildRequires:	wxGTK3-unicode-devel >= 2.8.0}
+%{!?with_gtk3:BuildRequires:	wxGTK2-unicode-devel >= 3.0.0}
+%{?with_gtk3:BuildRequires:	wxGTK3-unicode-devel >= 3.0.0}
 Requires(post,postun):	shared-mime-info
 Requires:	flac-c++ >= 1.3.0
 # dlopened
@@ -74,7 +74,7 @@ Requires:	libmad >= 0.14.2b-4
 Requires:	libsndfile >= 1.0.0
 Requires:	lilv >= 0.16
 Requires:	soundtouch >= 1.3.0
-%{?with_soxr:Requires:	soxr >= 0.0.5}
+Requires:	soxr >= 0.0.5
 Requires:	suil >= 0.8.2
 Requires:	twolame-libs >= 0.3.9
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -100,102 +100,83 @@ Audacity - это звуковой редактор, позволяющий ра
 микширование треков и применение эффектов, оформленных в виде
 плагинов, к любой части звукового файла.
 
-%package devel
-Summary:	Header files for Audacity interfaces
-Summary(pl.UTF-8):	Pliki nagłówkowe interfejsów Audacity
-Group:		Development/Libraries
-Requires:	libstdc++-devel
-Requires:	wxWidgets-devel >= 2.8.0
-# doesn't require base
-
-%description devel
-Header files for Audacity interfaces.
-
-%description devel -l pl.UTF-8
-Pliki nagłówkowe interfejsów Audacity.
-
 %prep
 %setup -q -n %{name}-minsrc-%{version}
 %patch0 -p1
 %patch1 -p1
-
-# OPTIONAL_SUBDIRS are not included in tarball; allow autotools to work
-%{__sed} -i '/SUBDIRS += \$(OPTIONAL_SUBDIRS)/d' lib-src/Makefile.am
+%patch2 -p1
 
 %{__sed} -i 's/libmp3lame.so/libmp3lame.so.0/g' locale/*.po
 
-%build
-cd lib-src/portmixer
-%{__libtoolize}
-%{__aclocal} -I m4
-%{__autoconf}
-%{__automake}
-cd ../lib-widget-extra
-%{__libtoolize}
-%{__aclocal} -I m4
-%{__autoconf}
-%{__automake}
-cd ../FileDialog
-%{__libtoolize}
-%{__aclocal} -I m4
-%{__autoconf}
-%{__automake}
-cd ../portsmf
-%{__aclocal} -I autotools/m4
-%{__autoconf}
-%{__automake}
-cd ../..
-%{__libtoolize}
-%{__aclocal} -I m4
-%{__autoconf}
-%{__automake}
+# Audacity's cmake can't find libmp3lame without a .pc file
+# This is a temporary workaround.
+if ! test -e %{_pkgconfigdir}/lame.pc
+then
+echo "creating lame.pc"
+cat << EOF > lame.pc
+prefix=%{_prefix}
+libdir=%{_libdir}
+includedir=%{_includedir}/lame
 
-export WX_CONFIG=$(which wx-gtk%{?with_gtk3:3}%{!?with_gtk3:2}-unicode-config)
-%configure \
-	%{?with_gtk3:--enable-gtk3} \
-	--with-ffmpeg%{!?with_ffmpeg:=no} \
-	--with-help \
-	--with-id3tag=system \
-	--with-libmad=system \
-	--with-libsndfile=system \
-	--with-libflac=system \
-	--with-sbsms=local \
-	--with-soxr=system \
-	--with-vorbis=system
+Name: mp3lame
+Description: encoder that converts audio to the MP3 file format.
+Version: 3.100
+Libs: -L${libdir} -lmp3lame
+Cflags: -I${includedir}
+EOF
+fi
+
+%build
+if ! test -e %{_pkgconfigdir}/lame.pc
+then
+export PKG_CONFIG_PATH="`echo $PWD`:%{_pkgconfigdir}"
+fi
+
+mkdir -p build
+cd build
+%cmake .. \
+	-DwxWidgets_CONFIG_EXECUTABLE:FILEPATH=$(which wx-gtk%{?with_gtk3:3}%{!?with_gtk3:2}-unicode-config) \
+	%{!?with_ffmpeg:-Daudacity_use_ffmpeg:STRING=off} \
+	-DCMAKE_BUILD_TYPE=Release
 
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 
+cd build
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	INSTALL_PATH=$RPM_BUILD_ROOT
+cd ..
 
-# install headers in standard location
-install -d $RPM_BUILD_ROOT%{_includedir}
-%{__mv} $RPM_BUILD_ROOT%{_datadir}/audacity/include/audacity $RPM_BUILD_ROOT%{_includedir}
-rmdir $RPM_BUILD_ROOT%{_datadir}/audacity/include
-
-cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
-cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 %{__unzip} -qq -a %{SOURCE1} -d $RPM_BUILD_ROOT%{_datadir}/%{name}/help
 
 # unify locale names
-%{__mv} $RPM_BUILD_ROOT%{_datadir}/locale/{ca_ES@valencia,ca@valencia}
-%{__mv} $RPM_BUILD_ROOT%{_datadir}/locale/{pt_PT,pt}
-%{__mv} $RPM_BUILD_ROOT%{_datadir}/locale/{sr_RS,sr}
-%{__mv} $RPM_BUILD_ROOT%{_datadir}/locale/{sr_RS@latin,sr@latin}
+%{__mv} $RPM_BUILD_ROOT%{_localedir}/{ca_ES@valencia,ca@valencia}
+%{__mv} $RPM_BUILD_ROOT%{_localedir}/{pt_PT,pt}
+%{__mv} $RPM_BUILD_ROOT%{_localedir}/{sr_RS,sr}
+%{__mv} $RPM_BUILD_ROOT%{_localedir}/{sr_RS@latin,sr@latin}
 
-%{__rm} $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity.xpm
-%{__rm} $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity16.xpm
-%{__rm} $RPM_BUILD_ROOT%{_datadir}/pixmaps/audacity32.xpm
-%{__rm} $RPM_BUILD_ROOT%{_datadir}/pixmaps/gnome-mime-application-x-audacity-project.xpm
+# remove unsupported locale
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/eu_ES
 
-%{__rm} $RPM_BUILD_ROOT%{_defaultdocdir}/%{name}/README.txt
-%{__rm} $RPM_BUILD_ROOT%{_defaultdocdir}/%{name}/LICENSE.txt
-%{__rmdir} $RPM_BUILD_ROOT%{_defaultdocdir}/%{name}
+%{__rm} $RPM_BUILD_ROOT%{_pixmapsdir}/audacity.xpm
+%{__rm} $RPM_BUILD_ROOT%{_pixmapsdir}/audacity16.xpm
+%{__rm} $RPM_BUILD_ROOT%{_pixmapsdir}/audacity32.xpm
+%{__rm} $RPM_BUILD_ROOT%{_pixmapsdir}/gnome-mime-application-x-audacity-project.xpm
+
+%{__rm} $RPM_BUILD_ROOT%{_docdir}/%{name}/README.txt
+%{__rm} $RPM_BUILD_ROOT%{_docdir}/%{name}/LICENSE.txt
+%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}
+
+install -d $RPM_BUILD_ROOT%{_iconsdir}/hicolor/{16x16,22x22,24x24,32x32,48x48}/apps
+%{__mv} $RPM_BUILD_ROOT%{_iconsdir}/hicolor/{16x16,16x16/apps}/%{name}.png
+%{__mv} $RPM_BUILD_ROOT%{_iconsdir}/hicolor/{22x22,22x22/apps}/%{name}.png
+%{__mv} $RPM_BUILD_ROOT%{_iconsdir}/hicolor/{24x24,24x24/apps}/%{name}.png
+%{__mv} $RPM_BUILD_ROOT%{_iconsdir}/hicolor/{32x32,32x32/apps}/%{name}.png
+%{__mv} $RPM_BUILD_ROOT%{_iconsdir}/hicolor/{48x48,48x48/apps}/%{name}.png
+
 
 %find_lang %{name}
 
@@ -213,18 +194,14 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.txt LICENSE.txt
 %attr(755,root,root) %{_bindir}/audacity
 %dir %{_datadir}/%{name}
+%dir %{_datadir}/%{name}/modules
+%attr(755,root,root) %{_datadir}/%{name}/modules/mod-script-pipe.so
 %{_datadir}/%{name}/nyquist
 %{_datadir}/%{name}/plug-ins
 %{_datadir}/%{name}/EQDefaultCurves.xml
 %doc %{_datadir}/%{name}/help
 %{_mandir}/man1/audacity.1*
 %{_desktopdir}/audacity.desktop
-%{_pixmapsdir}/audacity-icon.png
 %{_datadir}/appdata/audacity.appdata.xml
 %{_datadir}/mime/packages/audacity.xml
-%{_iconsdir}/hicolor/*/apps/audacity.png
-%{_iconsdir}/hicolor/*/apps/audacity.svg
-
-%files devel
-%defattr(644,root,root,755)
-%{_includedir}/audacity
+%{_iconsdir}/hicolor/*/apps/*.*

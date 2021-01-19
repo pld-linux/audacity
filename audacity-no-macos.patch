@@ -1,8 +1,8 @@
---- audacity-src-1.3.12-beta/lib-src/portaudio-v19/include/pa_mac_core.h~	2010-03-30 13:28:56.000000000 +0200
-+++ audacity-src-1.3.12-beta/lib-src/portaudio-v19/include/pa_mac_core.h	2010-05-16 12:51:23.740249675 +0200
-@@ -43,8 +43,8 @@
-  *  @brief CoreAudio-specific PortAudio API extension header file.
-  */
+--- audacity-minsrc-2.4.2/lib-src/portaudio-v19/include/pa_mac_core.h.old	2018-08-28 10:48:03.000000000 +0000
++++ audacity-minsrc-2.4.2/lib-src/portaudio-v19/include/pa_mac_core.h	2021-01-18 00:32:30.022599655 +0000
+@@ -45,8 +45,8 @@
+ 
+ #include "portaudio.h"
  
 -#include <AudioUnit/AudioUnit.h>
 -#include <AudioToolbox/AudioToolbox.h>
