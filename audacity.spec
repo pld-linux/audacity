@@ -26,6 +26,7 @@ Source1:	%{name}-manual-%{version}.zip
 Patch0:		%{name}-opt.patch
 Patch1:		%{name}-no-macos.patch
 Patch2:		%{name}-desktop.patch
+Patch3:		no-sse.patch
 URL:		http://audacityteam.org/
 BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf >= 2.59
@@ -105,6 +106,9 @@ Audacity - это звуковой редактор, позволяющий ра
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%ifarch %{ix86}
+%patch3 -p1
+%endif
 
 %{__sed} -i 's/libmp3lame.so/libmp3lame.so.0/g' locale/*.po
 

@@ -1,0 +1,19 @@
+--- audacity-minsrc-2.4.2/CMakeLists.txt~	2020-05-30 13:55:53.000000000 +0200
++++ audacity-minsrc-2.4.2/CMakeLists.txt	2021-01-23 10:56:11.555735531 +0100
+@@ -232,16 +232,6 @@
+    if( HAVE_MMX )
+       set( MMX_FLAG "-mmmx" CACHE INTERNAL "" )
+    endif()
+-
+-   check_cxx_compiler_flag( "-msse" HAVE_SSE )
+-   if( HAVE_SSE )
+-      set( SSE_FLAG "-msse" CACHE INTERNAL "" )
+-   endif()
+-
+-   check_cxx_compiler_flag( "-msse2" HAVE_SSE2 )
+-   if( HAVE_SSE2 )
+-      set( SSE_FLAG "-msse2" CACHE INTERNAL "" )
+-   endif()
+ elseif( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
+    set( HAVE_MMX ON )
+    set( HAVE_SSE ON )
