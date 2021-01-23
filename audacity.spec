@@ -9,7 +9,20 @@
 # Conditional build:
 %bcond_without	ffmpeg		# build without ffmpeg support
 %bcond_with	gtk3		# GTK+ 3.x instead of 2.x (not fully supported)
+%bcond_without	mmx		# MMX instructions
+%bcond_without	sse		# SSE instructions
+%bcond_without	sse2		# SSE2 instructions
 #
+%ifnarch %{x8664} pentium2 pentium3 pentium4 athlon
+%undefine	with_mmx
+%endif
+%ifnarch %{x8664} pentium3 pentium4
+%undefine	with_sse
+%endif
+%ifnarch %{x8664} pentium4
+%undefine	with_sse2
+%endif
+
 Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
@@ -26,7 +39,6 @@ Source1:	%{name}-manual-%{version}.zip
 Patch0:		%{name}-opt.patch
 Patch1:		%{name}-no-macos.patch
 Patch2:		%{name}-desktop.patch
-Patch3:		no-sse.patch
 URL:		http://audacityteam.org/
 BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf >= 2.59
@@ -55,6 +67,7 @@ BuildRequires:	lv2-devel
 BuildRequires:	nasm
 BuildRequires:	pkgconfig
 #BuildRequires:	portaudio-devel >= 19
+BuildRequires:	rpmbuild(macros) >= 1.742
 BuildRequires:	soundtouch-devel >= 1.3.0
 BuildRequires:	soxr-devel >= 0.0.5
 BuildRequires:	speex-devel
@@ -106,9 +119,6 @@ Audacity - это звуковой редактор, позволяющий ра
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%ifarch %{ix86}
-%patch3 -p1
-%endif
 
 %{__sed} -i 's/libmp3lame.so/libmp3lame.so.0/g' locale/*.po
 
@@ -139,6 +149,9 @@ fi
 mkdir -p build
 cd build
 %cmake .. \
+	%{cmake_on_off mmx HAVE_MMX} \
+	%{cmake_on_off sse HAVE_SSE} \
+	%{cmake_on_off sse2 HAVE_SSE2} \
 	-DwxWidgets_CONFIG_EXECUTABLE:FILEPATH=$(which wx-gtk%{?with_gtk3:3}%{!?with_gtk3:2}-unicode-config) \
 	%{!?with_ffmpeg:-Daudacity_use_ffmpeg:STRING=off} \
 	-DCMAKE_BUILD_TYPE=Release
