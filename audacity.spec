@@ -13,13 +13,13 @@
 %bcond_without	sse		# SSE instructions
 %bcond_without	sse2		# SSE2 instructions
 #
-%ifnarch %{x8664} pentium2 pentium3 pentium4 athlon
+%ifnarch %{x8664} x32 pentium2 pentium3 pentium4 athlon
 %undefine	with_mmx
 %endif
-%ifnarch %{x8664} pentium3 pentium4
+%ifnarch %{x8664} x32 pentium3 pentium4
 %undefine	with_sse
 %endif
-%ifnarch %{x8664} pentium4
+%ifnarch %{x8664} x32 pentium4
 %undefine	with_sse2
 %endif
 
