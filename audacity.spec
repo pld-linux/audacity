@@ -72,6 +72,7 @@ BuildRequires:	soundtouch-devel >= 1.3.0
 BuildRequires:	soxr-devel >= 0.0.5
 BuildRequires:	speex-devel
 BuildRequires:	suil-devel >= 0.8.2
+BuildRequires:	tar >= 1:1.22
 BuildRequires:	twolame-devel >= 0.3.9
 BuildRequires:	udev-devel
 BuildRequires:	unzip
@@ -79,6 +80,7 @@ BuildRequires:	vamp-devel >= 2.0
 BuildRequires:	which
 %{!?with_gtk3:BuildRequires:	wxGTK2-unicode-devel >= 3.0.0}
 %{?with_gtk3:BuildRequires:	wxGTK3-unicode-devel >= 3.0.0}
+BuildRequires:	xz
 Requires(post,postun):	shared-mime-info
 Requires:	flac-c++ >= 1.3.0
 # dlopened
