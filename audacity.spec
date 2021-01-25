@@ -2,8 +2,6 @@
 # - internal portaudio crashes when only OSS is available on startup
 # - use system portaudio (>= 19, but relies on local changes)
 # - use system portSMF?
-# - use system ffmpeg (libavcodec >= 51.53, libavformat >= 52.12, libavutil)
-# - use system sbsms (>= 1.6.0, but relies on local changes)
 # - use system libnyquist (if ever; currently it's a part of audacity project)
 #
 # Conditional build:
@@ -28,7 +26,7 @@ Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
 Version:	2.4.2
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Sound
 #Source0Download: http://www.fosshub.com/Audacity.html
@@ -39,6 +37,7 @@ Source1:	%{name}-manual-%{version}.zip
 Patch0:		%{name}-opt.patch
 Patch1:		%{name}-no-macos.patch
 Patch2:		%{name}-desktop.patch
+Patch3:		use-system-libsbsms.patch
 URL:		http://audacityteam.org/
 BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf >= 2.59
@@ -56,8 +55,7 @@ BuildRequires:	lame-libs-devel
 BuildRequires:	libid3tag-devel >= 0.15.0b-2
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmad-devel >= 0.14.2b-4
-#BuildRequires:	libsbsms-devel >= 1.6.0
-#BuildRequires:	libsbsms2-devel >= 2.0.2
+BuildRequires:	libsbsms2-devel >= 2.1.0
 BuildRequires:	libsndfile-devel >= 1.0.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool >= 2:2
@@ -87,6 +85,7 @@ Requires:	flac-c++ >= 1.3.0
 Requires:	lame-libs
 Requires:	libid3tag >= 0.15.0b-2
 Requires:	libmad >= 0.14.2b-4
+Requires:	libsbsms2 >= 2.1.0
 Requires:	libsndfile >= 1.0.0
 Requires:	lilv >= 0.16
 Requires:	soundtouch >= 1.3.0
@@ -121,8 +120,12 @@ Audacity - это звуковой редактор, позволяющий ра
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %{__sed} -i 's/libmp3lame.so/libmp3lame.so.0/g' locale/*.po
+
+# Make sure we use the system versions.
+%{__rm} -rf lib-src/{expat,ffmpeg,libflac,libid3tag,lame,lv2,libmad,libogg,libsndfile,soundtouch,libsoxr,twolame,libvamp,libvorbis,sbsms}/
 
 # Audacity's cmake can't find libmp3lame without a .pc file
 # This is a temporary workaround.

@@ -1,0 +1,21 @@
+--- audacity-minsrc-2.4.2/cmake-proxies/CMakeLists.txt~	2020-05-30 11:55:53.000000000 +0000
++++ audacity-minsrc-2.4.2/cmake-proxies/CMakeLists.txt	2021-01-25 15:40:30.370255530 +0000
+@@ -149,7 +149,7 @@
+ addlib( portmidi           midi        MIDI        NO    YES   "portmidi >= 0.1" )
+ addlib( portmixer          portmixer   PORTMIXER   NO    YES   "" )
+ addlib( portsmf            portsmf     PORTSMF     NO    YES   "portSMF >= 0.1" )
+-addlib( sbsms              sbsms       SBSMS       NO    YES   "" )
++addlib( sbsms              sbsms       SBSMS       NO    YES   "sbsms" )
+ addlib( soundtouch         soundtouch  SOUNDTOUCH  NO    YES   "soundtouch >= 1.7.1" )
+ addlib( twolame            twolame     LIBTWOLAME  NO    YES   "twolame >= 0.3.13" )
+ 
+--- audacity-minsrc-2.4.2/lib-src/header-substitutes/sbsms.h~	2018-08-28 10:48:03.000000000 +0000
++++ audacity-minsrc-2.4.2/lib-src/header-substitutes/sbsms.h	2021-01-25 16:18:05.627283474 +0000
+@@ -11,6 +11,6 @@
+ 
+ #else //_MSC_VER
+ 
+-#include "../sbsms/include/sbsms.h"
++#include "/usr/include/sbsms.h"
+ 
+ #endif //_MSC_VER
