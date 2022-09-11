@@ -158,8 +158,7 @@ cd build
 	%{cmake_on_off sse HAVE_SSE} \
 	%{cmake_on_off sse2 HAVE_SSE2} \
 	-DwxWidgets_CONFIG_EXECUTABLE:FILEPATH=$(which wx-gtk%{?with_gtk3:3}%{!?with_gtk3:2}-unicode-config) \
-	%{!?with_ffmpeg:-Daudacity_use_ffmpeg:STRING=off} \
-	-DCMAKE_BUILD_TYPE=Release
+	%{!?with_ffmpeg:-Daudacity_use_ffmpeg:STRING=off}
 
 %{__make}
 
