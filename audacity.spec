@@ -6,7 +6,7 @@
 #
 # Conditional build:
 %bcond_without	ffmpeg		# build without ffmpeg support
-%bcond_with	gtk3		# GTK+ 3.x instead of 2.x (not fully supported)
+%bcond_without	gtk3		# GTK+ 3.x instead of 2.x (not fully supported)
 %bcond_without	mmx		# MMX instructions
 %bcond_without	sse		# SSE instructions
 %bcond_without	sse2		# SSE2 instructions
@@ -26,7 +26,7 @@ Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
 Version:	3.3.3
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Sound
 Source0:	https://github.com/audacity/audacity/releases/download/Audacity-%{version}/%{name}-sources-%{version}.tar.gz
@@ -38,6 +38,7 @@ URL:		http://audacityteam.org/
 BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.9
+BuildRequires:	chrpath
 BuildRequires:	expat-devel >= 1.95
 # libavcodec >= 51.53 libavformat >= 52.12 libavutil
 %{?with_ffmpeg:BuildRequires:	ffmpeg-devel >= 0.8.0}
@@ -71,7 +72,8 @@ BuildRequires:	udev-devel
 BuildRequires:	unzip
 BuildRequires:	vamp-devel >= 2.0
 BuildRequires:	which
-BuildRequires:	wxGTK2-unicode-devel >= 3.1.3
+%{!?with_gtk3:BuildRequires:	wxGTK2-unicode-devel >= 3.1.3}
+%{?with_gtk3:BuildRequires:	wxGTK3-unicode-devel >= 3.1.3}
 BuildRequires:	xz
 Requires(post,postun):	shared-mime-info
 Requires:	flac-c++ >= 1.3.0
@@ -165,6 +167,14 @@ cd build
 	DESTDIR=$RPM_BUILD_ROOT \
 	INSTALL_PATH=$RPM_BUILD_ROOT
 cd ..
+
+# audacity needs to know where its libraries are...
+chrpath --replace %{_libdir}/%{name} $RPM_BUILD_ROOT/%{_bindir}/audacity
+
+# ..but the libraries don't need RPATH
+for lib in $RPM_BUILD_ROOT/%{_libdir}/%{name}/{,modules/}*.so ; do
+	chrpath --delete $lib
+done
 
 install -d $RPM_BUILD_ROOT%{_datadir}/%{name}/help
 %{__tar} xf %{SOURCE1} -C $RPM_BUILD_ROOT%{_datadir}/%{name}/help
