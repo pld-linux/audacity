@@ -26,7 +26,7 @@ Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
 Version:	3.3.3
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		X11/Applications/Sound
 Source0:	https://github.com/audacity/audacity/releases/download/Audacity-%{version}/%{name}-sources-%{version}.tar.gz
@@ -186,7 +186,7 @@ install -d $RPM_BUILD_ROOT%{_datadir}/%{name}/help
 %{__mv} $RPM_BUILD_ROOT%{_localedir}/{sr_RS@latin,sr@latin}
 
 # remove unsupported locale
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/eu_ES
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{co,eu_ES}
 
 %{__rm} $RPM_BUILD_ROOT%{_pixmapsdir}/audacity.xpm
 %{__rm} $RPM_BUILD_ROOT%{_pixmapsdir}/audacity16.xpm
