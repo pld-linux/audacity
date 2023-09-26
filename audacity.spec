@@ -36,57 +36,65 @@ Source1:	https://github.com/audacity/audacity-manual/releases/download/v%{versio
 Patch0:		msgstr-format.patch
 URL:		http://audacityteam.org/
 BuildRequires:	alsa-lib-devel
-BuildRequires:	autoconf >= 2.59
-BuildRequires:	automake >= 1:1.9
 BuildRequires:	chrpath
+BuildRequires:	cmake >= 3.15
 BuildRequires:	expat-devel >= 1.95
 # libavcodec >= 51.53 libavformat >= 52.12 libavutil
 %{?with_ffmpeg:BuildRequires:	ffmpeg-devel >= 0.8.0}
-BuildRequires:	flac-c++-devel >= 1.3.0
+BuildRequires:	flac-c++-devel >= 1.3.1
 BuildRequires:	gettext-tools >= 0.18
+BuildRequires:	glib2-devel
 %{!?with_gtk3:BuildRequires:	gtk+2-devel >= 2.0}
 %{?with_gtk3:BuildRequires:	gtk+3-devel >= 3.0}
-BuildRequires:	hpklinux-devel >= 4.06
-BuildRequires:	jack-audio-connection-kit-devel
+BuildRequires:	lame-libs-devel
 BuildRequires:	libid3tag-devel >= 0.15.0b-2
-BuildRequires:	libjpeg-devel
-BuildRequires:	libmad-devel >= 0.14.2b-4
-BuildRequires:	libsbsms2-devel >= 2.1.0
+BuildRequires:	libmpg123-devel
+BuildRequires:	libogg-devel
+BuildRequires:	libsbsms2-devel >= 2.2.0
 BuildRequires:	libsndfile-devel >= 1.0.0
-BuildRequires:	libstdc++-devel
-BuildRequires:	libtool >= 2:2
-BuildRequires:	libvorbis-devel >= 1:1.0
-BuildRequires:	lilv-devel >= 0.16
-BuildRequires:	lv2-devel
-BuildRequires:	nasm
+BuildRequires:	libstdc++-devel >= 6:9
+BuildRequires:	libuuid-devel
+BuildRequires:	libvorbis-devel >= 1:1.3
+BuildRequires:	lilv-devel >= 0.24.6
+BuildRequires:	lv2-devel >= 1.16.0
 BuildRequires:	pkgconfig
-#BuildRequires:	portaudio-devel >= 19
+BuildRequires:	portaudio-devel >= 19
+BuildRequires:	portmidi-devel
+BuildRequires:	python3
 BuildRequires:	rpmbuild(macros) >= 1.742
-BuildRequires:	soundtouch-devel >= 1.3.0
-BuildRequires:	soxr-devel >= 0.0.5
+BuildRequires:	serd-devel >= 0.30.2
+BuildRequires:	sord-devel >= 0.16.4
+BuildRequires:	soundtouch-devel >= 1.7.1
+BuildRequires:	soxr-devel >= 0.1.1
 BuildRequires:	speex-devel
-BuildRequires:	suil-devel >= 0.8.2
+BuildRequires:	sqlite3-devel >= 3.31.1
+BuildRequires:	sratom-devel >= 0.6.4
+BuildRequires:	suil-devel >= 0.10.6
 BuildRequires:	tar >= 1:1.22
-BuildRequires:	twolame-devel >= 0.3.9
+BuildRequires:	twolame-devel >= 0.3.13
 BuildRequires:	udev-devel
 BuildRequires:	unzip
-BuildRequires:	vamp-devel >= 2.0
+BuildRequires:	vamp-devel >= 2.5
+BuildRequires:	wavpack-devel
 BuildRequires:	which
 %{!?with_gtk3:BuildRequires:	wxGTK2-unicode-devel >= 3.1.3}
 %{?with_gtk3:BuildRequires:	wxGTK3-unicode-devel >= 3.1.3}
 BuildRequires:	xz
+BuildRequires:	zlib-devel
 Requires(post,postun):	shared-mime-info
-Requires:	flac-c++ >= 1.3.0
+Requires:	flac-c++ >= 1.3.1
 # dlopened
+Requires:	lame-libs
 Requires:	libid3tag >= 0.15.0b-2
-Requires:	libmad >= 0.14.2b-4
-Requires:	libsbsms2 >= 2.1.0
+Requires:	libsbsms2 >= 2.2.0
 Requires:	libsndfile >= 1.0.0
-Requires:	lilv >= 0.16
-Requires:	soundtouch >= 1.3.0
-Requires:	soxr >= 0.0.5
-Requires:	suil >= 0.8.2
-Requires:	twolame-libs >= 0.3.9
+Requires:	libvorbis >= 1:1.3
+Requires:	lilv >= 0.24.6
+Requires:	soundtouch >= 1.7.1
+Requires:	soxr >= 0.1.1
+Requires:	sqlite3-libs >= 3.31.1
+Requires:	suil >= 0.10.6
+Requires:	twolame-libs >= 0.3.13
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
