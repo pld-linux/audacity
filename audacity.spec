@@ -100,6 +100,9 @@ Requires:	suil >= 0.10.6
 Requires:	twolame-libs >= 0.3.13
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		_noautoprov		lib-.*.so
+%define		_noautoreq		lib-.*.so
+
 %description
 Audacity is a program that lets you manipulate digital audio
 waveforms. It imports many sound file formats, including WAV, AIFF,
