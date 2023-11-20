@@ -25,15 +25,14 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
-Version:	3.3.3
-Release:	3
+Version:	3.4.2
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Sound
 Source0:	https://github.com/audacity/audacity/releases/download/Audacity-%{version}/%{name}-sources-%{version}.tar.gz
-# Source0-md5:	c69f2091ef0b65022e19ccce62379ff2
+# Source0-md5:	f8f96e980b5a880e5be4cd066662b290
 Source1:	https://github.com/audacity/audacity-manual/releases/download/v%{version}/%{name}-manual-%{version}.tar.gz
-# Source1-md5:	cd0ad05077976c51889a13081910462e
-Patch0:		msgstr-format.patch
+# Source1-md5:	1f2c795afdcbe3f53076c4a8d11094d1
 URL:		http://audacityteam.org/
 BuildRequires:	alsa-lib-devel
 BuildRequires:	chrpath
@@ -57,10 +56,12 @@ BuildRequires:	libuuid-devel
 BuildRequires:	libvorbis-devel >= 1:1.3
 BuildRequires:	lilv-devel >= 0.24.6
 BuildRequires:	lv2-devel >= 1.16.0
+BuildRequires:	opusfile-devel
 BuildRequires:	pkgconfig
 BuildRequires:	portaudio-devel >= 19
 BuildRequires:	portmidi-devel
 BuildRequires:	python3
+BuildRequires:	rapidjson-devel
 BuildRequires:	rpmbuild(macros) >= 1.742
 BuildRequires:	serd-devel >= 0.30.2
 BuildRequires:	sord-devel >= 0.16.4
@@ -126,7 +127,6 @@ Audacity - это звуковой редактор, позволяющий ра
 
 %prep
 %setup -q -n %{name}-sources-%{version}
-%patch0 -p1
 
 # Make sure we use the system versions.
 %{__rm} -r lib-src/{lv2,soundtouch,libsoxr,twolame,libvamp}/
@@ -183,10 +183,10 @@ cd build
 cd ..
 
 # audacity needs to know where its libraries are...
-chrpath --replace %{_libdir}/%{name} $RPM_BUILD_ROOT/%{_bindir}/audacity
+chrpath --replace %{_libdir}/%{name} $RPM_BUILD_ROOT%{_bindir}/audacity
 
 # ..but the libraries don't need RPATH
-for lib in $RPM_BUILD_ROOT/%{_libdir}/%{name}/{,modules/}*.so ; do
+for lib in $RPM_BUILD_ROOT%{_libdir}/%{name}/{,modules/}*.so ; do
 	chrpath --delete $lib
 done
 
@@ -241,7 +241,19 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/lib-*.so
 %dir %{_libdir}/%{name}/modules
+%attr(755,root,root) %{_libdir}/%{name}/modules/mod-aup.so
+%attr(755,root,root) %{_libdir}/%{name}/modules/mod-cl.so
+%attr(755,root,root) %{_libdir}/%{name}/modules/mod-ffmpeg.so
+%attr(755,root,root) %{_libdir}/%{name}/modules/mod-flac.so
+%attr(755,root,root) %{_libdir}/%{name}/modules/mod-lof.so
+%attr(755,root,root) %{_libdir}/%{name}/modules/mod-mp2.so
+%attr(755,root,root) %{_libdir}/%{name}/modules/mod-mp3.so
+%attr(755,root,root) %{_libdir}/%{name}/modules/mod-mpg123.so
+%attr(755,root,root) %{_libdir}/%{name}/modules/mod-ogg.so
+%attr(755,root,root) %{_libdir}/%{name}/modules/mod-opus.so
+%attr(755,root,root) %{_libdir}/%{name}/modules/mod-pcm.so
 %attr(755,root,root) %{_libdir}/%{name}/modules/mod-script-pipe.so
+%attr(755,root,root) %{_libdir}/%{name}/modules/mod-wavpack.so
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/help
 %{_datadir}/%{name}/nyquist
