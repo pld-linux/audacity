@@ -25,14 +25,14 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
-Version:	3.4.2
-Release:	1
+Version:	3.5.1
+Release:	0.1
 License:	GPL v2+
 Group:		X11/Applications/Sound
 Source0:	https://github.com/audacity/audacity/releases/download/Audacity-%{version}/%{name}-sources-%{version}.tar.gz
-# Source0-md5:	f8f96e980b5a880e5be4cd066662b290
+# Source0-md5:	42d866855b2563dc0ec50b9c38476a0d
 Source1:	https://github.com/audacity/audacity-manual/releases/download/v%{version}/%{name}-manual-%{version}.tar.gz
-# Source1-md5:	1f2c795afdcbe3f53076c4a8d11094d1
+# Source1-md5:	237e90933f6367311dcc81a5dd53d075
 URL:		http://audacityteam.org/
 BuildRequires:	alsa-lib-devel
 BuildRequires:	chrpath
@@ -246,6 +246,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/modules/mod-ffmpeg.so
 %attr(755,root,root) %{_libdir}/%{name}/modules/mod-flac.so
 %attr(755,root,root) %{_libdir}/%{name}/modules/mod-lof.so
+%attr(755,root,root) %{_libdir}/%{name}/modules/mod-midi-import-export.so
 %attr(755,root,root) %{_libdir}/%{name}/modules/mod-mp2.so
 %attr(755,root,root) %{_libdir}/%{name}/modules/mod-mp3.so
 %attr(755,root,root) %{_libdir}/%{name}/modules/mod-mpg123.so
