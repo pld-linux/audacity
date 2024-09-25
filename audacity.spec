@@ -33,6 +33,7 @@ Source0:	https://github.com/audacity/audacity/releases/download/Audacity-%{versi
 # Source0-md5:	4c108f61b855d947dd03a0e148a49876
 Source1:	https://github.com/audacity/audacity-manual/releases/download/v%{version}/%{name}-manual-%{version}.tar.gz
 # Source1-md5:	323c6fcd523bd98cf6bd9e3162ca02be
+Patch0:		%{name}-no-sse.patch
 URL:		http://audacityteam.org/
 BuildRequires:	alsa-lib-devel
 BuildRequires:	chrpath
@@ -127,6 +128,7 @@ Audacity - это звуковой редактор, позволяющий ра
 
 %prep
 %setup -q -n %{name}-sources-%{version}
+%patch0 -p1
 
 # Make sure we use the system versions.
 %{__rm} -r lib-src/{lv2,soundtouch,libsoxr,twolame,libvamp}/

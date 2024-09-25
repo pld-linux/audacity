@@ -1,0 +1,9 @@
+--- audacity-sources-3.6.0/cmake-proxies/pffft/CMakeLists.txt.orig	2024-07-16 17:29:09.000000000 +0200
++++ audacity-sources-3.6.0/cmake-proxies/pffft/CMakeLists.txt	2024-09-25 19:51:44.282467164 +0200
+@@ -14,3 +14,6 @@ set_target_properties( ${TARGET} PROPERT
+ target_sources( ${TARGET} PRIVATE ${SOURCES} )
+ target_include_directories( ${TARGET} PUBLIC ${INCLUDES} )
+ set_property(TARGET ${TARGET} PROPERTY POSITION_INDEPENDENT_CODE ON)
++if( CMAKE_SYSTEM_PROCESSOR MATCHES "i.86" AND NOT HAVE_SSE AND NOT IS_64_BIT )
++  target_compile_definitions( ${TARGET} PRIVATE PFFFT_SIMD_DISABLE )
++endif()
