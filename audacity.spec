@@ -25,14 +25,14 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
-Version:	3.6.4
+Version:	3.7.0
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Sound
 Source0:	https://github.com/audacity/audacity/releases/download/Audacity-%{version}/%{name}-sources-%{version}.tar.gz
-# Source0-md5:	b7a8ccf5cdd46ff919ab5777fa5b8a43
+# Source0-md5:	620c473c2ad627e004b432595a3df1b3
 Source1:	https://github.com/audacity/audacity-manual/releases/download/v%{version}/%{name}-manual-%{version}.tar.gz
-# Source1-md5:	7f711b59c0cd1181ee4dff36558faf97
+# Source1-md5:	7a446f2fe9856d84d8db489c6384b354
 Patch0:		%{name}-no-sse.patch
 URL:		http://audacityteam.org/
 BuildRequires:	alsa-lib-devel
