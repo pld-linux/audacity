@@ -128,7 +128,7 @@ Audacity - это звуковой редактор, позволяющий ра
 
 %prep
 %setup -q -n %{name}-sources-%{version}
-%patch0 -p1
+%patch -P0 -p1
 
 # Make sure we use the system versions.
 %{__rm} -r lib-src/{lv2,soundtouch,libsoxr,twolame,libvamp}/
