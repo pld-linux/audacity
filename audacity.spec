@@ -25,15 +25,16 @@ Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
-Version:	3.7.3
+Version:	3.7.5
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Sound
 Source0:	https://github.com/audacity/audacity/releases/download/Audacity-%{version}/%{name}-sources-%{version}.tar.gz
-# Source0-md5:	afc4016d8177a437d62a392012cccfb0
+# Source0-md5:	f15fc08de78aad33d4982af10e75f621
 Source1:	https://github.com/audacity/audacity-manual/releases/download/v%{version}/%{name}-manual-%{version}.tar.gz
-# Source1-md5:	c47747f98ae4839b7ce6bdf314deef40
+# Source1-md5:	f65a4936c5b39ff97c59593753023d7d
 Patch0:		%{name}-no-sse.patch
+Patch1:		rapidjson.patch
 URL:		http://audacityteam.org/
 BuildRequires:	alsa-lib-devel
 BuildRequires:	chrpath
@@ -129,6 +130,7 @@ Audacity - это звуковой редактор, позволяющий ра
 %prep
 %setup -q -n %{name}-sources-%{version}
 %patch -P0 -p1
+%patch -P1 -p0
 
 # Make sure we use the system versions.
 %{__rm} -r lib-src/{lv2,soundtouch,libsoxr,twolame,libvamp}/
