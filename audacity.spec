@@ -21,20 +21,20 @@
 %undefine	with_sse2
 %endif
 
-%define		manual_ver	3.7.6
+%define		manual_ver	3.7.8
 
 Summary:	Audacity - manipulate digital audio waveforms
 Summary(pl.UTF-8):	Audacity - narzędzie do obróbki plików dźwiękowych
 Summary(ru.UTF-8):	Кроссплатформенный звуковой редактор
 Name:		audacity
-Version:	3.7.7
+Version:	3.7.8
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Sound
 Source0:	https://github.com/audacity/audacity/releases/download/Audacity-%{version}/%{name}-sources-%{version}.tar.gz
-# Source0-md5:	6c402f0915ad931dd69f6d5cbf71b016
+# Source0-md5:	b83b7b3499c880a91029dd56b8fbb7b4
 Source1:	https://github.com/audacity/audacity-manual/releases/download/v%{manual_ver}/%{name}-manual-%{manual_ver}.tar.gz
-# Source1-md5:	a8ff7a04d2f45d466c528bda53505f8e
+# Source1-md5:	1db3d00699f2ab3b57763ff2192e8822
 Patch0:		%{name}-no-sse.patch
 Patch1:		rapidjson.patch
 URL:		http://audacityteam.org/
